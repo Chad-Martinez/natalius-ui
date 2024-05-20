@@ -5,7 +5,11 @@
 * Dashboard - Schedule, income, expenses at a glance
 * Income, Expense, milage trackers
 * Export reports for taxes
+* Receipt Tracking
+* Automated Milage log
 
+### Additional Dependencies:
+* React Router Dom
 
 
 
