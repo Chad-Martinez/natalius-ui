@@ -4,11 +4,17 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './styles/index.css';
 import NotFound from './pages/NotFound.tsx';
 import Landing from './pages/Landing.tsx';
+import Register from './pages/Register.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Landing />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: '/register',
+    element: <Register />,
     errorElement: <NotFound />,
   },
 ]);
