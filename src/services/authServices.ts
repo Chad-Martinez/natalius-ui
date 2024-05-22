@@ -16,6 +16,15 @@ export const register = async (payload: {
   return await axios(config);
 };
 
+export const verifyEmail = async (token: string): Promise<AxiosResponse> => {
+  const config: AxiosRequestConfig = {
+    url: `${endpoint}/auth/verify/${token}`,
+    method: 'GET',
+  };
+  return await axios(config);
+};
+
 export default {
   register,
+  verifyEmail,
 };
