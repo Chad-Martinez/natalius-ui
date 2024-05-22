@@ -4,9 +4,14 @@ import formStyles from '../styles/FormComponents.module.css';
 import Input from '../components/forms/Input';
 import useInput from '../hooks/useInput';
 import Button from '../components/forms/Button';
+import { register } from '../services/authServices';
+import { AxiosError, AxiosResponse } from 'axios';
+import Nav from '../components/Nav';
+import { notify } from '../utils/toastify';
 
 const Register: FC = (): JSX.Element => {
-  const [isFormValid, setIsFormValid] = useState(false);
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
+  const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
 
   const {
     value: firstName,
@@ -69,21 +74,30 @@ const Register: FC = (): JSX.Element => {
     pwConfirmReset();
   };
 
-  const handleSubmit = () => {
-    console.log(firstName, lastName, email, password, pwConfirm);
+  const handleSubmit = async () => {
+    try {
+      setIsTransmitting(true);
+      const { data } = (await register({
+        firstName,
+        lastName,
+        email,
+        password,
+      })) as AxiosResponse;
 
-    formReset();
+      notify(data.message, 'success', 'register-success');
+      formReset();
+    } catch (error) {
+      console.error('Register Error: ', error);
+      if (error instanceof AxiosError) {
+        const message = error?.response?.data.message;
+        notify(message, 'error', 'register-error');
+      }
+    } finally {
+      setIsTransmitting(false);
+    }
   };
 
   const checkFormValidity = useCallback(() => {
-    console.log(
-      'form is valid ',
-      firstNameIsValid &&
-        lastNameIsValid &&
-        emailIsValid &&
-        passwordIsValid &&
-        pwConfirmIsValid
-    );
     return firstNameIsValid &&
       lastNameIsValid &&
       emailIsValid &&
@@ -102,72 +116,76 @@ const Register: FC = (): JSX.Element => {
   useEffect(() => checkFormValidity(), [checkFormValidity]);
 
   return (
-    <div className={formStyles.formContainer}>
-      <form className={formStyles.form}>
-        <img className={formStyles.formLogo} src={logo} alt='' />
-        <h2>register</h2>
-        <Input
-          id='firstName'
-          name='firstName'
-          value={firstName}
-          hasError={firstNameHasError}
-          placeholder='First Name'
-          type='text'
-          errorMessage='First name required'
-          handleChange={firstNameChangeHandledr}
-          handleBlur={firstNameBlurHandler}
-        />
-        <Input
-          id='lastName'
-          name='lastName'
-          value={lastName}
-          hasError={lastNameHasError}
-          placeholder='Last Name'
-          type='text'
-          errorMessage='Last name required'
-          handleChange={lastNameChangeHandledr}
-          handleBlur={lastNameBlurHandler}
-        />
-        <Input
-          id='email'
-          name='email'
-          value={email}
-          hasError={emailHasError}
-          placeholder='Email'
-          type='email'
-          errorMessage='Email is not valid'
-          handleChange={emailChangeHandledr}
-          handleBlur={emailBlurHandler}
-        />
-        <Input
-          id='password'
-          name='password'
-          value={password}
-          hasError={passwordHasError}
-          placeholder='Password'
-          type='password'
-          errorMessage='Minimum 8 characters with one number & special character'
-          handleChange={passwordChangeHandledr}
-          handleBlur={passwordBlurHandler}
-        />
-        <Input
-          id='pwConfirm'
-          name='pwConfirm'
-          value={pwConfirm}
-          hasError={pwConfirmHasError}
-          placeholder='Confirm Password'
-          type='password'
-          errorMessage='Passwords must match'
-          handleChange={pwConfirmChangeHandledr}
-          handleBlur={pwConfirmBlurHandler}
-        />
-        <Button
-          text='submit'
-          handleClick={handleSubmit}
-          enabled={isFormValid}
-        />
-      </form>
-    </div>
+    <>
+      <Nav />
+      <div className={formStyles.formContainer}>
+        <form className={formStyles.form}>
+          <img className={formStyles.formLogo} src={logo} alt='' />
+          <h2>register</h2>
+          <Input
+            id='firstName'
+            name='firstName'
+            value={firstName}
+            hasError={firstNameHasError}
+            placeholder='First Name'
+            type='text'
+            errorMessage='First name required'
+            handleChange={firstNameChangeHandledr}
+            handleBlur={firstNameBlurHandler}
+          />
+          <Input
+            id='lastName'
+            name='lastName'
+            value={lastName}
+            hasError={lastNameHasError}
+            placeholder='Last Name'
+            type='text'
+            errorMessage='Last name required'
+            handleChange={lastNameChangeHandledr}
+            handleBlur={lastNameBlurHandler}
+          />
+          <Input
+            id='email'
+            name='email'
+            value={email}
+            hasError={emailHasError}
+            placeholder='Email'
+            type='email'
+            errorMessage='Email is not valid'
+            handleChange={emailChangeHandledr}
+            handleBlur={emailBlurHandler}
+          />
+          <Input
+            id='password'
+            name='password'
+            value={password}
+            hasError={passwordHasError}
+            placeholder='Password'
+            type='password'
+            errorMessage='Minimum 8 characters with one number & special character'
+            handleChange={passwordChangeHandledr}
+            handleBlur={passwordBlurHandler}
+          />
+          <Input
+            id='pwConfirm'
+            name='pwConfirm'
+            value={pwConfirm}
+            hasError={pwConfirmHasError}
+            placeholder='Confirm Password'
+            type='password'
+            errorMessage='Passwords must match'
+            handleChange={pwConfirmChangeHandledr}
+            handleBlur={pwConfirmBlurHandler}
+          />
+          <Button
+            text='submit'
+            handleClick={handleSubmit}
+            enabled={isFormValid}
+            loading={isTransmitting}
+          />
+        </form>
+      </div>
+    </>
   );
 };
 
