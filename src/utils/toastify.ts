@@ -1,7 +1,7 @@
-import { Id, Slide, ToastOptions, toast } from 'react-toastify';
+import { Slide, ToastOptions, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const notify = (message: string, type?: string, id?: string): Id => {
+export const notify = (message: string, type?: string, id?: string): void => {
   const toastOptions: ToastOptions = {
     theme: 'dark',
     transition: Slide,
@@ -9,14 +9,13 @@ export const notify = (message: string, type?: string, id?: string): Id => {
   };
   switch (type) {
     case 'success':
-      return toast.success(message, toastOptions);
+      toast.success(message, toastOptions);
       break;
     case 'error':
-      return toast.error(message, toastOptions);
-
+      toast.error(message, toastOptions);
+      break;
     default:
-      return toast.info(message, toastOptions);
+      toast.info(message, toastOptions);
       break;
   }
-  toast(message);
 };
