@@ -17,11 +17,12 @@ const Nav: FC = (): JSX.Element => {
             login
           </Link>
         )}
-        {location.pathname !== '/register' && (
-          <Link className={styles.link} to='/register'>
-            register
-          </Link>
-        )}
+        {location.pathname !== '/register' &&
+          !location.pathname.includes('verify') && (
+            <Link className={styles.link} to='/register'>
+              register
+            </Link>
+          )}
       </div>
     </div>
   );
