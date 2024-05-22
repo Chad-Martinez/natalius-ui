@@ -1,0 +1,29 @@
+.btn {
+    width: 100%;
+    background: transparent;
+    border-radius: 4px;
+    height: 30px;
+    border: 1px solid #a4a4a4;
+    color: #a4a4a4;
+    letter-spacing: 0.3rem;
+  }
+  
+  .btnEnabled {
+      animation: pulse 1s ease-in 1 forwards;
+  }
+  
+  .btnDisabled {
+    border: 1.5px solid #a4a4a4;
+    color: #a4a4a4;
+  }
+  
+  @keyframes pulse {
+    from {
+      letter-spacing: 0.3rem;
+    }
+    to {
+      letter-spacing: 0.6rem;
+      border: 1.5px solid #34c6fe;
+      color: #34c6fe;
+    }
+  }
