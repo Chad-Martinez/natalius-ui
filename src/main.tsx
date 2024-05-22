@@ -5,6 +5,7 @@ import './styles/index.css';
 import NotFound from './pages/NotFound.tsx';
 import Landing from './pages/Landing.tsx';
 import Register from './pages/Register.tsx';
+import { ToastContainer } from 'react-toastify';
 
 const router = createBrowserRouter([
   {
@@ -22,5 +23,11 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <RouterProvider router={router} />
+    <ToastContainer
+      position='top-right'
+      autoClose={3000}
+      closeOnClick
+      pauseOnHover
+    />
   </React.StrictMode>
 );
