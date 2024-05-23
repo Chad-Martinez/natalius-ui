@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import formStyles from '../components/forms/FormComponents.module.css';
 import Input from '../components/forms/Input';
 import useInput from '../hooks/useInput';
-import Button from '../components/ui/Button';
+import Button from '../components/forms/SubmitButton';
 import { register } from '../services/authServices';
 import { AxiosError, AxiosResponse } from 'axios';
 import Nav from '../components/ui/Nav';

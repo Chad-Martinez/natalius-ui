@@ -6,14 +6,16 @@ import formStyles from '../components/forms/FormComponents.module.css';
 import { login } from '../services/authServices';
 import { AxiosError, AxiosResponse } from 'axios';
 import { notify } from '../utils/toastify';
-import Button from '../components/ui/Button';
+import Button from '../components/forms/SubmitButton';
 import Logo from '../components/ui/Logo';
 import { AuthContext } from '../store/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export const Login: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
   const ctx = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const {
     value: email,
@@ -42,6 +44,7 @@ export const Login: FC = (): JSX.Element => {
       const { accessToken } = data;
       sessionStorage.setItem('at', accessToken);
       ctx.updateAuth(true);
+      navigate('/account');
     } catch (error) {
       console.error('Login Error: ', error);
       if (error instanceof AxiosError) {
