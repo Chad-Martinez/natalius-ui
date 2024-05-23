@@ -6,11 +6,11 @@ type Props = {
   name: string;
   type: string;
   value: string;
-  hasError: boolean;
+  hasError?: boolean;
   placeholder: string;
   errorMessage: string;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleBlur: () => void;
+  handleBlur?: () => void;
 };
 
 const Input: FC<Props> = ({
