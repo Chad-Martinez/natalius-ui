@@ -1,12 +1,12 @@
 import { FC, useCallback, useEffect, useState } from 'react';
-import Nav from '../components/Nav';
+import Nav from '../components/ui/Nav';
 import Input from '../components/forms/Input';
 import useInput from '../hooks/useInput';
-import formStyles from '../styles/FormComponents.module.css';
+import formStyles from '../components/forms/FormComponents.module.css';
 import { login } from '../services/authServices';
 import { AxiosError, AxiosResponse } from 'axios';
 import { notify } from '../utils/toastify';
-import Button from '../components/forms/Button';
+import Button from '../components/ui/Button';
 import Logo from '../components/ui/Logo';
 
 export const Login: FC = (): JSX.Element => {
@@ -62,7 +62,7 @@ export const Login: FC = (): JSX.Element => {
       <Nav />
       <div className={formStyles.formContainer}>
         <form className={formStyles.form}>
-          <Logo addedStyles={{ width: '40%' }} />
+          <Logo addedStyles={{ width: '35%' }} />
           <h2>login</h2>
           <Input
             id='email'

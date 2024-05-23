@@ -1,10 +1,11 @@
 import { FC, useCallback, useEffect, useState } from 'react';
-import verifyStyles from '../styles/VerifyEmail.module.css';
+import verifyStyles from './VerifyEmail.module.css';
 import styles from '../styles/common.module.css';
 import ConfettiExplosion from 'react-confetti-explosion';
-import Nav from '../components/Nav';
+import Nav from '../components/ui/Nav';
 import { useParams, useNavigate } from 'react-router-dom';
 import { verifyEmail } from '../services/authServices';
+import Logo from '../components/ui/Logo';
 
 const VerifyEmail: FC = () => {
   const [failed, setFailed] = useState(false);
@@ -36,7 +37,8 @@ const VerifyEmail: FC = () => {
       <Nav />
       <div className={styles.containerCentered}>
         <div className={verifyStyles.confetti}>
-          <ConfettiExplosion force={0.7} />
+          <Logo addedStyles={{ width: '35%' }} />
+          {failed ? '' : <ConfettiExplosion force={0.7} />}
           <h1>{failed ? 'Oh wait, our bad!' : 'Congratulations'}</h1>
           <h5>
             {failed

@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import logo from '../assets/shell.png';
-import Nav from '../components/Nav';
+import Nav from '../components/ui/Nav';
 import styles from '../styles/common.module.css';
+import Logo from '../components/ui/Logo';
 
 const Landing: FC = () => {
   return (
@@ -9,7 +9,7 @@ const Landing: FC = () => {
       <Nav />
       <div className={styles.containerCentered}>
         <div>
-          <img className={styles.logo} src={logo} alt='natalius' />
+          <Logo addedStyles={{ width: '45%' }} />
           <h2>Natalius</h2>
           <div className={styles.subtitle}>
             An app for independent contractors

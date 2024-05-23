@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { useRouteError } from 'react-router-dom';
 import styles from '../styles/common.module.css';
+import Logo from '../components/ui/Logo';
 
 type RouteError = {
   statusText: string;
@@ -14,6 +15,7 @@ const NotFound: FC = (): JSX.Element => {
   return (
     <div id='error-page' className={styles.containerCentered}>
       <div>
+        <Logo addedStyles={{ width: '35%' }} />
         <h1>Oops!</h1>
         <p>Sorry, an unexpected error has occurred.</p>
         <p>

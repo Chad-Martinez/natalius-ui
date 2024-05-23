@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import styles from '../styles/Nav.module.css';
+import styles from './Nav.module.css';
 import { Link, useLocation } from 'react-router-dom';
 
 const Nav: FC = (): JSX.Element => {
