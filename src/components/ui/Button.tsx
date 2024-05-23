@@ -1,31 +1,15 @@
-import { FC, MouseEvent } from 'react';
+import { FC } from 'react';
 import styles from './Button.module.css';
 
 type Props = {
   text: string;
-  type?: 'submit' | 'reset' | 'button' | undefined;
-  enabled?: boolean;
-  loading?: boolean;
-  handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
+  addedStyles?: { [key: string]: string };
 };
 
-const Button: FC<Props> = ({
-  text,
-  type = 'button',
-  enabled = true,
-  loading = false,
-  handleClick,
-}): JSX.Element => {
+const Button: FC<Props> = ({ text, addedStyles }): JSX.Element => {
   return (
-    <button
-      disabled={!enabled || loading}
-      type={type}
-      onClick={handleClick}
-      className={`${styles.btn} ${
-        !enabled ? styles.btnDisabled : styles.btnEnabled
-      }`}
-    >
-      {loading ? <span className={styles.btnLoading}></span> : text}
+    <button className={styles.btn} style={addedStyles}>
+      {text}
     </button>
   );
 };
