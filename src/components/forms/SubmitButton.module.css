@@ -1,0 +1,53 @@
+.btn {
+  width: 100%;
+  background: transparent;
+  border-radius: 4px;
+  height: 30px;
+  border: 1px solid #a4a4a4;
+  color: #a4a4a4;
+  letter-spacing: 0.3rem;
+}
+
+.btnEnabled {
+  animation: pulse 0.6s ease-in 1 forwards;
+}
+
+.btnEnabled:focus-visible {
+  outline: none;
+}
+
+.btnDisabled {
+  border: 1.5px solid #a4a4a4;
+  color: #a4a4a4;
+}
+
+@keyframes pulse {
+  from {
+    letter-spacing: 0.3rem;
+  }
+  to {
+    letter-spacing: 0.7rem;
+    border: 1.5px solid var(--color-blue);
+    color: var(--color-blue);
+  }
+}
+
+.btnLoading {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 3px solid transparent;
+  border-top-color: var(--color-blue);
+  border-radius: 50%;
+  animation: button-loading-spinner 1s ease infinite;
+}
+
+@keyframes button-loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+}
