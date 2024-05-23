@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useContext, useEffect, useState } from 'react';
 import Nav from '../components/ui/Nav';
 import Input from '../components/forms/Input';
 import useInput from '../hooks/useInput';
@@ -8,10 +8,12 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { notify } from '../utils/toastify';
 import Button from '../components/ui/Button';
 import Logo from '../components/ui/Logo';
+import { AuthContext } from '../store/AuthContext';
 
 export const Login: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
+  const ctx = useContext(AuthContext);
 
   const {
     value: email,
@@ -37,7 +39,9 @@ export const Login: FC = (): JSX.Element => {
         password,
       })) as AxiosResponse;
 
-      console.log('data ', data);
+      const { accessToken } = data;
+      sessionStorage.setItem('at', accessToken);
+      ctx.updateAuth(true);
     } catch (error) {
       console.error('Login Error: ', error);
       if (error instanceof AxiosError) {
