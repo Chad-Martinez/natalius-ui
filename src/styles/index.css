@@ -11,12 +11,13 @@
   font-weight: 300;
   font-style: normal;
   color: white;
+  --color-dark-grey: #242424;
+  --color-blue: #34c6fe;
 }
 
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  /* padding: 2rem; */
   text-align: center;
 }
 
