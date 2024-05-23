@@ -12,6 +12,7 @@
   align-items: stretch;
   gap: 10px;
   width: 70%;
+  max-width: 530px;
   padding: 20px;
 }
 

@@ -6,6 +6,8 @@ import NotFound from './pages/NotFound.tsx';
 import Landing from './pages/Landing.tsx';
 import Register from './pages/Register.tsx';
 import { ToastContainer } from 'react-toastify';
+import VerifyEmail from './pages/VerifyEmail.tsx';
+import Login from './pages/Login.tsx';
 
 const router = createBrowserRouter([
   {
@@ -16,6 +18,16 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <Register />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: '/verify/:id',
+    element: <VerifyEmail />,
     errorElement: <NotFound />,
   },
 ]);

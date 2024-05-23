@@ -11,6 +11,25 @@ export const register = async (payload: {
   const config: AxiosRequestConfig = {
     url: `${endpoint}/auth/register`,
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: payload,
+  };
+  return await axios(config);
+};
+
+export const login = async (payload: {
+  email: string;
+  password: string;
+}): Promise<AxiosResponse> => {
+  console.log('payload ', payload)
+  const config: AxiosRequestConfig = {
+    url: `${endpoint}/auth/login`,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     data: payload,
   };
   return await axios(config);
@@ -26,5 +45,6 @@ export const verifyEmail = async (token: string): Promise<AxiosResponse> => {
 
 export default {
   register,
+  login,
   verifyEmail,
 };
