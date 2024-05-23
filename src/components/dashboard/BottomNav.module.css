@@ -1,0 +1,16 @@
+.nav {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    height: 70px;
+    background-color: var(--color-blue);
+}
+
+.btnContainer {
+    display: flex;
+    padding: 15px;
+    gap: 15px;
+    height: 100%;
+    align-items: center;
+    justify-content: space-around;
+}
