@@ -1,7 +1,18 @@
 import { FC } from 'react';
+import styles from './Dashboard.module.css';
+import BottomNav from '../components/dashboard/BottomNav';
+import Button from '../components/ui/Button';
 
 const Dashboard: FC = (): JSX.Element => {
-  return <h4>Dashboard</h4>;
+  return (
+    <div className={styles.container}>
+      <div className={styles.mainContent}></div>
+      <BottomNav>
+        <Button text='Add Income' />
+        <Button text='Add Expense' />
+      </BottomNav>
+    </div>
+  );
 };
 
 export default Dashboard;
