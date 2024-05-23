@@ -1,13 +1,13 @@
 import { FC, useCallback, useEffect, useState } from 'react';
-import logo from '../assets/shell.png';
-import formStyles from '../styles/FormComponents.module.css';
+import formStyles from '../components/forms/FormComponents.module.css';
 import Input from '../components/forms/Input';
 import useInput from '../hooks/useInput';
-import Button from '../components/forms/Button';
+import Button from '../components/ui/Button';
 import { register } from '../services/authServices';
 import { AxiosError, AxiosResponse } from 'axios';
-import Nav from '../components/Nav';
+import Nav from '../components/ui/Nav';
 import { notify } from '../utils/toastify';
+import Logo from '../components/ui/Logo';
 
 const Register: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -120,7 +120,7 @@ const Register: FC = (): JSX.Element => {
       <Nav />
       <div className={formStyles.formContainer}>
         <form className={formStyles.form}>
-          <img className={formStyles.formLogo} src={logo} alt='' />
+          <Logo addedStyles={{ width: '35%' }} />
           <h2>register</h2>
           <Input
             id='firstName'

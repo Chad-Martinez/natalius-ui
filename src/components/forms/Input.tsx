@@ -1,5 +1,5 @@
 import { ChangeEvent, FC } from 'react';
-import formStyles from '../../styles/FormComponents.module.css';
+import formStyles from '../forms/FormComponents.module.css';
 
 type Props = {
   id: string;
