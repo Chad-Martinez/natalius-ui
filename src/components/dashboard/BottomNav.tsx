@@ -1,14 +1,10 @@
-import { FC, ReactNode } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import styles from './BottomNav.module.css';
 
-type Props = {
-  children: ReactNode | ReactNode[];
-};
-
-const BottomNav: FC<Props> = ({ children }): JSX.Element => {
+const BottomNav: FC<PropsWithChildren> = (props): JSX.Element => {
   return (
     <div className={styles.nav}>
-      <div className={styles.btnContainer}>{children}</div>
+      <div className={styles.btnContainer}>{props.children}</div>
     </div>
   );
 };
