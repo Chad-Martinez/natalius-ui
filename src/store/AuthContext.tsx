@@ -1,5 +1,6 @@
 import {
   Dispatch,
+  FC,
   PropsWithChildren,
   SetStateAction,
   createContext,
@@ -14,8 +15,8 @@ export const AuthContext = createContext<{
   setIsAuth: () => {},
 });
 
-export const AuthProvider = (props: PropsWithChildren) => {
-  const [isAuth, setIsAuth] = useState(false);
+export const AuthProvider: FC = (props: PropsWithChildren) => {
+  const [isAuth, setIsAuth] = useState<boolean>(false);
 
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth }}>
