@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 export const Login: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
-  const ctx = useContext(AuthContext);
+  const { setIsAuth } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const {
@@ -43,7 +43,7 @@ export const Login: FC = (): JSX.Element => {
 
       const { accessToken } = data;
       sessionStorage.setItem('at', accessToken);
-      ctx.updateAuth(true);
+      setIsAuth(true);
       navigate('/account');
     } catch (error) {
       console.error('Login Error: ', error);

@@ -23,7 +23,6 @@ export const login = async (payload: {
   email: string;
   password: string;
 }): Promise<AxiosResponse> => {
-  console.log('payload ', payload)
   const config: AxiosRequestConfig = {
     url: `${endpoint}/auth/login`,
     method: 'POST',
