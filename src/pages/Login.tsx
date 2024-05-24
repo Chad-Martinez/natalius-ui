@@ -44,7 +44,7 @@ export const Login: FC = (): JSX.Element => {
       const { accessToken } = data;
       sessionStorage.setItem('at', accessToken);
       setIsAuth(true);
-      navigate('/account');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Login Error: ', error);
       if (error instanceof AxiosError) {

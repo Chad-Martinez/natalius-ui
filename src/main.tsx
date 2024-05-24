@@ -34,7 +34,7 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
   },
   {
-    path: '/account',
+    path: '/dashboard',
     element: <ProtectedLayout />,
     children: [
       {
