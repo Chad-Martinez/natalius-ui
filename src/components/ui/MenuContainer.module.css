@@ -1,0 +1,30 @@
+.container {
+  position: absolute;
+  top: 46px;
+  right: 10px;
+  padding: 0px;
+  display: none;
+  background-color: var(--color-light);
+}
+
+.open {
+  display: block;
+}
+
+li {
+  list-style: none;
+  font-size: 1.2rem;
+  padding: 8px 18px;
+  background-color: inherit;
+  color: var(--color-dark-grey);
+  transition: background-color 0.35s ease;
+}
+
+a {
+  text-decoration: none;
+}
+
+li:hover,
+li:active, .active {
+  background-color: var(--color-blue);
+}
