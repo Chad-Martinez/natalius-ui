@@ -15,7 +15,7 @@ export const AuthContext = createContext<{
   setIsAuth: () => {},
 });
 
-export const AuthProvider: FC = (props: PropsWithChildren) => {
+export const AuthProvider: FC<PropsWithChildren> = (props) => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
 
   return (
