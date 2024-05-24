@@ -10,9 +10,9 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
   font-style: normal;
-  color: white;
   --color-dark-grey: #242424;
   --color-blue: #34c6fe;
+  --color-light: #eeeeee;
 }
 
 #root {
@@ -33,4 +33,5 @@
 
 body {
   height: 100vh;
+  color: var(--color-light)
 }
