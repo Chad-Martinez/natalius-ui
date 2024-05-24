@@ -1,15 +1,17 @@
 .btn {
     text-align: center;
     width: 100%;
-    background-color: white;
+    background-color: var(--color-light);
     border-radius: 4px;
     height: 40px;
     border: none;
     color: black;
     letter-spacing: 0.1rem;
+    transition: all 0.25s ease-in;
 }
 
 .btn:hover, .btn:active {
+    letter-spacing: 0.2rem;
     color: var(--color-blue);
     background-color: var(--color-dark-grey);
 }
