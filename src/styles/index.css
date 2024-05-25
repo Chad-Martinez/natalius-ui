@@ -11,8 +11,16 @@
   font-weight: 300;
   font-style: normal;
   --color-dark-grey: #242424;
-  --color-blue: #34c6fe;
-  --color-light: #eeeeee;
+  --color-light-grey: #eeeeee;
+  --color-light-grey-alt: #004258;
+  --color-light-blue-alt2: #004d66;
+  --color-light-blue-alt1: #003141;
+  --color-primary: #34c6fe;
+  --color-dark-primary: #2ca3cc;
+  --color-light-primary: #a0e4fb;
+  --color-success: #34fe66;
+  --color-danger: #fe343d;
+  --color-warning: #feaf34;
 }
 
 #root {
@@ -33,5 +41,5 @@
 
 body {
   height: 100vh;
-  color: var(--color-light)
+  color: var(--color-light-grey)
 }
