@@ -1,0 +1,64 @@
+.card {
+    width: 100%;
+    border: 2.5px solid var(--color-light-grey);
+    border-radius: 8px;
+    text-align: left;
+    background-color: var(--color-light-grey-alt);
+    color: var(--color-light-grey)
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--color-light-grey);
+    color: var(--color-light-grey);
+    padding: 8px;
+}
+
+.cardTitle {
+    font-size: 1.6rem;
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cardContent {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 1.3rem;
+    background-color: var(--color-light-grey-alt);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.cardContentItem {
+    display: flex;
+    gap: 10px;
+}
+
+
+.shiftChevron {
+    margin-left: auto;
+    transition: transform 0.5s ease
+}
+
+.rotateChevron {
+    transform: rotateZ(90deg)
+}
+
+.accordianContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 1px;
+    overflow: hidden;
+    transition: height 0.5s ease;
+}
+
+.expandAccordianContainer {
+    height: 100px;
+    overflow-y: auto;
+}
