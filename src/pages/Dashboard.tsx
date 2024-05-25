@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import styles from './Dashboard.module.css';
+import styles from './PageWrapper.module.css';
 import BottomNav from '../components/dashboard/BottomNav';
 import Button from '../components/ui/Button';
 

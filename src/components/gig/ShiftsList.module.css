@@ -1,0 +1,13 @@
+table {
+    width: 100%;
+    font-weight: 300;
+    font-size: 1rem;
+}
+
+th {
+    text-decoration: underline;
+}
+
+th, td {
+    font-weight: inherit;
+}
