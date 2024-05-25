@@ -1,9 +1,9 @@
 .card {
     width: 100%;
-    border: 2.5px solid var(--color-light-grey);
+    border: 2.5px solid var(--color-primary);
     border-radius: 8px;
     text-align: left;
-    background-color: var(--color-light-grey-alt);
+    background-color: var(--color-dark-grey);
     color: var(--color-light-grey)
 }
 
@@ -11,7 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 2px solid var(--color-light-grey);
+    border-bottom: 2px solid var(--color-primary);
     color: var(--color-light-grey);
     padding: 8px;
 }
@@ -29,7 +29,6 @@
     flex-direction: column;
     gap: 10px;
     font-size: 1.3rem;
-    background-color: var(--color-light-grey-alt);
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }

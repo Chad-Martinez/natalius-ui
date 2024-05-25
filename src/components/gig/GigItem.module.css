@@ -1,0 +1,11 @@
+.addGig {
+    text-align: right;
+    padding-right: 6px;
+    padding-bottom: 4px;
+}
+
+.shiftLink {
+    color: var(--color-light-grey);
+    text-decoration: underline;
+    font-size: 0.75rem;
+}
