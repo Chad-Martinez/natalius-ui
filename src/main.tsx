@@ -12,7 +12,6 @@ import ProtectedLayout from './layouts/ProtectedLayout.tsx';
 import Dashboard from './pages/Dashboard.tsx';
 import { AuthProvider } from './store/AuthContext.tsx';
 import Gigs from './pages/Gigs/Gigs.tsx';
-import Gig from './pages/Gig.tsx';
 import axios from 'axios';
 import { loader as gigsLoader } from './pages/Gigs/Gigs.tsx';
 
@@ -66,10 +65,6 @@ const router = createBrowserRouter([
         index: true,
         element: <Gigs />,
         loader: gigsLoader,
-      },
-      {
-        path: ':gigId',
-        element: <Gig />,
       },
     ],
   },
