@@ -1,7 +1,7 @@
 .btn {
     text-align: center;
     width: 100%;
-    background-color: var(--color-light);
+    background-color: var(--color-light-grey);
     border-radius: 4px;
     height: 40px;
     border: none;
@@ -12,6 +12,6 @@
 
 .btn:hover, .btn:active {
     letter-spacing: 0.2rem;
-    color: var(--color-blue);
+    color: var(--color-primary);
     background-color: var(--color-dark-grey);
 }

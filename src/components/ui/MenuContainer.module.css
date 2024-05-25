@@ -4,7 +4,7 @@
   right: 10px;
   padding: 0px;
   display: none;
-  background-color: var(--color-light);
+  background-color: var(--color-light-grey);
 }
 
 .open {
@@ -26,5 +26,5 @@ a {
 
 li:hover,
 li:active, .active {
-  background-color: var(--color-blue);
+  background-color: var(--color-primary);
 }

@@ -9,7 +9,7 @@
 }
 
 .menuLine {
-    border: 2.5px solid var(--color-blue);
+    border: 2.5px solid var(--color-primary);
     width: 30px;
     border-radius: 5px;
 }
