@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Gig } from '../../types/Gig';
+import { Gig } from '../../../types/Gig';
 import styles from './GigItem.module.css';
 import {
   faClock,
@@ -8,12 +8,12 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import CardContentItem from '../ui/Card/CardContentItem';
-import CardContentAccordian from '../ui/Card/CardContentAccordian';
+import CardContentItem from '../../../components/ui/Card/CardContentItem';
+import CardContentAccordian from '../../../components/ui/Card/CardContentAccordian';
 import ShiftsList from './ShiftsList';
-import CardHeader from '../ui/Card/CardHeader';
-import Card from '../ui/Card/Card';
-import CardContent from '../ui/Card/CardContent';
+import CardHeader from '../../../components/ui/Card/CardHeader';
+import Card from '../../../components/ui/Card/Card';
+import CardContent from '../../../components/ui/Card/CardContent';
 
 const GigItem: FC<{ gig: Gig }> = ({ gig }): JSX.Element => {
   const { address, contact, name, shifts } = gig;

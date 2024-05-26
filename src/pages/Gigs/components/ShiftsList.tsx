@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import ShiftListItem from './ShiftListItem';
-import { Shift } from '../../types/Shift';
+import { Shift } from '../../../types/Shift';
 import styles from './ShiftsList.module.css';
 
 const ShiftsList: FC<{ shifts: Shift[] }> = ({ shifts }): JSX.Element => {

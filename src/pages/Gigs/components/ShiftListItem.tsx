@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Shift } from '../../types/Shift';
-import EditDeleteBtnGroup from '../ui/EditDeleteBtnGroup';
+import { Shift } from '../../../types/Shift';
+import EditDeleteBtnGroup from '../../../components/ui/EditDeleteBtnGroup';
 
 const ShiftListItem: FC<{ shift: Shift }> = ({ shift }): JSX.Element => {
   return (
