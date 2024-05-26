@@ -5,7 +5,6 @@ import useInput from '../hooks/useInput';
 import Button from '../components/forms/SubmitButton';
 import { register } from '../services/authServices';
 import { AxiosError, AxiosResponse } from 'axios';
-import Nav from '../components/ui/Nav';
 import { notify } from '../utils/toastify';
 import Logo from '../components/ui/Logo';
 
@@ -116,76 +115,71 @@ const Register: FC = (): JSX.Element => {
   useEffect(() => checkFormValidity(), [checkFormValidity]);
 
   return (
-    <>
-      <Nav />
-      <div className={formStyles.formContainer}>
-        <form className={formStyles.form}>
-          <Logo addedStyles={{ width: '35%' }} />
-          <h2>register</h2>
-          <Input
-            id='firstName'
-            name='firstName'
-            value={firstName}
-            hasError={firstNameHasError}
-            placeholder='First Name'
-            type='text'
-            errorMessage='First name required'
-            handleChange={firstNameChangeHandledr}
-            handleBlur={firstNameBlurHandler}
-          />
-          <Input
-            id='lastName'
-            name='lastName'
-            value={lastName}
-            hasError={lastNameHasError}
-            placeholder='Last Name'
-            type='text'
-            errorMessage='Last name required'
-            handleChange={lastNameChangeHandledr}
-            handleBlur={lastNameBlurHandler}
-          />
-          <Input
-            id='email'
-            name='email'
-            value={email}
-            hasError={emailHasError}
-            placeholder='Email'
-            type='email'
-            errorMessage='Email is not valid'
-            handleChange={emailChangeHandledr}
-            handleBlur={emailBlurHandler}
-          />
-          <Input
-            id='password'
-            name='password'
-            value={password}
-            hasError={passwordHasError}
-            placeholder='Password'
-            type='password'
-            errorMessage='Minimum 8 characters with one number & special character'
-            handleChange={passwordChangeHandledr}
-            handleBlur={passwordBlurHandler}
-          />
-          <Input
-            id='pwConfirm'
-            name='pwConfirm'
-            value={pwConfirm}
-            hasError={pwConfirmHasError}
-            placeholder='Confirm Password'
-            type='password'
-            errorMessage='Passwords must match'
-            handleChange={pwConfirmChangeHandledr}
-            handleBlur={pwConfirmBlurHandler}
-          />
-          <Button
-            text='submit'
-            handleClick={handleSubmit}
-            enabled={isFormValid}
-            loading={isTransmitting}
-          />
-        </form>
-      </div>
-    </>
+    <form className={formStyles.form}>
+      <Logo addedStyles={{ width: '35%' }} />
+      <h2>register</h2>
+      <Input
+        id='firstName'
+        name='firstName'
+        value={firstName}
+        hasError={firstNameHasError}
+        placeholder='First Name'
+        type='text'
+        errorMessage='First name required'
+        handleChange={firstNameChangeHandledr}
+        handleBlur={firstNameBlurHandler}
+      />
+      <Input
+        id='lastName'
+        name='lastName'
+        value={lastName}
+        hasError={lastNameHasError}
+        placeholder='Last Name'
+        type='text'
+        errorMessage='Last name required'
+        handleChange={lastNameChangeHandledr}
+        handleBlur={lastNameBlurHandler}
+      />
+      <Input
+        id='email'
+        name='email'
+        value={email}
+        hasError={emailHasError}
+        placeholder='Email'
+        type='email'
+        errorMessage='Email is not valid'
+        handleChange={emailChangeHandledr}
+        handleBlur={emailBlurHandler}
+      />
+      <Input
+        id='password'
+        name='password'
+        value={password}
+        hasError={passwordHasError}
+        placeholder='Password'
+        type='password'
+        errorMessage='Minimum 8 characters with one number & special character'
+        handleChange={passwordChangeHandledr}
+        handleBlur={passwordBlurHandler}
+      />
+      <Input
+        id='pwConfirm'
+        name='pwConfirm'
+        value={pwConfirm}
+        hasError={pwConfirmHasError}
+        placeholder='Confirm Password'
+        type='password'
+        errorMessage='Passwords must match'
+        handleChange={pwConfirmChangeHandledr}
+        handleBlur={pwConfirmBlurHandler}
+      />
+      <Button
+        text='submit'
+        handleClick={handleSubmit}
+        enabled={isFormValid}
+        loading={isTransmitting}
+      />
+    </form>
   );
 };
 

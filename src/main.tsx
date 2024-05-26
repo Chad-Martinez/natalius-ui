@@ -14,6 +14,7 @@ import { AuthProvider } from './store/AuthContext.tsx';
 import Gigs from './pages/Gigs/Gigs.tsx';
 import axios from 'axios';
 import { loader as gigsLoader } from './pages/Gigs/Gigs.tsx';
+import LandingLayout from './layouts/LandingLayout.tsx';
 
 axios.interceptors.request.use((config) => {
   console.log('intercepting');
@@ -29,22 +30,25 @@ axios.interceptors.request.use((config) => {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Landing />,
-    errorElement: <NotFound />,
-  },
-  {
-    path: '/register',
-    element: <Register />,
-    errorElement: <NotFound />,
-  },
-  {
-    path: '/login',
-    element: <Login />,
-    errorElement: <NotFound />,
-  },
-  {
-    path: '/verify/:id',
-    element: <VerifyEmail />,
+    element: <LandingLayout />,
+    children: [
+      {
+        index: true,
+        element: <Landing />,
+      },
+      {
+        path: '/register',
+        element: <Register />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/verify/:id',
+        element: <VerifyEmail />,
+      },
+    ],
     errorElement: <NotFound />,
   },
   {
