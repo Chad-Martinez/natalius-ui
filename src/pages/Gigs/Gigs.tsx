@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { getGigs } from '../../services/gigsServices';
-import GigsList from '../../components/gig/GigsList';
+import GigsList from './components/GigsList';
 import BottomNav from '../../components/dashboard/BottomNav';
 import Button from '../../components/ui/Button';
 import styles from '../PageWrapper.module.css';
