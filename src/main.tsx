@@ -1,20 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 import './styles/index.css';
-import NotFound from './pages/NotFound.tsx';
-import Landing from './pages/Landing.tsx';
-import Register from './pages/Register.tsx';
 import { ToastContainer } from 'react-toastify';
-import VerifyEmail from './pages/VerifyEmail.tsx';
-import Login from './pages/Login.tsx';
-import ProtectedLayout from './layouts/ProtectedLayout.tsx';
-import Dashboard from './pages/Dashboard.tsx';
 import { AuthProvider } from './store/AuthContext.tsx';
-import Gigs from './pages/Gigs/Gigs.tsx';
 import axios from 'axios';
-import { loader as gigsLoader } from './pages/Gigs/Gigs.tsx';
-import LandingLayout from './layouts/LandingLayout.tsx';
+import { router } from './routes/routes.tsx';
 
 axios.interceptors.request.use((config) => {
   console.log('intercepting');
@@ -26,53 +17,6 @@ axios.interceptors.request.use((config) => {
   }
   return config;
 });
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <LandingLayout />,
-    children: [
-      {
-        index: true,
-        element: <Landing />,
-      },
-      {
-        path: '/register',
-        element: <Register />,
-      },
-      {
-        path: '/login',
-        element: <Login />,
-      },
-      {
-        path: '/verify/:id',
-        element: <VerifyEmail />,
-      },
-    ],
-    errorElement: <NotFound />,
-  },
-  {
-    path: '/dashboard',
-    element: <ProtectedLayout />,
-    children: [
-      {
-        index: true,
-        element: <Dashboard />,
-      },
-    ],
-  },
-  {
-    path: '/gigs',
-    element: <ProtectedLayout />,
-    children: [
-      {
-        index: true,
-        element: <Gigs />,
-        loader: gigsLoader,
-      },
-    ],
-  },
-]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
