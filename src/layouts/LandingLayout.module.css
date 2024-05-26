@@ -1,0 +1,5 @@
+.margin {
+    margin: 20% 10%;
+    display: flex;
+    justify-content: center;
+}

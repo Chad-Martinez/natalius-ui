@@ -1,5 +1,4 @@
 import { FC, useCallback, useContext, useEffect, useState } from 'react';
-import Nav from '../components/ui/Nav';
 import Input from '../components/forms/Input';
 import useInput from '../hooks/useInput';
 import formStyles from '../components/forms/FormComponents.module.css';
@@ -65,43 +64,38 @@ export const Login: FC = (): JSX.Element => {
   useEffect(() => checkFormValidity(), [checkFormValidity]);
 
   return (
-    <>
-      <Nav />
-      <div className={formStyles.formContainer}>
-        <form className={formStyles.form}>
-          <Logo addedStyles={{ width: '35%' }} />
-          <h2>login</h2>
-          <Input
-            id='email'
-            name='email'
-            value={email}
-            hasError={emailHasError}
-            placeholder='Email'
-            type='email'
-            errorMessage='Email required'
-            handleChange={emailChangeHandledr}
-            handleBlur={emailBlurHandler}
-          />
-          <Input
-            id='password'
-            name='password'
-            value={password}
-            hasError={passwordHasError}
-            placeholder='Password'
-            type='password'
-            errorMessage='Password Required'
-            handleChange={passwordChangeHandledr}
-            handleBlur={passwordBlurHandler}
-          />
-          <Button
-            text='submit'
-            handleClick={handleSubmit}
-            enabled={isFormValid}
-            loading={isTransmitting}
-          />
-        </form>
-      </div>
-    </>
+    <form className={formStyles.form}>
+      <Logo addedStyles={{ width: '35%' }} />
+      <h2>login</h2>
+      <Input
+        id='email'
+        name='email'
+        value={email}
+        hasError={emailHasError}
+        placeholder='Email'
+        type='email'
+        errorMessage='Email required'
+        handleChange={emailChangeHandledr}
+        handleBlur={emailBlurHandler}
+      />
+      <Input
+        id='password'
+        name='password'
+        value={password}
+        hasError={passwordHasError}
+        placeholder='Password'
+        type='password'
+        errorMessage='Password Required'
+        handleChange={passwordChangeHandledr}
+        handleBlur={passwordBlurHandler}
+      />
+      <Button
+        text='submit'
+        handleClick={handleSubmit}
+        enabled={isFormValid}
+        loading={isTransmitting}
+      />
+    </form>
   );
 };
 
