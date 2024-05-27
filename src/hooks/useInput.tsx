@@ -1,13 +1,18 @@
 import { ChangeEvent, useState } from 'react';
 
-const useInput = (validateValue: (value: string) => boolean) => {
-  const [enteredValue, setEnteredValue] = useState<string>('');
+const useInput = (
+  validateValue: (value: string) => boolean,
+  initialValue?: string
+) => {
+  const [enteredValue, setEnteredValue] = useState<string>(initialValue || '');
   const [isTouched, setIsTouched] = useState<boolean>(false);
 
   const valueIsValid: boolean = validateValue(enteredValue);
   const hasError: boolean = !valueIsValid && isTouched;
 
-  const valueChangeHandler = (event: ChangeEvent<HTMLInputElement>): void => {
+  const valueChangeHandler = (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ): void => {
     setEnteredValue(event.target.value);
   };
 
@@ -16,7 +21,7 @@ const useInput = (validateValue: (value: string) => boolean) => {
   };
 
   const reset = (): void => {
-    setEnteredValue('');
+    setEnteredValue(initialValue || '');
     setIsTouched(false);
   };
 

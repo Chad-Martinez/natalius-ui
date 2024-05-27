@@ -1,17 +1,52 @@
 .btn {
-    text-align: center;
-    width: 100%;
-    background-color: var(--color-light-grey);
-    border-radius: 4px;
-    height: 40px;
-    border: none;
-    color: black;
-    letter-spacing: 0.1rem;
-    transition: all 0.25s ease-in;
+  text-align: center;
+  width: 100%;
+  border-radius: 4px;
+  height: 40px;
+  border: none;
+  letter-spacing: 0.1rem;
+  transition: all 0.25s ease-in;
 }
 
-.btn:hover, .btn:active {
-    letter-spacing: 0.2rem;
-    color: var(--color-primary);
-    background-color: var(--color-dark-grey);
+.btnSolid {
+  background-color: var(--color-light-grey);
+  color: var(--color-dark-grey);
+}
+
+.btnHallow {
+  background-color: var(--color-dark-grey);
+  color: var(--color-light-grey);
+}
+
+.btnHallow:hover,
+.btnHallow:active {
+  letter-spacing: 0.2rem;
+  color: var(--color-primary);
+}
+
+.btnSolid:hover,
+.btnSolid:active {
+  letter-spacing: 0.2rem;
+  color: var(--color-primary);
+  background-color: var(--color-dark-grey);
+}
+
+.btnLoading {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 3px solid transparent;
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: button-loading-spinner 1s ease infinite;
+}
+
+@keyframes button-loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
 }

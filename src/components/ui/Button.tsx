@@ -1,18 +1,37 @@
 import { FC, SyntheticEvent } from 'react';
-import styles from './Button.module.css';
+import btnStyles from './Button.module.css';
 
 type Props = {
   text: string;
   addedStyles?: { [key: string]: string };
+  solid?: boolean;
+  disabled?: boolean;
+  loading?: boolean;
+  onClick: () => void;
 };
 
-const Button: FC<Props> = ({ text, addedStyles }): JSX.Element => {
+const Button: FC<Props> = ({
+  text,
+  addedStyles,
+  solid = false,
+  disabled = false,
+  loading = false,
+  onClick,
+}): JSX.Element => {
   const handleClick = (event: SyntheticEvent) => {
     event.stopPropagation();
+    onClick();
   };
   return (
-    <button className={styles.btn} style={addedStyles} onClick={handleClick}>
-      {text}
+    <button
+      className={`${btnStyles.btn} ${
+        solid ? btnStyles.btnSolid : btnStyles.btnHallow
+      }`}
+      disabled={disabled}
+      style={addedStyles}
+      onClick={handleClick}
+    >
+      {loading ? <span className={btnStyles.btnLoading}></span> : text}
     </button>
   );
 };

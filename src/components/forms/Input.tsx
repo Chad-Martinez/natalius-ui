@@ -2,12 +2,14 @@ import { ChangeEvent, FC } from 'react';
 import formStyles from '../forms/FormComponents.module.css';
 
 type Props = {
-  id: string;
-  name: string;
+  id?: string;
+  name?: string;
   type: string;
   value: string;
+  min?: string | number;
+  max?: string | number;
   hasError?: boolean;
-  placeholder: string;
+  placeholder?: string;
   errorMessage: string;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleBlur?: () => void;
@@ -18,6 +20,8 @@ const Input: FC<Props> = ({
   name,
   type,
   value,
+  min,
+  max,
   hasError,
   placeholder,
   errorMessage,
@@ -31,6 +35,8 @@ const Input: FC<Props> = ({
         id={id}
         name={name}
         type={type}
+        min={min}
+        max={max}
         value={value}
         placeholder={placeholder}
         onChange={handleChange}

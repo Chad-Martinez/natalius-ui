@@ -32,11 +32,7 @@ const ProtectedLayout: FC = (): JSX.Element => {
 
   useEffect(() => {
     const path = pathname.split('/');
-    if (path.length === 2) {
-      setTitle(path[1]);
-    } else {
-      setTitle(path[2]);
-    }
+    setTitle(path[1]);
   }, [pathname]);
 
   const handleToggle = () => {
