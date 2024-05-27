@@ -7,9 +7,10 @@ import Login from '../pages/Login.tsx';
 import ProtectedLayout from '../layouts/ProtectedLayout.tsx';
 import Dashboard from '../pages/Dashboard.tsx';
 import Gigs from '../pages/Gigs/Gigs.tsx';
-import { loader as gigsLoader } from '../pages/Gigs/Gigs.tsx';
+import { gigsLoader, gigNamesLoader } from './loaders.ts';
 import LandingLayout from '../layouts/LandingLayout.tsx';
 import Incomes from '../pages/Incomes/Incomes.tsx';
+import IncomeForm from '../pages/Incomes/IncomeForm.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -63,6 +64,11 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Incomes />,
+      },
+      {
+        path: 'form',
+        element: <IncomeForm />,
+        loader: gigNamesLoader,
       },
     ],
   },
