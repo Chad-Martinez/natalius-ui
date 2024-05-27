@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: stretch;
   gap: 10px;
+  width: 100%;
   max-width: 530px;
   padding: 20px;
 }
@@ -17,6 +18,11 @@
   letter-spacing: 0.13rem;
 }
 
+.title {
+  letter-spacing: 0.11rem;
+  margin: 15px 0px;
+}
+
 .inputContainer {
   width: 100%;
   margin: 2px;
@@ -26,11 +32,12 @@
   width: 100%;
   border: none;
   height: 35px;
-  background: transparent;
+  background: var(--color-dark-grey);
   padding: 3px;
   letter-spacing: 0.11rem;
   border-bottom: 1px solid white;
-  color: white;
+  color-scheme: dark;
+  color: var(--color-light-grey);
 }
 
 input:focus-visible {
@@ -46,4 +53,26 @@ input:focus-visible {
   font-size: 0.6rem;
   letter-spacing: 0.05rem;
   height: 11.2px;
+  color: var(--color-danger)
+}
+
+.option {
+  color: white;
+}
+
+.linkContainer {
+  text-align: right;
+}
+
+.link {
+  font-size: 0.8rem;
+  letter-spacing: 0.05rem;
+  color: var(--color-light-grey);
+  text-decoration: underline;
+}
+
+.link:focus-visible {
+  outline: 1px solid var(--color-primary);
+  border-radius: 4px;
+  border: none;
 }
