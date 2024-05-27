@@ -18,19 +18,19 @@ const MenuContainer: FC<{ open: boolean }> = ({ open }): JSX.Element => {
       >
         <li>Income</li>
       </NavLink>
-      <NavLink
+      {/* <NavLink
         className={({ isActive }) => (isActive ? styles.active : undefined)}
         to='/expenses'
       >
         <li>Expenses</li>
-      </NavLink>
+      </NavLink> */}
       <NavLink
         className={({ isActive }) => (isActive ? styles.active : undefined)}
         to='/gigs'
       >
         <li>Gigs</li>
       </NavLink>
-      <NavLink
+      {/* <NavLink
         className={({ isActive }) => (isActive ? styles.active : undefined)}
         to='/reports'
       >
@@ -41,7 +41,7 @@ const MenuContainer: FC<{ open: boolean }> = ({ open }): JSX.Element => {
         to='/profile'
       >
         <li>Profile</li>
-      </NavLink>
+      </NavLink> */}
       <NavLink to='/logout'>
         <li>Logout</li>
       </NavLink>

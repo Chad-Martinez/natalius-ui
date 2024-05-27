@@ -10,7 +10,7 @@ const CardContentItem: FC<{ text: string; icon: IconDefinition }> = ({
   return (
     <div className={styles.cardContentItem}>
       <FontAwesomeIcon icon={icon} />
-      <span className={styles.text}>{text}</span>
+      <span className={styles.span}>{text}</span>
     </div>
   );
 };
