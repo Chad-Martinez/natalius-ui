@@ -8,7 +8,6 @@ import axios from 'axios';
 import { router } from './routes/routes.tsx';
 
 axios.interceptors.request.use((config) => {
-  console.log('intercepting');
   const accessToken = sessionStorage.getItem('at');
   if (accessToken) {
     if (!config.headers['Authorization']) {
