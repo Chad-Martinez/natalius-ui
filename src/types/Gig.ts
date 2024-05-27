@@ -16,3 +16,8 @@ export type Gig = {
   name: string;
   _id: string;
 };
+
+export type GigName = {
+  _id: Gig['_id'];
+  name: Gig['name'];
+};
