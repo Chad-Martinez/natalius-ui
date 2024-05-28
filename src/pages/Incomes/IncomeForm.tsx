@@ -5,7 +5,7 @@ import Input from '../../components/forms/Input';
 import BottomNav from '../../components/dashboard/BottomNav';
 import Button from '../../components/ui/Button';
 import Select from '../../components/forms/Select';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { notify } from '../../utils/toastify';
 import { AxiosError } from 'axios';
 import { GigName } from '../../types/Gig';
@@ -17,6 +17,7 @@ const IncomeForm: FC = (): JSX.Element => {
   const [gigOptions, setGigOptions] = useState<GigName[] | undefined>();
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
+  const navigate = useNavigate();
   const loaderData = useLoaderData();
   const {
     value: gigId,
@@ -24,16 +25,14 @@ const IncomeForm: FC = (): JSX.Element => {
     hasError: gigIdHasError,
     valueChangeHandler: gigIdChangeHandler,
     inputBlurHandler: gigIdBlurHandler,
-    reset: resetGigId,
   } = useInput((v) => v !== '');
-  1;
+
   const {
     value: date,
     isValid: dateIsValid,
     hasError: dateHasError,
     valueChangeHandler: dateChangeHandler,
     inputBlurHandler: dateBlurHandler,
-    reset: resetDate,
   } = useInput((v) => dayjs(v).isValid(), dayjs().format('YYYY-MM-DD'));
 
   const {
@@ -42,7 +41,6 @@ const IncomeForm: FC = (): JSX.Element => {
     hasError: amountHasError,
     valueChangeHandler: amountChangeHandledr,
     inputBlurHandler: amountBlurHandler,
-    reset: resetAmount,
   } = useInput((v) => v !== '');
 
   const {
@@ -51,7 +49,6 @@ const IncomeForm: FC = (): JSX.Element => {
     hasError: typeHasError,
     valueChangeHandler: typeChangeHandler,
     inputBlurHandler: typeBlurHandler,
-    reset: resetType,
   } = useInput((v) => v !== '');
 
   useEffect(() => {
@@ -62,17 +59,15 @@ const IncomeForm: FC = (): JSX.Element => {
     }
   }, [loaderData]);
 
-  const handleReset = () => {
-    resetGigId();
-    resetDate();
-    resetAmount();
-    resetType();
+  const handleCancel = () => {
+    navigate(-1);
   };
   const handleSubmit = async () => {
     setIsTransmitting(true);
     try {
       await addIncome({ gigId, date, amount, type });
       notify('Income added', 'success', 'add-income-success');
+      navigate(-1);
     } catch (error) {
       console.error('Income Form Error: ', error);
       if (error instanceof AxiosError)
@@ -118,8 +113,8 @@ const IncomeForm: FC = (): JSX.Element => {
             name='amount'
             value={amount}
             hasError={amountHasError}
-            placeholder='0.00'
-            min='0.01'
+            placeholder='Enter earnings'
+            min={0.01}
             type='number'
             errorMessage='Amount must be greater than $0.01'
             handleChange={amountChangeHandledr}
@@ -142,7 +137,7 @@ const IncomeForm: FC = (): JSX.Element => {
         </form>
       </div>
       <BottomNav>
-        <Button text='Reset' onClick={handleReset} />
+        <Button text='Cancel' onClick={handleCancel} />
         <Button
           text='Submit'
           solid={true}
