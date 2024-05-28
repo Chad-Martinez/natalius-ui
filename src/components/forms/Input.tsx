@@ -4,13 +4,16 @@ import formStyles from '../forms/FormComponents.module.css';
 type Props = {
   id?: string;
   name?: string;
-  type: string;
+  type?: string;
   value: string;
-  min?: string | number;
-  max?: string | number;
+  min?: number;
+  max?: number;
+  step?: number;
+  minLength?: number;
+  maxLength?: number;
   hasError?: boolean;
   placeholder?: string;
-  errorMessage: string;
+  errorMessage?: string;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleBlur?: () => void;
 };
@@ -18,10 +21,13 @@ type Props = {
 const Input: FC<Props> = ({
   id,
   name,
-  type,
+  type = 'text',
   value,
   min,
   max,
+  step,
+  minLength,
+  maxLength,
   hasError,
   placeholder,
   errorMessage,
@@ -37,6 +43,9 @@ const Input: FC<Props> = ({
         type={type}
         min={min}
         max={max}
+        step={step}
+        minLength={minLength}
+        maxLength={maxLength}
         value={value}
         placeholder={placeholder}
         onChange={handleChange}
