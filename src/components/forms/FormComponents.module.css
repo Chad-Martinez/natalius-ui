@@ -23,6 +23,12 @@
   margin: 15px 0px;
 }
 
+.sideBySideInputs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+}
+
 .inputContainer {
   width: 100%;
   margin: 2px;
