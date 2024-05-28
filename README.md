@@ -3,6 +3,8 @@
 * Live deployment @ https://natalius.netlify.app
 * At this time built mobile first
 
+## By aware the backend is hosted for free so when making an initial request (like to register) it may take the api up to 60 seconds to respond.  Be patient.
+
 ### Features Funcational as of 05/27/24
 * Register - with email verification (check your junk folder - it'll be coming from natalius-noreply@somoslocos.co)
 * Login
