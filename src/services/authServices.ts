@@ -42,8 +42,17 @@ export const verifyEmail = async (token: string): Promise<AxiosResponse> => {
   return await axios(config);
 };
 
+export const logout = async (): Promise<AxiosResponse> => {
+  const config: AxiosRequestConfig = {
+    url: `${endpoint}/auth/logout`,
+    method: 'GET',
+  };
+  return await axios(config);
+};
+
 export default {
   register,
   login,
   verifyEmail,
+  logout,
 };
