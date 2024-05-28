@@ -1,8 +1,22 @@
 import { FC } from 'react';
 import styles from './MenuContainer.module.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { logout } from '../../services/authServices';
 
 const MenuContainer: FC<{ open: boolean }> = ({ open }): JSX.Element => {
+  const navigate = useNavigate();
+
+  const handleLogout = async (): Promise<void> => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Handle Logout Error: ', error);
+    } finally {
+      sessionStorage.removeItem('at');
+      navigate('/');
+    }
+  };
+
   return (
     <ul className={`${styles.container} ${open && styles.open}`}>
       <NavLink
@@ -42,9 +56,9 @@ const MenuContainer: FC<{ open: boolean }> = ({ open }): JSX.Element => {
       >
         <li>Profile</li>
       </NavLink> */}
-      <NavLink to='/logout'>
-        <li>Logout</li>
-      </NavLink>
+      {/* <NavLink to='logout'> */}
+      <li onClick={handleLogout}>Logout</li>
+      {/* </NavLink> */}
     </ul>
   );
 };
