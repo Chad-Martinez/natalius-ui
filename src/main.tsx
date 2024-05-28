@@ -7,6 +7,8 @@ import { AuthProvider } from './store/AuthContext.tsx';
 import axios from 'axios';
 import { router } from './routes/routes.tsx';
 
+axios.defaults.withCredentials = true;
+
 axios.interceptors.request.use((config) => {
   const accessToken = sessionStorage.getItem('at');
   if (accessToken) {
