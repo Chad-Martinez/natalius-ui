@@ -11,6 +11,7 @@ import { gigsLoader, gigNamesLoader } from './loaders.ts';
 import LandingLayout from '../layouts/LandingLayout.tsx';
 import Incomes from '../pages/Incomes/Incomes.tsx';
 import IncomeForm from '../pages/Incomes/IncomeForm.tsx';
+import GigForm from '../pages/Gigs/GigForm.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
         index: true,
         element: <Gigs />,
         loader: gigsLoader,
+      },
+      {
+        path: 'form',
+        element: <GigForm />,
       },
     ],
   },
