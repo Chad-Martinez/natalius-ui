@@ -11,7 +11,9 @@ const useInput = (
   const hasError: boolean = !valueIsValid && isTouched;
 
   const valueChangeHandler = (
-    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ): void => {
     setEnteredValue(event.target.value);
   };
