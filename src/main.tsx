@@ -4,20 +4,7 @@ import { RouterProvider } from 'react-router-dom';
 import './styles/index.css';
 import { ToastContainer } from 'react-toastify';
 import { AuthProvider } from './store/AuthContext.tsx';
-import axios from 'axios';
 import { router } from './routes/routes.tsx';
-
-axios.defaults.withCredentials = true;
-
-axios.interceptors.request.use((config) => {
-  const accessToken = sessionStorage.getItem('at');
-  if (accessToken) {
-    if (!config.headers['Authorization']) {
-      config.headers['Authorization'] = `Bearer ${accessToken}`;
-    }
-  }
-  return config;
-});
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
