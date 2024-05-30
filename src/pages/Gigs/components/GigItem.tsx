@@ -1,13 +1,13 @@
 import { FC } from 'react';
 import { Gig } from '../../../types/Gig';
-// import styles from './GigItem.module.css';
+import styles from './GigItem.module.css';
 import {
   faClock,
   faLocationDot,
   faPhone,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import CardContentItem from '../../../components/ui/Card/CardContentItem';
 import CardContentAccordian from '../../../components/ui/Card/CardContentAccordian';
 import ShiftsList from './ShiftsList';
@@ -38,11 +38,11 @@ const GigItem: FC<{ gig: Gig }> = ({ gig }): JSX.Element => {
           {shifts.length > 0 ? <ShiftsList shifts={shifts} /> : ''}
         </CardContentAccordian>
       </CardContent>
-      {/* <div className={styles.addGig}>
-        <Link className={styles.shiftLink} to='shift-form'>
+      <div className={styles.addGig}>
+        <Link className={styles.shiftLink} to={`shift-form/${gig._id}`}>
           Add Shift
         </Link>
-      </div> */}
+      </div>
     </Card>
   );
 };
