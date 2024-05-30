@@ -39,7 +39,7 @@ const IncomeForm: FC = (): JSX.Element => {
     value: amount,
     isValid: amountIsValid,
     hasError: amountHasError,
-    valueChangeHandler: amountChangeHandledr,
+    valueChangeHandler: amountChangeHandler,
     inputBlurHandler: amountBlurHandler,
   } = useInput((v) => v !== '');
 
@@ -92,7 +92,7 @@ const IncomeForm: FC = (): JSX.Element => {
             options={gigOptions}
             value={gigId}
             hasError={gigIdHasError}
-            link='/gigs/form'
+            link='/gigs/gig-form'
             linkText='Add Gig'
             errorMessage='Gig required'
             handleChange={gigIdChangeHandler}
@@ -117,7 +117,7 @@ const IncomeForm: FC = (): JSX.Element => {
             min={0.01}
             type='number'
             errorMessage='Amount must be greater than $0.01'
-            handleChange={amountChangeHandledr}
+            handleChange={amountChangeHandler}
             handleBlur={amountBlurHandler}
           />
           <Select

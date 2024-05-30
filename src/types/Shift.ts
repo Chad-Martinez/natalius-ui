@@ -1,9 +1,7 @@
 export type Shift = {
-  _id: string;
+  _id?: string;
   gigId: string;
-  startDate: string;
-  startTime: string;
-  endDate: string;
-  endTime: string;
+  start: string;
+  end: string;
   notes: string;
 };

@@ -8,8 +8,8 @@ import styles from '../PageWrapper.module.css';
 const Gigs: FC = (): JSX.Element => {
   const navigate = useNavigate();
 
-  const handleNavigate = () => {
-    navigate('form');
+  const handleAddGig = () => {
+    navigate('gig-form');
   };
   return (
     <div className={styles.container}>
@@ -17,7 +17,7 @@ const Gigs: FC = (): JSX.Element => {
         <GigsList />
       </div>
       <BottomNav>
-        <Button text='Add Gig' onClick={handleNavigate} />
+        <Button text='Add Gig' onClick={handleAddGig} />
       </BottomNav>
     </div>
   );

@@ -5,21 +5,11 @@ import styles from './ShiftsList.module.css';
 
 const ShiftsList: FC<{ shifts: Shift[] }> = ({ shifts }): JSX.Element => {
   return (
-    <table className={styles.table}>
-      <tbody>
-        <tr>
-          <th>Date</th>
-          <th>Start</th>
-          <th>End</th>
-          <th></th>
-        </tr>
-        {shifts.length > 0
-          ? shifts.map((shift) => (
-              <ShiftListItem key={shift._id} shift={shift} />
-            ))
-          : ''}
-      </tbody>
-    </table>
+    <div className={styles.shiftList}>
+      {shifts.length > 0
+        ? shifts.map((shift) => <ShiftListItem key={shift._id} shift={shift} />)
+        : ''}
+    </div>
   );
 };
 
