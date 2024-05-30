@@ -8,7 +8,7 @@ const GigsList: FC = (): JSX.Element => {
   const gigs: Gig[] = useLoaderData() as Gig[];
   return (
     <div className={styles.container}>
-      {gigs.length > 0
+      {gigs && gigs.length > 0
         ? gigs.map((gig) => <GigItem key={gig._id} gig={gig} />)
         : ''}
     </div>
