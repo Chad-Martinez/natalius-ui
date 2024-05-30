@@ -1,15 +1,19 @@
 import { FC } from 'react';
 import { Shift } from '../../../types/Shift';
-// import EditDeleteBtnGroup from '../../../components/ui/EditDeleteBtnGroup';
+import dayjs from 'dayjs';
+import styles from './ShiftsList.module.css';
+import EditDeleteBtnGroup from '../../../components/ui/EditDeleteBtnGroup';
 
 const ShiftListItem: FC<{ shift: Shift }> = ({ shift }): JSX.Element => {
   return (
-    <tr>
-      <td>{shift.startDate.slice(0, 10)}</td>
-      <td>{shift.startTime.slice(1)}</td>
-      <td>{shift.endTime.slice(1)}</td>
-      <td>{/* <EditDeleteBtnGroup /> */}</td>
-    </tr>
+    <div className={styles.shiftListItem}>
+      <div>
+        {dayjs(shift.start).format('ddd: MMM D')} @{' '}
+        {dayjs(shift.start).format('h:mma')} -{' '}
+        {dayjs(shift.end).format('h:mma')}
+      </div>
+      <div>{<EditDeleteBtnGroup />}</div>
+    </div>
   );
 };
 
