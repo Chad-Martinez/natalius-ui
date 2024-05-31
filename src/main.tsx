@@ -1,15 +1,14 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { RouterProvider } from 'react-router-dom';
+import ReactDOM from 'react-dom/client';
 import './styles/index.css';
 import { ToastContainer } from 'react-toastify';
 import { AuthProvider } from './store/AuthContext.tsx';
-import { router } from './routes/routes.tsx';
+import App from './App.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <App />
       <ToastContainer
         position='top-right'
         autoClose={3000}

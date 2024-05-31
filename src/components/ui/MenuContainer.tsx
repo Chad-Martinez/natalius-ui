@@ -1,9 +1,11 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import styles from './MenuContainer.module.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { logout } from '../../services/authServices';
+import { AuthContext } from '../../store/AuthContext';
 
 const MenuContainer: FC<{ open: boolean }> = ({ open }): JSX.Element => {
+  const { setIsAuth } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = async (): Promise<void> => {
@@ -13,6 +15,7 @@ const MenuContainer: FC<{ open: boolean }> = ({ open }): JSX.Element => {
       console.error('Handle Logout Error: ', error);
     } finally {
       sessionStorage.removeItem('at');
+      setIsAuth(false);
       navigate('/');
     }
   };

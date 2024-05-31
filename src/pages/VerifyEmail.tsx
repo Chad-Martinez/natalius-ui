@@ -16,7 +16,6 @@ const VerifyEmail: FC = () => {
       if (id) {
         await verifyEmail(id);
         setTimeout(() => {
-          console.log('trigging redirect');
           navigate('/login');
         }, 2500);
       }

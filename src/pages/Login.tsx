@@ -3,7 +3,7 @@ import Input from '../components/forms/Input';
 import useInput from '../hooks/useInput';
 import formStyles from '../components/forms/FormComponents.module.css';
 import { login } from '../services/authServices';
-import { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { notify } from '../utils/toastify';
 import Button from '../components/forms/SubmitButton';
 import Logo from '../components/ui/Logo';
@@ -42,6 +42,7 @@ export const Login: FC = (): JSX.Element => {
 
       const { accessToken } = data;
       sessionStorage.setItem('at', accessToken);
+      axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
       setIsAuth(true);
       navigate('/dashboard');
     } catch (error) {

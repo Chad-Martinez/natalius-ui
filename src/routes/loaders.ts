@@ -5,7 +5,7 @@ export const gigNamesLoader = async () => {
     const { data } = await getGigNames();
     return data;
   } catch (error) {
-    console.error('Loader Error: Gig Names ', error);
+    console.error('Loader Error: Get GigNames ', error);
     return error;
   }
 };

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const Dashboard: FC = (): JSX.Element => {
   const navigate = useNavigate();
   const handleAddIncome = () => {
-    navigate('/income/form');
+    navigate('/income/income-form');
   };
 
   const handleAddExpense = () => {
