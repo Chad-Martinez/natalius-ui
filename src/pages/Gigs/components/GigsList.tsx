@@ -1,15 +1,18 @@
 import { FC } from 'react';
-import { useLoaderData } from 'react-router-dom';
 import GigItem from './GigItem';
 import styles from './GigsList.module.css';
-import { Gig } from '../../../types/Gig';
+import { IGig } from '../../../interfaces/IGig.interface';
 
-const GigsList: FC = (): JSX.Element => {
-  const gigs: Gig[] = useLoaderData() as Gig[];
+const GigsList: FC<{ gigs: IGig[]; archiveGig: (payload: IGig) => void }> = ({
+  gigs,
+  archiveGig,
+}): JSX.Element => {
   return (
     <div className={styles.container}>
       {gigs && gigs.length > 0
-        ? gigs.map((gig) => <GigItem key={gig._id} gig={gig} />)
+        ? gigs.map((gig) => (
+            <GigItem key={gig._id} gig={gig} archiveGig={archiveGig} />
+          ))
         : ''}
     </div>
   );
