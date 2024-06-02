@@ -1,0 +1,55 @@
+.dialog {
+  border: 2px solid var(--color-primary);
+  border-radius: 8px;
+  background-color: var(--color-dark-grey);
+  color: var(--color-primary);
+  padding: 1.6rem;
+  width: 80%;
+  max-width: 350px;
+  margin: 40% auto;
+  text-align: center;
+}
+
+.dialog::backdrop {
+  background-color: #2424249c;
+}
+
+.title {
+  margin: 25px 0px 30px 0px;
+  letter-spacing: 0.10rem;
+}
+
+.subtitle {
+    color: var(--color-light-grey)
+}
+
+.dialogBtnGroup {
+  display: flex;
+  gap: 35px;
+  justify-content: center;
+  margin: 30px 0px 25px 0px;
+}
+
+.dialogBtnGroup button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  font-size: 2.5rem;
+}
+
+button:hover, button:active, button:focus-visible {
+    outline: none;
+}
+
+.cancelIcon {
+  color: var(--color-danger);
+}
+
+/* .cancelIcon:hover, .cancelIcon:active, .cancelIcon:focus-visible {
+    box-shadow: 10px 10px 10px green;
+} */
+
+.confirmIcon {
+  color: var(--color-success);
+}
