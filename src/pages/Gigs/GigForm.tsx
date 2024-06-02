@@ -11,7 +11,7 @@ import { addGig } from '../../services/gigsServices';
 import { notify } from '../../utils/toastify';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { AddGig } from '../../types/Gig';
+import { IGigBase } from '../../interfaces/IGig.interface';
 
 const GigForm: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -71,18 +71,19 @@ const GigForm: FC = (): JSX.Element => {
   const handleSubmit = async () => {
     setIsTransmitting(true);
     try {
-      const address: AddGig['address'] = {};
+      const address: IGigBase['address'] = {};
       if (street) address.street = street;
       if (city) address.city = city;
       if (state) address.state = state;
       if (zip) address.zip = +zip;
 
-      const contact: AddGig['contact'] = {};
+      const contact: IGigBase['contact'] = {};
       if (contactName) contact.name = contactName;
       if (contactPhone) contact.phone = contactPhone;
 
-      const payload: AddGig = {
+      const payload: IGigBase = {
         name,
+        isArchived: false,
       };
 
       if (street || city || state || zip) payload.address = address;

@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { AddGig } from '../types/Gig';
+import { IGig, IGigBase } from '../interfaces/IGig.interface';
 
 const endpoint = process.env.API_ENDPOINT;
 
@@ -25,10 +25,22 @@ export const getGigNames = async (): Promise<AxiosResponse> => {
   return await axios(config);
 };
 
-export const addGig = async (payload: AddGig): Promise<AxiosResponse> => {
+export const addGig = async (payload: IGigBase): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
     url: `${endpoint}/gigs`,
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: payload,
+  };
+  return await axios(config);
+};
+
+export const updateGig = async (payload: IGig) => {
+  const config: AxiosRequestConfig = {
+    url: `${endpoint}/gigs`,
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },

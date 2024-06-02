@@ -5,7 +5,6 @@ import BottomNav from '../../components/dashboard/BottomNav';
 import Button from '../../components/ui/Button';
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import Select from '../../components/forms/Select';
-import { GigName } from '../../types/Gig';
 import { AxiosError } from 'axios';
 import { notify } from '../../utils/toastify';
 import dayjs from 'dayjs';
@@ -17,7 +16,9 @@ import TextArea from '../../components/forms/TextArea';
 import { addShift } from '../../services/shiftServices';
 
 const ShiftForm: FC = (): JSX.Element => {
-  const [gigOptions, setGigOptions] = useState<GigName[] | undefined>();
+  const [gigOptions, setGigOptions] = useState<
+    { [key: string]: string }[] | undefined
+  >();
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
 
@@ -78,7 +79,7 @@ const ShiftForm: FC = (): JSX.Element => {
     if (loaderData instanceof AxiosError)
       notify(loaderData.response?.data.message);
     else {
-      setGigOptions(loaderData as GigName[]);
+      setGigOptions(loaderData as { [key: string]: string }[]);
     }
   }, [loaderData]);
 

@@ -1,7 +1,21 @@
 .container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: start;
   gap: 25px;
   padding: 20px;
   width: 100%;
+}
+
+@media (min-width: 650px) {
+  .container {
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    justify-content: flex-start;
+  }
 }

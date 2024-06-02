@@ -65,4 +65,5 @@
 .expandAccordianContainer {
   height: 100px;
   overflow-y: auto;
+  scrollbar-width: thin;
 }
