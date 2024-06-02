@@ -8,13 +8,14 @@ import Select from '../../components/forms/Select';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { notify } from '../../utils/toastify';
 import { AxiosError } from 'axios';
-import { GigName } from '../../types/Gig';
 import useInput from '../../hooks/useInput';
 import dayjs from 'dayjs';
 import { addIncome } from '../../services/incomeServices';
 
 const IncomeForm: FC = (): JSX.Element => {
-  const [gigOptions, setGigOptions] = useState<GigName[] | undefined>();
+  const [gigOptions, setGigOptions] = useState<
+    { [key: string]: string }[] | undefined
+  >();
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ const IncomeForm: FC = (): JSX.Element => {
     if (loaderData instanceof AxiosError) {
       notify(loaderData.response?.data.message, 'error', 'gignames-error');
     } else {
-      setGigOptions(loaderData as GigName[]);
+      setGigOptions(loaderData as { [key: string]: string }[]);
     }
   }, [loaderData]);
 
