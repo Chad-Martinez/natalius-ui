@@ -6,7 +6,7 @@ import {
   faPhone,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CardContentItem from '../../../components/ui/Card/CardContentItem';
 import CardContentAccordian from '../../../components/ui/Card/CardContentAccordian';
 import ShiftsList from './ShiftsList';
@@ -20,8 +20,10 @@ import { IHTMLDialogElement } from '../../../interfaces/IHTMLDialog.interface';
 
 export const ButtonContext = createContext<{
   handleModal: () => void;
+  handleEdit: () => void;
 }>({
   handleModal: () => {},
+  handleEdit: () => {},
 });
 
 const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
@@ -29,6 +31,7 @@ const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
   archiveGig,
 }): JSX.Element => {
   const { fullAddress, contact, name, shifts } = gig;
+  const navigate = useNavigate();
   const dialogRef = useRef<IHTMLDialogElement | null>(null);
 
   const handleModal = (): void => {
@@ -44,9 +47,13 @@ const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
     archiveGig(payload);
   };
 
+  const handleEdit = () => {
+    navigate('gig-form', { state: { gig } });
+  };
+
   return (
     <>
-      <ButtonContext.Provider value={{ handleModal }}>
+      <ButtonContext.Provider value={{ handleModal, handleEdit }}>
         <Modal ref={dialogRef} title='Archive Gig?' onConfirm={handleArchive} />
 
         <Card addedStyles={{ maxWidth: '607.5px' }}>

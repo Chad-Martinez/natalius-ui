@@ -9,10 +9,14 @@ import styles from './EditDeleteBtnGroup.module.css';
 import { ButtonContext } from '../../pages/Gigs/components/GigItem';
 
 const EditDeleteBtnGroup: FC = (): JSX.Element => {
-  const { handleModal } = useContext(ButtonContext);
+  const { handleModal, handleEdit } = useContext(ButtonContext);
   return (
     <div className={styles.iconGroup}>
-      <FontAwesomeIcon className={styles.faIcon} icon={faPencil} />
+      <FontAwesomeIcon
+        className={styles.faIcon}
+        icon={faPencil}
+        onClick={handleEdit}
+      />
       <FontAwesomeIcon
         className={styles.faIcon}
         icon={faBoxArchive}
