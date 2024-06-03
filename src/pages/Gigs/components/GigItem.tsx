@@ -1,8 +1,10 @@
 import { FC, useRef } from 'react';
 import styles from './GigItem.module.css';
 import {
+  faBoxArchive,
   faClock,
   faLocationDot,
+  faPencil,
   faPhone,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
@@ -17,6 +19,7 @@ import CardContent from '../../../components/ui/Card/CardContent';
 import Modal from '../../../components/ui/Modal/Modal';
 import { IGig } from '../../../interfaces/IGig.interface';
 import { IHTMLDialogElement } from '../../../interfaces/IHTMLDialog.interface';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
   gig,
@@ -47,7 +50,18 @@ const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
     <>
       <Modal ref={dialogRef} title='Archive Gig?' onConfirm={handleArchive} />
       <Card addedStyles={{ maxWidth: '607.5px' }}>
-        <CardHeader text={name} onEdit={handleEdit} onDelete={openModal} />
+        <CardHeader text={name}>
+          <FontAwesomeIcon
+            className={styles.faIcon}
+            icon={faPencil}
+            onClick={handleEdit}
+          />
+          <FontAwesomeIcon
+            className={styles.faIcon}
+            icon={faBoxArchive}
+            onClick={openModal}
+          />
+        </CardHeader>
         <CardContent>
           {contact?.name && (
             <CardContentItem text={contact.name} icon={faUser} />

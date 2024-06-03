@@ -7,9 +7,3 @@
   font-weight: 300;
   font-size: 1rem;
 }
-
-.shiftListItem {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
