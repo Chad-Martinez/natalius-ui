@@ -1,0 +1,35 @@
+.shiftListItem {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.iconGroup {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  font-size: 1rem;
+}
+
+.faIcon:hover,
+.faIcon:active {
+  animation: wiggle 0.25s ease 1;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  25% {
+    transform: rotateZ(20deg);
+  }
+  50% {
+    transform: rotateZ(0deg);
+  }
+  75% {
+    transform: rotateZ(-20deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
+  }
+}

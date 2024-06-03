@@ -1,11 +1,12 @@
 import { FC, useRef } from 'react';
 import dayjs from 'dayjs';
-import styles from './ShiftsList.module.css';
-import EditDeleteBtnGroup from '../../../components/ui/EditDeleteBtnGroup';
+import styles from './ShiftListItem.module.css';
 import Modal from '../../../components/ui/Modal/Modal';
 import { IHTMLDialogElement } from '../../../interfaces/IHTMLDialog.interface';
 import { IShift } from '../../../interfaces/IShift.interface';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const ShiftListItem: FC<{
   shift: IShift;
@@ -47,8 +48,17 @@ const ShiftListItem: FC<{
           {dayjs(shift.start).format('h:mma')} -{' '}
           {dayjs(shift.end).format('h:mma')}
         </div>
-        <div>
-          {<EditDeleteBtnGroup onEdit={handleEdit} onDelete={openModal} />}
+        <div className={styles.iconGroup}>
+          <FontAwesomeIcon
+            className={styles.faIcon}
+            icon={faPencil}
+            onClick={handleEdit}
+          />
+          <FontAwesomeIcon
+            className={styles.faIcon}
+            icon={faTrashCan}
+            onClick={openModal}
+          />
         </div>
       </div>
     </>
