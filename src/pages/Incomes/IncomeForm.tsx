@@ -11,21 +11,38 @@ import { AxiosError } from 'axios';
 import useInput from '../../hooks/useInput';
 import dayjs from 'dayjs';
 import { addIncome } from '../../services/incomeServices';
+import { IShift } from '../../interfaces/IShift.interface';
+import { getShiftsByGig } from '../../services/shiftServices';
+import { IIncomeBase } from '../../interfaces/IIncome.interface';
 
 const IncomeForm: FC = (): JSX.Element => {
   const [gigOptions, setGigOptions] = useState<
     { [key: string]: string }[] | undefined
   >();
+  const [shiftOptions, setShiftOPtions] = useState<
+    { _id: string; name: string }[]
+  >([]);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
   const navigate = useNavigate();
   const loaderData = useLoaderData();
+
+  console.log('shift options: ', shiftOptions);
+
   const {
     value: gigId,
     isValid: gigIdIsValid,
     hasError: gigIdHasError,
     valueChangeHandler: gigIdChangeHandler,
     inputBlurHandler: gigIdBlurHandler,
+  } = useInput((v) => v !== '');
+
+  const {
+    value: shiftId,
+    isValid: shiftIdIsValid,
+    hasError: shiftIdHasError,
+    valueChangeHandler: shiftIdChangeHandler,
+    inputBlurHandler: shiftIdBlurHandler,
   } = useInput((v) => v !== '');
 
   const {
@@ -60,13 +77,47 @@ const IncomeForm: FC = (): JSX.Element => {
     }
   }, [loaderData]);
 
+  useEffect(() => {
+    (async () => {
+      if (gigId !== '') {
+        try {
+          const { data } = await getShiftsByGig(gigId);
+          const options = data.map((shift: IShift) => {
+            return {
+              _id: shift._id,
+              name: dayjs(shift.start).format('dddd: MMMM D, YYYY'),
+            };
+          });
+          setShiftOPtions(options);
+        } catch (error) {
+          console.error('Get Shifts Error: ', error);
+          if (error instanceof AxiosError)
+            notify(error.response?.data.message, 'error', 'get-shifts-error');
+        }
+      }
+    })();
+  }, [gigId]);
+
   const handleCancel = () => {
     navigate(-1);
   };
   const handleSubmit = async () => {
     setIsTransmitting(true);
     try {
-      await addIncome({ gigId, date, amount, type });
+      const payload: IIncomeBase = {
+        gigId,
+        date,
+        amount,
+        type,
+      };
+      if (shiftId) {
+        payload.shiftId = shiftId;
+        const shiftDate = shiftOptions.find((option) => option._id === shiftId);
+        console.log('shift date ', shiftDate);
+        if (shiftDate) payload.date = shiftDate?.name;
+      }
+      console.log('payload ', payload);
+      await addIncome(payload);
       notify('Income added', 'success', 'add-income-success');
       navigate(-1);
     } catch (error) {
@@ -79,8 +130,22 @@ const IncomeForm: FC = (): JSX.Element => {
   };
 
   useEffect(() => {
-    setIsFormValid(gigIdIsValid && dateIsValid && amountIsValid && typeIsValid);
-  }, [gigIdIsValid, dateIsValid, amountIsValid, typeIsValid]);
+    if (shiftOptions.length > 0)
+      setIsFormValid(
+        gigIdIsValid && shiftIdIsValid && amountIsValid && typeIsValid
+      );
+    else
+      setIsFormValid(
+        gigIdIsValid && dateIsValid && amountIsValid && typeIsValid
+      );
+  }, [
+    gigIdIsValid,
+    shiftIdIsValid,
+    dateIsValid,
+    amountIsValid,
+    typeIsValid,
+    shiftOptions.length,
+  ]);
 
   return (
     <div className={styles.container}>
@@ -99,16 +164,28 @@ const IncomeForm: FC = (): JSX.Element => {
             handleChange={gigIdChangeHandler}
             handleBlur={gigIdBlurHandler}
           />
-
-          <Input
-            name='date'
-            type='date'
-            value={date}
-            hasError={dateHasError}
-            errorMessage='Date required'
-            handleChange={dateChangeHandler}
-            handleBlur={dateBlurHandler}
-          />
+          {shiftOptions.length > 0 ? (
+            <Select
+              name='shift'
+              defaultOptionName='Shift'
+              options={shiftOptions}
+              value={shiftId}
+              hasError={shiftIdHasError}
+              errorMessage='Shift required'
+              handleChange={shiftIdChangeHandler}
+              handleBlur={shiftIdBlurHandler}
+            />
+          ) : (
+            <Input
+              name='date'
+              type='date'
+              value={date}
+              hasError={dateHasError}
+              errorMessage='Date required'
+              handleChange={dateChangeHandler}
+              handleBlur={dateBlurHandler}
+            />
+          )}
           <Input
             id='amount'
             name='amount'
