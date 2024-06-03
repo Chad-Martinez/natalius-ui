@@ -34,7 +34,6 @@ const ShiftForm: FC = (): JSX.Element => {
   const location = useLocation();
 
   const shift: IShift = location.state?.shift;
-  console.log('Shift state ', shift);
 
   const { value: gigId, valueChangeHandler: gigIdChangeHandler } = useInput(
     (v) => v !== '',
@@ -90,9 +89,7 @@ const ShiftForm: FC = (): JSX.Element => {
           ...payload,
           _id: shift._id,
         };
-        console.log('updated shift ', updatedShift);
-        const response = await updateShift(updatedShift);
-        console.log('response ', response);
+        await updateShift(updatedShift);
         notify('Shift updated', 'success', 'update-shift-success');
       } else {
         await addShift(payload);

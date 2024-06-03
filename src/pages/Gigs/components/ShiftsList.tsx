@@ -16,8 +16,7 @@ const ShiftsList: FC<{ shiftData: IShift[] }> = ({
     gigId: IShift['gigId'];
   }) => {
     try {
-      const response = await deleteShift(payload);
-      console.log('resposne ', response);
+      await deleteShift(payload);
       const filteredShifts = shifts.filter(
         (shift) => shift._id !== payload.shiftId
       );
