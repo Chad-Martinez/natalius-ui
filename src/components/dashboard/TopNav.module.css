@@ -1,18 +1,16 @@
 .nav {
-    position: sticky;
-    top: 0;
-    height: 60px;
-    background-color: var(--color-dark-grey);
+  position: sticky;
+  top: 0;
+  height: 60px;
+  background-color: var(--color-dark-grey);
 }
 
 .navContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    height: 100%
-}
-
-.navContainer h2 {
-    text-transform: capitalize;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  height: 100%;
+  letter-spacing: 0.09rem;
+  text-transform: capitalize;
 }

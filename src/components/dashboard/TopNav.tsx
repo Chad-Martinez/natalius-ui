@@ -8,7 +8,7 @@ const TopNav: FC<{ title: string }> = ({ title }): JSX.Element => {
     <div className={styles.nav}>
       <div className={styles.navContainer}>
         <Logo addedStyles={{ width: '40px', margin: '0px' }} />
-        <h2>{title}</h2>
+        <h1>{title}</h1>
         <Menu />
       </div>
     </div>
