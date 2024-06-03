@@ -3,6 +3,19 @@ import { IShift, IShiftBase } from '../interfaces/IShift.interface';
 
 const endpoint = process.env.API_ENDPOINT;
 
+export const getShiftsByGig = async (
+  gigId: IShift['gigId']
+): Promise<AxiosResponse> => {
+  const config: AxiosRequestConfig = {
+    url: `${endpoint}/shifts/gig/${gigId}`,
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  return await axios(config);
+};
+
 export const addShift = async (payload: IShiftBase): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
     url: `${endpoint}/shifts`,
