@@ -7,16 +7,19 @@ import Input from '../../components/forms/Input';
 import useInput from '../../hooks/useInput';
 import Select from '../../components/forms/Select';
 import { US_STATES } from '../../utils/states';
-import { addGig } from '../../services/gigsServices';
+import { addGig, updateGig } from '../../services/gigsServices';
 import { notify } from '../../utils/toastify';
 import { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { IGigBase } from '../../interfaces/IGig.interface';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { IGig, IGigBase } from '../../interfaces/IGig.interface';
 
 const GigForm: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const gig: IGig = location.state?.gig;
 
   const {
     value: name,
@@ -24,18 +27,21 @@ const GigForm: FC = (): JSX.Element => {
     hasError: nameHasError,
     valueChangeHandler: nameChangeHandler,
     inputBlurHandler: nameBlurHandler,
-  } = useInput((v) => v !== '');
+  } = useInput((v) => v !== '', gig ? gig.name : '');
 
   const { value: street, valueChangeHandler: streetChangeHandler } = useInput(
-    (v) => v !== ''
+    (v) => v !== '',
+    gig ? gig.address?.street : ''
   );
 
   const { value: city, valueChangeHandler: cityChangeHandler } = useInput(
-    (v) => v !== ''
+    (v) => v !== '',
+    gig ? gig.address?.city : ''
   );
 
   const { value: state, valueChangeHandler: stateChangeHandler } = useInput(
-    (v) => v !== ''
+    (v) => v !== '',
+    gig ? gig.address?.state : ''
   );
 
   const {
@@ -44,10 +50,13 @@ const GigForm: FC = (): JSX.Element => {
     hasError: zipHasError,
     valueChangeHandler: zipChangeHandler,
     inputBlurHandler: zipBlurHandler,
-  } = useInput((v) => v === '' || (!isNaN(+v) && v.length === 5));
+  } = useInput(
+    (v) => v === '' || (!isNaN(+v) && v.length === 5),
+    gig ? gig.address?.zip?.toString() : ''
+  );
 
   const { value: contactName, valueChangeHandler: contactNameChangeHandler } =
-    useInput((v) => v !== '');
+    useInput((v) => v !== '', gig ? gig.contact?.name : '');
 
   const {
     value: contactPhone,
@@ -55,7 +64,10 @@ const GigForm: FC = (): JSX.Element => {
     hasError: contactPhoneHasError,
     valueChangeHandler: contactPhoneChangeHandler,
     inputBlurHandler: contactPhoneBlurHandler,
-  } = useInput((v) => v === '' || /\d{3}-\d{3}-\d{4}/.test(v));
+  } = useInput(
+    (v) => v === '' || /\d{3}-\d{3}-\d{4}/.test(v),
+    gig ? gig.contact?.phone : ''
+  );
 
   const {
     value: distance,
@@ -63,7 +75,7 @@ const GigForm: FC = (): JSX.Element => {
     hasError: distanceHasError,
     valueChangeHandler: distanceChangeHandler,
     inputBlurHandler: distanceBlurHandler,
-  } = useInput((v) => +v >= 1 || v === '');
+  } = useInput((v) => +v >= 1 || v === '', gig ? gig.distance?.toString() : '');
 
   const handleCancel = () => {
     navigate(-1);
@@ -90,13 +102,22 @@ const GigForm: FC = (): JSX.Element => {
       if (contactName || contactPhone) payload.contact = contact;
       if (distance) payload.distance = +distance;
 
-      await addGig(payload);
-      notify('Gig added', 'success', 'add-gig-success');
+      if (gig) {
+        const updatedGig: IGig = {
+          ...payload,
+          _id: gig._id,
+        };
+        await updateGig(updatedGig);
+        notify('Gig updated', 'success', 'update-gig-sucess');
+      } else {
+        await addGig(payload);
+        notify('Gig added', 'success', 'add-gig-success');
+      }
       navigate(-1);
     } catch (error) {
       console.error('Gig Form Error: ', error);
       if (error instanceof AxiosError)
-        notify(error.response?.data.message, 'error', 'add-gig-error');
+        notify(error.response?.data.message, 'error', 'gig-form-error');
     } finally {
       setIsTransmitting(false);
     }
@@ -112,7 +133,7 @@ const GigForm: FC = (): JSX.Element => {
     <div className={styles.container}>
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
-          <h3 className={formStyles.title}>Add a Gig</h3>
+          <h3 className={formStyles.title}>{gig ? 'Edit' : 'Add'} Gig</h3>
           <Input
             placeholder='Gig Name*'
             value={name}

@@ -14,6 +14,9 @@ const Modal = forwardRef((props: ModalProps, ref) => {
       openModal() {
         modalRef.current?.showModal();
       },
+      closeModal() {
+        modalRef.current?.close();
+      },
     };
   });
 

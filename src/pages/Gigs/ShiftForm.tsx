@@ -3,7 +3,12 @@ import styles from '../PageWrapper.module.css';
 import formStyles from '../../components/forms/FormComponents.module.css';
 import BottomNav from '../../components/dashboard/BottomNav';
 import Button from '../../components/ui/Button';
-import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
+import {
+  useLoaderData,
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import Select from '../../components/forms/Select';
 import { AxiosError } from 'axios';
 import { notify } from '../../utils/toastify';
@@ -13,7 +18,8 @@ import Input from '../../components/forms/Input';
 import FormGroup from '../../components/forms/FormGroup';
 import Label from '../../components/forms/Label';
 import TextArea from '../../components/forms/TextArea';
-import { addShift } from '../../services/shiftServices';
+import { addShift, updateShift } from '../../services/shiftServices';
+import { IShift, IShiftBase } from '../../interfaces/IShift.interface';
 
 const ShiftForm: FC = (): JSX.Element => {
   const [gigOptions, setGigOptions] = useState<
@@ -25,6 +31,9 @@ const ShiftForm: FC = (): JSX.Element => {
   const { gig } = useParams();
   const loaderData = useLoaderData();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const shift: IShift = location.state?.shift;
 
   const { value: gigId, valueChangeHandler: gigIdChangeHandler } = useInput(
     (v) => v !== '',
@@ -37,7 +46,12 @@ const ShiftForm: FC = (): JSX.Element => {
     hasError: startHasError,
     valueChangeHandler: startChangeHandler,
     inputBlurHandler: startBlurHandler,
-  } = useInput((v) => dayjs(v).isValid(), dayjs().format('YYYY-MM-DDTHH:mm'));
+  } = useInput(
+    (v) => dayjs(v).isValid(),
+    shift
+      ? dayjs(shift.start).format('YYYY-MM-DDTHH:mm')
+      : dayjs().format('YYYY-MM-DDTHH:mm')
+  );
 
   const {
     value: end,
@@ -47,11 +61,14 @@ const ShiftForm: FC = (): JSX.Element => {
     inputBlurHandler: endBlurHandler,
   } = useInput(
     (v) => dayjs(v).isValid(),
-    dayjs().add(4, 'hour').format('YYYY-MM-DDTHH:mm')
+    shift
+      ? dayjs(shift.end).format('YYYY-MM-DDTHH:mm')
+      : dayjs().add(4, 'hour').format('YYYY-MM-DDTHH:mm')
   );
 
   const { value: notes, valueChangeHandler: notesChangeHandler } = useInput(
-    (v) => v !== ''
+    (v) => v !== '',
+    shift ? shift.notes : ''
   );
 
   const handleCancel = (): void => {
@@ -60,8 +77,25 @@ const ShiftForm: FC = (): JSX.Element => {
   const handleSubmit = async (): Promise<void> => {
     setIsTransmitting(true);
     try {
-      await addShift({ gigId, start, end, notes });
-      notify('Shift added', 'success', 'add-shift-success');
+      const payload: IShiftBase = {
+        gigId,
+        start,
+        end,
+        notes,
+      };
+
+      if (shift) {
+        const updatedShift: IShift = {
+          ...payload,
+          _id: shift._id,
+        };
+        await updateShift(updatedShift);
+        notify('Shift updated', 'success', 'update-shift-success');
+      } else {
+        await addShift(payload);
+        notify('Shift added', 'success', 'add-shift-success');
+      }
+      navigate(-1);
     } catch (error) {
       console.error('Shift Form Error: ', error);
       if (error instanceof AxiosError)

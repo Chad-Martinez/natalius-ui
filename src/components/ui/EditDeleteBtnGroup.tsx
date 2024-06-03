@@ -1,22 +1,28 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBoxArchive,
   faPencil,
-  // faTrashCan,
+  faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './EditDeleteBtnGroup.module.css';
-import { ButtonContext } from '../../pages/Gigs/components/GigItem';
 
-const EditDeleteBtnGroup: FC = (): JSX.Element => {
-  const { handleModal } = useContext(ButtonContext);
+const EditDeleteBtnGroup: FC<{
+  archiveBtn?: boolean;
+  onEdit: () => void;
+  onDelete: () => void;
+}> = ({ archiveBtn = false, onEdit, onDelete }): JSX.Element => {
   return (
     <div className={styles.iconGroup}>
-      <FontAwesomeIcon className={styles.faIcon} icon={faPencil} />
       <FontAwesomeIcon
         className={styles.faIcon}
-        icon={faBoxArchive}
-        onClick={handleModal}
+        icon={faPencil}
+        onClick={onEdit}
+      />
+      <FontAwesomeIcon
+        className={styles.faIcon}
+        icon={archiveBtn ? faBoxArchive : faTrashCan}
+        onClick={onDelete}
       />
     </div>
   );

@@ -1,4 +1,4 @@
-import { Shift } from '../types/Shift';
+import { IShift } from './IShift.interface';
 
 export interface IGigBase {
   address?: {
@@ -19,5 +19,5 @@ export interface IGigBase {
 export interface IGig extends IGigBase {
   _id: string;
   fullAddress?: string;
-  shifts?: Shift[];
+  shifts?: IShift[];
 }
