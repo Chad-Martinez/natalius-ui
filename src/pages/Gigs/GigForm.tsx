@@ -18,7 +18,8 @@ const GigForm: FC = (): JSX.Element => {
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const gig: IGig = location.state.gig;
+
+  const gig: IGig = location.state?.gig;
 
   const {
     value: name,
@@ -108,12 +109,11 @@ const GigForm: FC = (): JSX.Element => {
         };
         await updateGig(updatedGig);
         notify('Gig updated', 'success', 'update-gig-sucess');
-        navigate(-1);
       } else {
         await addGig(payload);
         notify('Gig added', 'success', 'add-gig-success');
-        navigate(-1);
       }
+      navigate(-1);
     } catch (error) {
       console.error('Gig Form Error: ', error);
       if (error instanceof AxiosError)
