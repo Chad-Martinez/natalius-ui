@@ -1,13 +1,11 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { IIncomeBase } from '../interfaces/IIncome.interface';
 
 const endpoint = process.env.API_ENDPOINT;
 
-export const addIncome = async (payload: {
-  gigId: string;
-  date: string;
-  amount: string;
-  type: string;
-}): Promise<AxiosResponse> => {
+export const addIncome = async (
+  payload: IIncomeBase
+): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
     url: `${endpoint}/income`,
     method: 'POST',
