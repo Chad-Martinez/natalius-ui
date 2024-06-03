@@ -3,6 +3,7 @@ import styles from './GigItem.module.css';
 import {
   faBoxArchive,
   faClock,
+  faInbox,
   faLocationDot,
   faPencil,
   faPhone,
@@ -36,10 +37,11 @@ const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
   const handleArchive = (): void => {
     const payload: IGig = {
       _id: gig._id,
-      isArchived: true,
+      isArchived: !gig.isArchived,
       name: gig.name,
     };
     archiveGig(payload);
+    dialogRef.current?.closeModal();
   };
 
   const handleEdit = () => {
@@ -48,7 +50,11 @@ const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
 
   return (
     <>
-      <Modal ref={dialogRef} title='Archive Gig?' onConfirm={handleArchive} />
+      <Modal
+        ref={dialogRef}
+        title={gig.isArchived ? 'Activate Gig?' : 'Archive Gig?'}
+        onConfirm={handleArchive}
+      />
       <Card addedStyles={{ maxWidth: '607.5px' }}>
         <CardHeader text={name}>
           <FontAwesomeIcon
@@ -58,7 +64,7 @@ const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
           />
           <FontAwesomeIcon
             className={styles.faIcon}
-            icon={faBoxArchive}
+            icon={gig.isArchived ? faInbox : faBoxArchive}
             onClick={openModal}
           />
         </CardHeader>
