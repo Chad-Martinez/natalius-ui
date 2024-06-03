@@ -27,8 +27,6 @@ const IncomeForm: FC = (): JSX.Element => {
   const navigate = useNavigate();
   const loaderData = useLoaderData();
 
-  console.log('shift options: ', shiftOptions);
-
   const {
     value: gigId,
     isValid: gigIdIsValid,
@@ -113,10 +111,8 @@ const IncomeForm: FC = (): JSX.Element => {
       if (shiftId) {
         payload.shiftId = shiftId;
         const shiftDate = shiftOptions.find((option) => option._id === shiftId);
-        console.log('shift date ', shiftDate);
         if (shiftDate) payload.date = shiftDate?.name;
       }
-      console.log('payload ', payload);
       await addIncome(payload);
       notify('Income added', 'success', 'add-income-success');
       navigate(-1);
