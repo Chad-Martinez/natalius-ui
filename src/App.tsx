@@ -5,7 +5,7 @@ import {
   Navigate,
   createBrowserRouter,
 } from 'react-router-dom';
-import { gigsLoader, gigNamesLoader } from './routes/loaders.ts';
+import { gigsLoader, gigNamesLoader } from './routes/gigLoaders.ts';
 import { AuthContext } from './store/AuthContext.tsx';
 import useRefreshToken from './hooks/useRefreshToken.tsx';
 import LandingLayout from './layouts/LandingLayout.tsx';
@@ -25,6 +25,7 @@ import Expenses from './pages/Expenses/Expenses.tsx';
 import ExpenseForm from './pages/Expenses/ExpenseForm.tsx';
 import Vendors from './pages/Vendors/Vendors.tsx';
 import VendorForm from './pages/Vendors/VendorForm.tsx';
+import { vendorsLoader } from './routes/vendorLoaders.ts';
 
 axios.defaults.withCredentials = true;
 
@@ -149,6 +150,7 @@ const App: FC = (): JSX.Element => {
         {
           path: 'expense-form',
           element: <ExpenseForm />,
+          loader: isAuth && vendorsLoader,
         },
       ],
     },
