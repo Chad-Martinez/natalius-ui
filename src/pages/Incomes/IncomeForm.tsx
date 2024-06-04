@@ -14,14 +14,11 @@ import { addIncome } from '../../services/incomeServices';
 import { IShift } from '../../interfaces/IShift.interface';
 import { getShiftsByGig } from '../../services/shiftServices';
 import { IIncomeBase } from '../../interfaces/IIncome.interface';
+import { SelectOptions } from '../../types/SelectOptions';
 
 const IncomeForm: FC = (): JSX.Element => {
-  const [gigOptions, setGigOptions] = useState<
-    { [key: string]: string }[] | undefined
-  >();
-  const [shiftOptions, setShiftOPtions] = useState<
-    { _id: string; name: string }[]
-  >([]);
+  const [gigOptions, setGigOptions] = useState<SelectOptions[]>([]);
+  const [shiftOptions, setShiftOPtions] = useState<SelectOptions[]>([]);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -74,7 +71,7 @@ const IncomeForm: FC = (): JSX.Element => {
     if (loaderData instanceof AxiosError) {
       notify(loaderData.response?.data.message, 'error', 'gignames-error');
     } else {
-      setGigOptions(loaderData as { [key: string]: string }[]);
+      setGigOptions(loaderData as SelectOptions[]);
     }
   }, [loaderData]);
 
