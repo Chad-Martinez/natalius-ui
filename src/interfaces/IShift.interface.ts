@@ -3,6 +3,7 @@ export interface IShiftBase {
   start: string;
   end: string;
   notes?: string;
+  incomeReported: boolean;
 }
 
 export interface IShift extends IShiftBase {
