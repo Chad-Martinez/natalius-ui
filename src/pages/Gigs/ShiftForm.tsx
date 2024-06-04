@@ -20,11 +20,10 @@ import Label from '../../components/forms/Label';
 import TextArea from '../../components/forms/TextArea';
 import { addShift, updateShift } from '../../services/shiftServices';
 import { IShift, IShiftBase } from '../../interfaces/IShift.interface';
+import { SelectOptions } from '../../types/SelectOptions';
 
 const ShiftForm: FC = (): JSX.Element => {
-  const [gigOptions, setGigOptions] = useState<
-    { [key: string]: string }[] | undefined
-  >();
+  const [gigOptions, setGigOptions] = useState<SelectOptions[]>([]);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
 
@@ -114,7 +113,7 @@ const ShiftForm: FC = (): JSX.Element => {
     if (loaderData instanceof AxiosError)
       notify(loaderData.response?.data.message);
     else {
-      setGigOptions(loaderData as { [key: string]: string }[]);
+      setGigOptions(loaderData as SelectOptions[]);
     }
   }, [loaderData]);
 

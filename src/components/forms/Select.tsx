@@ -1,9 +1,10 @@
 import { ChangeEvent, FC } from 'react';
 import formStyles from './FormComponents.module.css';
 import { Link } from 'react-router-dom';
+import { SelectOptions } from '../../types/SelectOptions';
 
 const Select: FC<{
-  options: { [key: string]: string }[] | undefined;
+  options: SelectOptions[] | undefined;
   name: string;
   defaultOptionName: string;
   value: string;
