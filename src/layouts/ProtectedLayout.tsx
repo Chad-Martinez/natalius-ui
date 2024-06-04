@@ -10,6 +10,9 @@ import {
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { AuthContext } from '../store/AuthContext';
 import TopNav from '../components/dashboard/TopNav';
+// import styles from './ProtectedLayout.module.css';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 export const MenuContext = createContext<{
   isOpen: boolean;
@@ -23,7 +26,6 @@ const ProtectedLayout: FC = (): JSX.Element => {
   const [title, setTitle] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { isAuth, isLoading } = useContext(AuthContext);
-
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -39,6 +41,17 @@ const ProtectedLayout: FC = (): JSX.Element => {
     <div onClick={handleToggle}>
       <MenuContext.Provider value={{ isOpen, setIsOpen }}>
         <TopNav title={title} />
+        {/* {pathname !== '/dashboard' ? (
+          <div className={styles.backContainer}>
+            <FontAwesomeIcon
+              className={styles.back}
+              icon={faArrowLeft}
+              onClick={() => navigate(-1)}
+            />
+          </div>
+        ) : (
+          ''
+        )} */}
         <Outlet />
       </MenuContext.Provider>
     </div>
