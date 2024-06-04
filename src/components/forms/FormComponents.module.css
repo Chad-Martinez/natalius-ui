@@ -6,6 +6,7 @@
   width: 100%;
   max-width: 530px;
   padding: 20px;
+  align-self: center;
 }
 
 .formLogo {
