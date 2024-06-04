@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 import { IExpenseBase } from '../../interfaces/IExpense.interface';
 import { addExpense } from '../../services/expensesService';
 import { SelectOptions } from '../../types/SelectOptions';
+import TextArea from '../../components/forms/TextArea';
 
 const ExpenseForm: FC = (): JSX.Element => {
   const [vendorOptions, setVendorOptions] = useState<SelectOptions[] | []>();
@@ -52,6 +53,10 @@ const ExpenseForm: FC = (): JSX.Element => {
     valueChangeHandler: typeChangeHandler,
     inputBlurHandler: typeBlurHandler,
   } = useInput((v) => v !== '');
+
+  const { value: notes, valueChangeHandler: notesChangeHandler } = useInput(
+    (v) => v !== ''
+  );
 
   useEffect(() => {
     if (loaderData instanceof AxiosError) {
@@ -93,6 +98,7 @@ const ExpenseForm: FC = (): JSX.Element => {
         date,
         amount: +amount,
         type,
+        notes,
       };
 
       await addExpense(payload);
@@ -164,6 +170,15 @@ const ExpenseForm: FC = (): JSX.Element => {
             errorMessage='Expense type required'
             handleChange={typeChangeHandler}
             handleBlur={typeBlurHandler}
+          />
+          <TextArea
+            value={notes}
+            placeholder='Notes...'
+            rows={10}
+            addedStyles={{
+              minHeight: '95px',
+            }}
+            handleChange={notesChangeHandler}
           />
         </form>
       </div>

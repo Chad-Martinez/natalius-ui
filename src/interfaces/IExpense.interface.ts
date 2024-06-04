@@ -3,7 +3,7 @@ export interface IExpenseBase {
   date: string;
   amount: number;
   type: string;
-  distance?: number;
+  notes?: string;
 }
 
 export interface IExpense extends IExpenseBase {
