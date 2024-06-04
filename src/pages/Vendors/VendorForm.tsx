@@ -11,6 +11,7 @@ import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { IVendorBase } from '../../interfaces/IVendor.interface';
 import { addVendor } from '../../services/vendorsServices';
+import TextArea from '../../components/forms/TextArea';
 
 const VendorForm: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -36,6 +37,10 @@ const VendorForm: FC = (): JSX.Element => {
   const { value: distance, valueChangeHandler: distanceChangeHandler } =
     useInput((v) => +v >= 1 || v === '');
 
+  const { value: notes, valueChangeHandler: notesChangeHandler } = useInput(
+    (v) => v !== ''
+  );
+
   const handleCancel = () => {
     navigate(-1);
   };
@@ -45,6 +50,7 @@ const VendorForm: FC = (): JSX.Element => {
       const payload: IVendorBase = {
         name,
         defaultType,
+        notes,
       };
       if (distance) payload.distance = +distance;
 
@@ -99,6 +105,15 @@ const VendorForm: FC = (): JSX.Element => {
             step={1}
             value={distance}
             handleChange={distanceChangeHandler}
+          />
+          <TextArea
+            value={notes}
+            placeholder='Notes...'
+            rows={10}
+            addedStyles={{
+              minHeight: '95px',
+            }}
+            handleChange={notesChangeHandler}
           />
         </form>
       </div>
