@@ -21,6 +21,10 @@ import GigForm from './pages/Gigs/GigForm.tsx';
 import ShiftForm from './pages/Gigs/ShiftForm.tsx';
 import Incomes from './pages/Incomes/Incomes.tsx';
 import IncomeForm from './pages/Incomes/IncomeForm.tsx';
+import Expenses from './pages/Expenses/Expenses.tsx';
+import ExpenseForm from './pages/Expenses/ExpenseForm.tsx';
+import Vendors from './pages/Vendors/Vendors.tsx';
+import VendorForm from './pages/Vendors/VendorForm.tsx';
 
 axios.defaults.withCredentials = true;
 
@@ -131,6 +135,34 @@ const App: FC = (): JSX.Element => {
           path: 'income-form',
           element: <IncomeForm />,
           loader: isAuth && gigNamesLoader,
+        },
+      ],
+    },
+    {
+      path: '/expenses',
+      element: <ProtectedLayout />,
+      children: [
+        {
+          index: true,
+          element: <Expenses />,
+        },
+        {
+          path: 'expense-form',
+          element: <ExpenseForm />,
+        },
+      ],
+    },
+    {
+      path: '/vendors',
+      element: <ProtectedLayout />,
+      children: [
+        {
+          index: true,
+          element: <Vendors />,
+        },
+        {
+          path: 'vendor-form',
+          element: <VendorForm />,
         },
       ],
     },
