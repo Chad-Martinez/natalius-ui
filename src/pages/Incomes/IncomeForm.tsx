@@ -5,7 +5,7 @@ import Input from '../../components/forms/Input';
 import BottomNav from '../../components/dashboard/BottomNav';
 import Button from '../../components/ui/Button';
 import Select from '../../components/forms/Select';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 import { notify } from '../../utils/toastify';
 import { AxiosError } from 'axios';
 import useInput from '../../hooks/useInput';
@@ -25,6 +25,9 @@ const IncomeForm: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const shift: IShift = location.state?.shift;
+
   const loaderData = useLoaderData();
 
   const {
@@ -33,7 +36,7 @@ const IncomeForm: FC = (): JSX.Element => {
     hasError: gigIdHasError,
     valueChangeHandler: gigIdChangeHandler,
     inputBlurHandler: gigIdBlurHandler,
-  } = useInput((v) => v !== '');
+  } = useInput((v) => v !== '', shift ? shift.gigId : '');
 
   const {
     value: shiftId,
@@ -41,7 +44,7 @@ const IncomeForm: FC = (): JSX.Element => {
     hasError: shiftIdHasError,
     valueChangeHandler: shiftIdChangeHandler,
     inputBlurHandler: shiftIdBlurHandler,
-  } = useInput((v) => v !== '');
+  } = useInput((v) => v !== '', shift ? shift._id : '');
 
   const {
     value: date,
