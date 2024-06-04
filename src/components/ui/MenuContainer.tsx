@@ -35,12 +35,12 @@ const MenuContainer: FC<{ open: boolean }> = ({ open }): JSX.Element => {
       >
         <li>Income</li>
       </NavLink>
-      {/* <NavLink
+      <NavLink
         className={({ isActive }) => (isActive ? styles.active : undefined)}
         to='/expenses'
       >
         <li>Expenses</li>
-      </NavLink> */}
+      </NavLink>
       <NavLink
         className={({ isActive }) => (isActive ? styles.active : undefined)}
         to='/gigs'
