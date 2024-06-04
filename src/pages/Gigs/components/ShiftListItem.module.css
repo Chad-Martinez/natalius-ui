@@ -11,9 +11,20 @@
   font-size: 1rem;
 }
 
+.faIconSuccess {
+  color: var(--color-success)
+}
+
 .faIcon:hover,
 .faIcon:active {
+  cursor: pointer;
   animation: wiggle 0.25s ease 1;
+}
+
+.incomeReported:hover,
+.incomeReported:active {
+  cursor: unset;
+  animation: unset;
 }
 
 @keyframes wiggle {

@@ -6,7 +6,12 @@ import { IHTMLDialogElement } from '../../../interfaces/IHTMLDialog.interface';
 import { IShift } from '../../../interfaces/IShift.interface';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import {
+  faDollarSign,
+  faPencil,
+  faSackDollar,
+  faTrashCan,
+} from '@fortawesome/free-solid-svg-icons';
 
 const ShiftListItem: FC<{
   shift: IShift;
@@ -20,6 +25,11 @@ const ShiftListItem: FC<{
 
   const handleEdit = () => {
     navigate(`shift-form/${shift.gigId}`, { state: { shift } });
+  };
+
+  const handleIncome = () => {
+    if (shift.incomeReported) return;
+    navigate('/income/income-form', { state: { shift } });
   };
 
   const openModal = (): void => {
@@ -49,6 +59,15 @@ const ShiftListItem: FC<{
           {dayjs(shift.end).format('h:mma')}
         </div>
         <div className={styles.iconGroup}>
+          <FontAwesomeIcon
+            className={`${styles.faIcon} ${
+              shift.incomeReported ? styles.faIconSuccess : ''
+            } ${shift.incomeReported ? styles.faIconSuccess : ''} ${
+              shift.incomeReported ? styles.incomeReported : ''
+            }`}
+            icon={shift.incomeReported ? faSackDollar : faDollarSign}
+            onClick={handleIncome}
+          />
           <FontAwesomeIcon
             className={styles.faIcon}
             icon={faPencil}

@@ -82,6 +82,7 @@ const ShiftForm: FC = (): JSX.Element => {
         start,
         end,
         notes,
+        incomeReported: shift.incomeReported ? shift.incomeReported : false,
       };
 
       if (shift) {
