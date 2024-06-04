@@ -11,7 +11,7 @@ const Dashboard: FC = (): JSX.Element => {
   };
 
   const handleAddExpense = () => {
-    // navigate('/expense/form');
+    navigate('/expenses/expense-form');
   };
   return (
     <div className={styles.container}>
