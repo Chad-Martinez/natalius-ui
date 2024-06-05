@@ -1,0 +1,16 @@
+.widgetContainer {
+  padding: 20px;
+  display: flex;
+}
+
+@media (min-width: 650px) {
+  .widgetContainer {
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1280px) {
+  .widgetContainer {
+    justify-content: flex-start;
+  }
+}

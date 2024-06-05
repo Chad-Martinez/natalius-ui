@@ -9,7 +9,7 @@ import {
   faPhone,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CardContentItem from '../../../components/ui/Card/CardContentItem';
 import CardContentAccordian from '../../../components/ui/Card/CardContentAccordian';
 import ShiftsList from './ShiftsList';
@@ -21,6 +21,7 @@ import Modal from '../../../components/ui/Modal/Modal';
 import { IGig } from '../../../interfaces/IGig.interface';
 import { IHTMLDialogElement } from '../../../interfaces/IHTMLDialog.interface';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import CardFooter from '../../../components/ui/Card/CardFooter';
 
 const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
   gig,
@@ -88,11 +89,14 @@ const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
             </CardContentAccordian>
           )}
         </CardContent>
-        <div className={styles.addGig}>
-          <Link className={styles.shiftLink} to={`shift-form/${gig._id}`}>
-            Add Shift
-          </Link>
-        </div>
+        {!gig.isArchived ? (
+          <CardFooter
+            linkRight={`shift-form/${gig._id}`}
+            linkRightText='Add Shift'
+          />
+        ) : (
+          ''
+        )}
       </Card>
     </>
   );
