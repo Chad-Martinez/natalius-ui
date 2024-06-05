@@ -11,12 +11,12 @@ const Vendors: FC = (): JSX.Element => {
     navigate('vendor-form');
   };
   return (
-    <div className={styles.container}>
+    <>
       <div className={styles.mainContent}>Vendors</div>
       <BottomNav>
         <Button text='Add Vendor' onClick={handleAddVendor} />
       </BottomNav>
-    </div>
+    </>
   );
 };
 

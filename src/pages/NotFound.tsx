@@ -1,6 +1,9 @@
 import { FC } from 'react';
-import { useRouteError } from 'react-router-dom';
+import { useNavigate, useRouteError } from 'react-router-dom';
 import Logo from '../components/ui/Logo/Logo';
+import styles from './NotFound.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLeftLong } from '@fortawesome/free-solid-svg-icons';
 
 type RouteError = {
   statusText: string;
@@ -9,16 +12,25 @@ type RouteError = {
 
 const NotFound: FC = (): JSX.Element => {
   const error = useRouteError() as RouteError;
+  const navigate = useNavigate();
+
   console.error('Route Error ', error);
 
   return (
-    <div id='error-page'>
-      <Logo addedStyles={{ width: '35%' }} />
+    <div id='error-page' className={styles.errorContainer}>
+      <Logo addedStyles={{ width: '25%' }} />
       <h1>Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
-      <p>
-        <i>{error.statusText || error.message}</i>
+      <p className={styles.subtitle}>
+        Sorry, the resource you're trying to access isn't responding or doesn't
+        exist.
       </p>
+      <div>
+        <FontAwesomeIcon
+          icon={faLeftLong}
+          className={styles.faIcon}
+          onClick={() => navigate(-1)}
+        />
+      </div>
     </div>
   );
 };

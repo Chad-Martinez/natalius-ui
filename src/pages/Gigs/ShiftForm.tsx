@@ -118,7 +118,7 @@ const ShiftForm: FC = (): JSX.Element => {
   }, [loaderData]);
 
   return (
-    <div className={styles.container}>
+    <>
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
           <h3 className={formStyles.title}>Add Shift</h3>
@@ -172,7 +172,7 @@ const ShiftForm: FC = (): JSX.Element => {
           onClick={handleSubmit}
         />
       </BottomNav>
-    </div>
+    </>
   );
 };
 

@@ -10,7 +10,7 @@ import {
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { AuthContext } from '../store/AuthContext';
 import TopNav from '../components/dashboard/TopNav';
-// import styles from './ProtectedLayout.module.css';
+import styles from './ProtectedLayout.module.css';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
@@ -52,7 +52,9 @@ const ProtectedLayout: FC = (): JSX.Element => {
         ) : (
           ''
         )} */}
-        <Outlet />
+        <div className={styles.container}>
+          <Outlet />
+        </div>
       </MenuContext.Provider>
     </div>
   ) : isLoading ? (

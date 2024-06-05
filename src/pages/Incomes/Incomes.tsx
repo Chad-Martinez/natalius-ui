@@ -11,12 +11,12 @@ const Incomes: FC = (): JSX.Element => {
     navigate('income-form');
   };
   return (
-    <div className={styles.container}>
+    <>
       <div className={styles.mainContent}>Income</div>
       <BottomNav>
         <Button text='Add Income' onClick={handleAddIncome} />
       </BottomNav>
-    </div>
+    </>
   );
 };
 
