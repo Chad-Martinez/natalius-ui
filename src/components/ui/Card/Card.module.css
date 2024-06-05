@@ -1,4 +1,6 @@
 .card {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   border: 3px solid var(--color-light-primary);
   border-radius: 8px;
@@ -25,6 +27,7 @@
 .cardContent {
   padding: 15px;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   gap: 10px;
   font-size: 1.3rem;
@@ -35,6 +38,11 @@
 .cardContentItem {
   display: flex;
   gap: 10px;
+}
+
+.vacantTitle {
+  text-align: center;
+  font-size: 1rem;
 }
 
 .span {
@@ -81,20 +89,39 @@
 }
 
 @keyframes wiggle {
-    0% {
-        transform: rotateZ(0deg);
-    }
-    25% {
-        transform: rotateZ(20deg);
-    }
-    50% {
-        transform: rotateZ(0deg);
-    }
-    75% {
-        transform: rotateZ(-20deg);
-    }
-    100% {
-        transform: rotateZ(0deg);
-    }
-    
+  0% {
+    transform: rotateZ(0deg);
+  }
+  25% {
+    transform: rotateZ(20deg);
+  }
+  50% {
+    transform: rotateZ(0deg);
+  }
+  75% {
+    transform: rotateZ(-20deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
+  }
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  text-align: right;
+  padding: 6px;
+}
+
+.cardFooterLink {
+  letter-spacing: 0.09rem;
+  color: var(--color-light-grey);
+  text-decoration: underline;
+  font-size: 0.9rem;
+}
+
+@media (min-width: 481px) {
+  .vacantTitle {
+    font-size: 1.3rem;
+  }
 }
