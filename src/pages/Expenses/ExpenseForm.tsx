@@ -120,7 +120,7 @@ const ExpenseForm: FC = (): JSX.Element => {
   }, [vendorIdIsValid, dateIsValid, amountIsValid, typeIsValid]);
 
   return (
-    <div className={styles.container}>
+    <>
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
           <h3 className={formStyles.title}>Add Expense</h3>
@@ -192,7 +192,7 @@ const ExpenseForm: FC = (): JSX.Element => {
           onClick={handleSubmit}
         />
       </BottomNav>
-    </div>
+    </>
   );
 };
 

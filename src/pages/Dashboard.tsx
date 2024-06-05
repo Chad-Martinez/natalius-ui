@@ -14,13 +14,13 @@ const Dashboard: FC = (): JSX.Element => {
     navigate('/expenses/expense-form');
   };
   return (
-    <div className={styles.container}>
+    <>
       <div className={styles.mainContent}></div>
       <BottomNav>
         <Button text='Add Income' onClick={handleAddIncome} />
         <Button text='Add Expense' onClick={handleAddExpense} />
       </BottomNav>
-    </div>
+    </>
   );
 };
 

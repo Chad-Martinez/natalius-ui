@@ -58,7 +58,7 @@ const Gigs: FC = (): JSX.Element => {
   const handleViewArchive = () => setViewArchive(!viewArchive);
 
   return (
-    <div className={styles.container}>
+    <>
       <div className={styles.mainContent}>
         <h2 className={styles.title}>{!viewArchive ? 'Active' : 'Archived'}</h2>
         <div className={styles.links}>
@@ -77,7 +77,7 @@ const Gigs: FC = (): JSX.Element => {
       <BottomNav>
         <Button text='Add Gig' onClick={handleAddGig} />
       </BottomNav>
-    </div>
+    </>
   );
 };
 

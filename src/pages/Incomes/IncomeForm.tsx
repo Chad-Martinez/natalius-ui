@@ -144,7 +144,7 @@ const IncomeForm: FC = (): JSX.Element => {
   ]);
 
   return (
-    <div className={styles.container}>
+    <>
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
           <h3 className={formStyles.title}>Add Income</h3>
@@ -220,7 +220,7 @@ const IncomeForm: FC = (): JSX.Element => {
           onClick={handleSubmit}
         />
       </BottomNav>
-    </div>
+    </>
   );
 };
 

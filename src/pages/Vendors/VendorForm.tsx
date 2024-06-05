@@ -72,7 +72,7 @@ const VendorForm: FC = (): JSX.Element => {
   }, [nameIsValid, defaultTypeIsValid]);
 
   return (
-    <div className={styles.container}>
+    <>
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
           <h3 className={formStyles.title}>Add Vendor</h3>
@@ -127,7 +127,7 @@ const VendorForm: FC = (): JSX.Element => {
           onClick={handleSubmit}
         />
       </BottomNav>
-    </div>
+    </>
   );
 };
 

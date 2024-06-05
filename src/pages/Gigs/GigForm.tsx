@@ -130,7 +130,7 @@ const GigForm: FC = (): JSX.Element => {
   }, [nameIsValid, zipIsValid, contactPhoneIsValid, distanceIsValid]);
 
   return (
-    <div className={styles.container}>
+    <>
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
           <h3 className={formStyles.title}>{gig ? 'Edit' : 'Add'} Gig</h3>
@@ -207,7 +207,7 @@ const GigForm: FC = (): JSX.Element => {
           onClick={handleSubmit}
         />
       </BottomNav>
-    </div>
+    </>
   );
 };
 

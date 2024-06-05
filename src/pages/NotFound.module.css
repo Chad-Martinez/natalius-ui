@@ -1,0 +1,16 @@
+.errorContainer {
+  margin: 20% 10%;
+}
+
+.subtitle {
+  margin: 30px 0px;
+}
+
+.faIcon {
+  font-size: 6rem;
+  color: var(--color-primary);
+}
+
+.faIcon:hover {
+  cursor: pointer;
+}
