@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import styles from './PageWrapper.module.css';
 import BottomNav from '../components/dashboard/BottomNav';
-import Button from '../components/ui/Button';
+import Button from '../components/ui/Button/Button';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard: FC = (): JSX.Element => {

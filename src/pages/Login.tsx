@@ -6,7 +6,7 @@ import { login } from '../services/authServices';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { notify } from '../utils/toastify';
 import Button from '../components/forms/SubmitButton';
-import Logo from '../components/ui/Logo';
+import Logo from '../components/ui/Logo/Logo';
 import { AuthContext } from '../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
 

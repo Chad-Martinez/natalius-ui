@@ -1,8 +1,8 @@
 import { FC, useContext } from 'react';
 import styles from './MenuContainer.module.css';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { logout } from '../../services/authServices';
-import { AuthContext } from '../../store/AuthContext';
+import { logout } from '../../../services/authServices';
+import { AuthContext } from '../../../store/AuthContext';
 
 const MenuContainer: FC<{ open: boolean }> = ({ open }): JSX.Element => {
   const { setIsAuth } = useContext(AuthContext);

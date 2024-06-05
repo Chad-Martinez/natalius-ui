@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styles from './Landing.module.css';
-import Logo from '../components/ui/Logo';
+import Logo from '../components/ui/Logo/Logo';
 
 const Landing: FC = () => {
   return (

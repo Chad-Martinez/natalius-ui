@@ -3,7 +3,7 @@ import styles from '../PageWrapper.module.css';
 import formStyles from '../../components/forms/FormComponents.module.css';
 import Input from '../../components/forms/Input';
 import BottomNav from '../../components/dashboard/BottomNav';
-import Button from '../../components/ui/Button';
+import Button from '../../components/ui/Button/Button';
 import Select from '../../components/forms/Select';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { notify } from '../../utils/toastify';

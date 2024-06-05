@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import logo from '../../assets/shell.png';
+import logo from '../../../assets/shell.png';
 import styles from './Logo.module.css';
 
 type Props = {
