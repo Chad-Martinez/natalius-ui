@@ -6,7 +6,7 @@ import Button from '../components/forms/SubmitButton';
 import { register } from '../services/authServices';
 import { AxiosError, AxiosResponse } from 'axios';
 import { notify } from '../utils/toastify';
-import Logo from '../components/ui/Logo';
+import Logo from '../components/ui/Logo/Logo';
 
 const Register: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);

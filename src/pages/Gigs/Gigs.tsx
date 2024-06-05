@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import GigsList from './components/GigsList';
 import BottomNav from '../../components/dashboard/BottomNav';
-import Button from '../../components/ui/Button';
+import Button from '../../components/ui/Button/Button';
 import styles from '../PageWrapper.module.css';
 import { IGig } from '../../interfaces/IGig.interface';
 import { AxiosError } from 'axios';

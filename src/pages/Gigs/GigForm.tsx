@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import styles from '../PageWrapper.module.css';
 import formStyles from '../../components/forms/FormComponents.module.css';
 import BottomNav from '../../components/dashboard/BottomNav';
-import Button from '../../components/ui/Button';
+import Button from '../../components/ui/Button/Button';
 import Input from '../../components/forms/Input';
 import useInput from '../../hooks/useInput';
 import Select from '../../components/forms/Select';

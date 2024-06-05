@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import styles from './TopNav.module.css';
-import Logo from '../ui/Logo';
-import Menu from '../ui/Menu';
+import Logo from '../ui/Logo/Logo';
+import Menu from '../ui/Menu/Menu';
 
 const TopNav: FC<{ title: string }> = ({ title }): JSX.Element => {
   return (

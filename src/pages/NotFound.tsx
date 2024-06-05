@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useRouteError } from 'react-router-dom';
-import Logo from '../components/ui/Logo';
+import Logo from '../components/ui/Logo/Logo';
 
 type RouteError = {
   statusText: string;
