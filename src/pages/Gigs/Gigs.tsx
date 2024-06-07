@@ -8,6 +8,7 @@ import { IGig } from '../../interfaces/IGig.interface';
 import { AxiosError } from 'axios';
 import { updateGig } from '../../services/gigsServices';
 import { notify } from '../../utils/toastify';
+import PageHeader from '../../components/ui/PageHeader/PageHeader';
 
 const Gigs: FC = (): JSX.Element => {
   const [gigs, setGigs] = useState<IGig[]>([]);
@@ -61,11 +62,11 @@ const Gigs: FC = (): JSX.Element => {
     <>
       <div className={styles.mainContent}>
         <h2 className={styles.title}>{!viewArchive ? 'Active' : 'Archived'}</h2>
-        <div className={styles.links}>
-          <div className={styles.link} onClick={handleViewArchive}>
-            {!viewArchive ? 'Archived Gigs' : 'Active Gigs'}
-          </div>
-        </div>
+        <PageHeader
+          linkRight=''
+          linkRightText={!viewArchive ? 'Archived Gigs' : 'Active Gigs'}
+          linkRightHandleClick={handleViewArchive}
+        />
         {gigs && !viewArchive ? (
           <GigsList gigs={gigs} archiveGig={archiveGig} />
         ) : archivedGigs && viewArchive ? (

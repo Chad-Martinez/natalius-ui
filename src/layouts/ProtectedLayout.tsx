@@ -17,14 +17,19 @@ import styles from './ProtectedLayout.module.css';
 export const MenuContext = createContext<{
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>> | ((value: boolean) => void);
+  showPopup: boolean;
+  setShowPopup: Dispatch<SetStateAction<boolean>> | ((value: boolean) => void);
 }>({
   isOpen: false,
   setIsOpen: () => {},
+  showPopup: false,
+  setShowPopup: () => {},
 });
 
 const ProtectedLayout: FC = (): JSX.Element => {
   const [title, setTitle] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
   const { isAuth, isLoading } = useContext(AuthContext);
   const { pathname } = useLocation();
 
@@ -34,12 +39,16 @@ const ProtectedLayout: FC = (): JSX.Element => {
   }, [pathname]);
 
   const handleToggle = () => {
+    console.log('clicked');
     if (isOpen) setIsOpen(false);
+    if (showPopup) setShowPopup(false);
   };
 
   return isAuth ? (
     <div onClick={handleToggle}>
-      <MenuContext.Provider value={{ isOpen, setIsOpen }}>
+      <MenuContext.Provider
+        value={{ isOpen, setIsOpen, showPopup, setShowPopup }}
+      >
         <TopNav title={title} />
         {/* {pathname !== '/dashboard' ? (
           <div className={styles.backContainer}>

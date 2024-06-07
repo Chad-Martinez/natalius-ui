@@ -26,6 +26,8 @@ import ExpenseForm from './pages/Expenses/ExpenseForm.tsx';
 import Vendors from './pages/Vendors/Vendors.tsx';
 import VendorForm from './pages/Vendors/VendorForm.tsx';
 import { vendorsLoader } from './routes/vendorLoaders.ts';
+import ViewExpenses from './pages/Expenses/ViewExpenses.tsx';
+import { paginatedExpenseLoader } from './routes/expenseLoaders.ts';
 
 axios.defaults.withCredentials = true;
 
@@ -151,6 +153,11 @@ const App: FC = (): JSX.Element => {
           path: 'expense-form',
           element: <ExpenseForm />,
           loader: isAuth && vendorsLoader,
+        },
+        {
+          path: 'view-expenses',
+          element: <ViewExpenses />,
+          loader: paginatedExpenseLoader,
         },
       ],
     },

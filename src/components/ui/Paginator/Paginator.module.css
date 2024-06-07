@@ -1,0 +1,24 @@
+.paginatorContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  color: var(--color-light-primary);
+  text-align: center;
+  font-size: 1.9rem;
+  font-weight: 300;
+}
+
+.page {
+  color: var(--color-dark-grey);
+}
+
+.faIcon:hover, .faIcon:active, .faIcon:focus-visible {
+    cursor: pointer;
+     color: var(--color-dark-primary)
+}
+
+.faIconDisabled {
+    color: #bcbcbc;
+}

@@ -8,4 +8,5 @@ export interface IExpenseBase {
 
 export interface IExpense extends IExpenseBase {
   _id: string;
+  vendor?: string;
 }
