@@ -39,7 +39,6 @@ const ProtectedLayout: FC = (): JSX.Element => {
   }, [pathname]);
 
   const handleToggle = () => {
-    console.log('clicked');
     if (isOpen) setIsOpen(false);
     if (showPopup) setShowPopup(false);
   };

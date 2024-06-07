@@ -5,22 +5,27 @@ import Input from '../../components/forms/Input';
 import BottomNav from '../../components/dashboard/BottomNav';
 import Button from '../../components/ui/Button/Button';
 import Select from '../../components/forms/Select';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 import { notify } from '../../utils/toastify';
 import { AxiosError } from 'axios';
 import useInput from '../../hooks/useInput';
 import dayjs from 'dayjs';
-import { IExpenseBase } from '../../interfaces/IExpense.interface';
-import { addExpense } from '../../services/expensesService';
+import utc from 'dayjs/plugin/utc';
+import { IExpense, IExpenseBase } from '../../interfaces/IExpense.interface';
+import { addExpense, updateExpense } from '../../services/expensesService';
 import { SelectOptions } from '../../types/SelectOptions';
 import TextArea from '../../components/forms/TextArea';
+dayjs.extend(utc);
 
 const ExpenseForm: FC = (): JSX.Element => {
   const [vendorOptions, setVendorOptions] = useState<SelectOptions[] | []>();
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
-  const navigate = useNavigate();
   const loaderData = useLoaderData();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const expense: IExpense = location.state?.expense;
 
   const {
     value: vendorId,
@@ -28,7 +33,7 @@ const ExpenseForm: FC = (): JSX.Element => {
     hasError: vendorIdHasError,
     valueChangeHandler: vendorIdChangeHandler,
     inputBlurHandler: vendorIdBlurHandler,
-  } = useInput((v) => v !== '');
+  } = useInput((v) => v !== '', expense ? expense.vendorId : '');
 
   const {
     value: date,
@@ -36,7 +41,12 @@ const ExpenseForm: FC = (): JSX.Element => {
     hasError: dateHasError,
     valueChangeHandler: dateChangeHandler,
     inputBlurHandler: dateBlurHandler,
-  } = useInput((v) => dayjs(v).isValid(), dayjs().format('YYYY-MM-DD'));
+  } = useInput(
+    (v) => dayjs(v).isValid(),
+    expense
+      ? dayjs(expense.date).utc().format('YYYY-MM-DD')
+      : dayjs().utc().format('YYYY-MM-DD')
+  );
 
   const {
     value: amount,
@@ -44,7 +54,7 @@ const ExpenseForm: FC = (): JSX.Element => {
     hasError: amountHasError,
     valueChangeHandler: amountChangeHandler,
     inputBlurHandler: amountBlurHandler,
-  } = useInput((v) => v !== '');
+  } = useInput((v) => v !== '', expense ? expense.amount.toString() : '');
 
   const {
     value: type,
@@ -52,7 +62,7 @@ const ExpenseForm: FC = (): JSX.Element => {
     hasError: typeHasError,
     valueChangeHandler: typeChangeHandler,
     inputBlurHandler: typeBlurHandler,
-  } = useInput((v) => v !== '');
+  } = useInput((v) => v !== '', expense ? expense.type : '');
 
   const { value: notes, valueChangeHandler: notesChangeHandler } = useInput(
     (v) => v !== ''
@@ -101,8 +111,20 @@ const ExpenseForm: FC = (): JSX.Element => {
         notes,
       };
 
-      await addExpense(payload);
-      notify('Expense added', 'success', 'add-expense-success');
+      if (expense) {
+        const updatedExpense: IExpense = {
+          ...payload,
+          _id: expense._id,
+        };
+        await updateExpense(updatedExpense);
+      } else {
+        await addExpense(payload);
+      }
+      notify(
+        expense ? 'Expense updated' : 'Expense added',
+        'success',
+        'add-expense-success'
+      );
       navigate(-1);
     } catch (error) {
       console.error('Expense Form Error: ', error);

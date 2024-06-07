@@ -10,11 +10,13 @@ import { notify } from '../../utils/toastify';
 import { AxiosError } from 'axios';
 import useInput from '../../hooks/useInput';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { addIncome } from '../../services/incomeServices';
 import { IShift } from '../../interfaces/IShift.interface';
 import { getShiftsByGig } from '../../services/shiftServices';
 import { IIncomeBase } from '../../interfaces/IIncome.interface';
 import { SelectOptions } from '../../types/SelectOptions';
+dayjs.extend(utc);
 
 const IncomeForm: FC = (): JSX.Element => {
   const [gigOptions, setGigOptions] = useState<SelectOptions[]>([]);
@@ -49,7 +51,7 @@ const IncomeForm: FC = (): JSX.Element => {
     hasError: dateHasError,
     valueChangeHandler: dateChangeHandler,
     inputBlurHandler: dateBlurHandler,
-  } = useInput((v) => dayjs(v).isValid(), dayjs().format('YYYY-MM-DD'));
+  } = useInput((v) => dayjs(v).isValid(), dayjs().utc().format('YYYY-MM-DD'));
 
   const {
     value: amount,
@@ -83,7 +85,7 @@ const IncomeForm: FC = (): JSX.Element => {
           const options = data.map((shift: IShift) => {
             return {
               _id: shift._id,
-              name: dayjs(shift.start).format('dddd: MMMM D, YYYY'),
+              name: dayjs(shift.start).utc().format('dddd: MMMM D, YYYY'),
             };
           });
           setShiftOPtions(options);

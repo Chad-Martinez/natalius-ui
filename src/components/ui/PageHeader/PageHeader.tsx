@@ -6,8 +6,8 @@ type PageHeaderProps = {
   linkLeft?: string;
   linkLeftText?: string;
   linkLeftHandleClick?: () => void;
-  linkRight: string;
-  linkRightText: string;
+  linkRight?: string;
+  linkRightText?: string;
   linkRightHandleClick?: () => void;
 };
 
@@ -30,7 +30,7 @@ const PageHeader: FC<PageHeaderProps> = ({
       </Link>
       <Link
         className={styles.link}
-        to={linkRight}
+        to={linkRight || ''}
         onClick={linkRightHandleClick}
       >
         {linkRightText}
