@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { IExpenseBase } from '../interfaces/IExpense.interface';
+import { IExpense, IExpenseBase } from '../interfaces/IExpense.interface';
 
 const endpoint = process.env.API_ENDPOINT;
 
@@ -27,6 +27,31 @@ export const addExpense = async (
       'Content-Type': 'application/json',
     },
     data: payload,
+  };
+  return await axios(config);
+};
+
+export const updateExpense = async (
+  payload: IExpense
+): Promise<AxiosResponse> => {
+  const config: AxiosRequestConfig = {
+    url: `${endpoint}/expenses`,
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: payload,
+  };
+  return await axios(config);
+};
+
+export const deleteExpense = async (_id: string): Promise<AxiosResponse> => {
+  const config: AxiosRequestConfig = {
+    url: `${endpoint}/expenses/${_id}`,
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   };
   return await axios(config);
 };
