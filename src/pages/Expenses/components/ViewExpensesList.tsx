@@ -10,7 +10,7 @@ type ViewExpenseProps = {
   totalPages: number;
   handlePrev: () => void;
   handleNext: () => void;
-  handleMenu: (top: number, left: number, id: string) => void;
+  handleMenu: (top: number, left: number, expense: IExpense) => void;
 };
 
 const ViewExpensesList: FC<ViewExpenseProps> = ({

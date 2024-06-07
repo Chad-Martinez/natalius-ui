@@ -3,24 +3,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, PointerEvent, SyntheticEvent } from 'react';
 import styles from '../ViewExpenses.module.css';
 import { IExpense } from '../../../interfaces/IExpense.interface';
+import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
+dayjs.extend(utc);
 
 const ViewExpensesListItem: FC<{
   expense: IExpense;
-  handleMenu: (top: number, left: number, id: string) => void;
+  handleMenu: (top: number, left: number, expense: IExpense) => void;
 }> = ({ expense, handleMenu }): JSX.Element => {
   const handleClick = (event: SyntheticEvent) => {
     event.stopPropagation();
     const e = {
       ...event,
     } as PointerEvent;
-    handleMenu(e.clientY, e.clientX, expense._id);
+    handleMenu(e.clientY, e.clientX, expense);
   };
 
   return (
     <div className={styles.listItem}>
       <div className={styles.date}>
-        {dayjs(expense.date).format('MM/DD/YY')}
+        {dayjs(expense.date).utc().format('MM/DD/YY')}
       </div>
       <div className={styles.vendor}>
         <span>{expense.vendor}</span>
