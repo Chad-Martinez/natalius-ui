@@ -7,20 +7,5 @@
 
 .title {
   margin-top: 25px;
-  letter-spacing: .10rem;
-}
-
-.links {
-  display: flex;
-  justify-content: space-between;
-  text-align: right;
-  padding: 12px 22px;
-  width: 100%;
-}
-
-.link {
-  color: var(--color-light-grey);
-  text-decoration: underline;
-  font-size: 1rem;
-  margin-left: auto;
+  letter-spacing: 0.1rem;
 }
