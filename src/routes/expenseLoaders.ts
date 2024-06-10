@@ -5,7 +5,7 @@ export const paginatedExpenseLoader = async () => {
     const { data } = await paginatedExpenses(1, 10);
     return data;
   } catch (error) {
-    console.error('Loader Error: Get Vendors ', error);
+    console.error('Loader Error: Get Expenses ', error);
     return error;
   }
 };
