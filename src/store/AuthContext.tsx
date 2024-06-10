@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {
   Dispatch,
   FC,
@@ -30,10 +29,7 @@ export const AuthProvider: FC<PropsWithChildren> = (props) => {
     setIsLoading(true);
     (async () => {
       try {
-        const accessToken = await verifyRefreshToken();
-        axios.defaults.headers.common[
-          'Authorization'
-        ] = `Bearer ${accessToken}`;
+        await verifyRefreshToken();
         setIsAuth(true);
       } catch (error) {
         console.error('Token Error ', error);

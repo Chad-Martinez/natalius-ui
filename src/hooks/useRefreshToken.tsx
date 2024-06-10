@@ -8,6 +8,7 @@ const useRefreshToken = () => {
   const verifyRefreshToken = useCallback(async () => {
     const { data } = await refresh();
     const { accessToken } = data;
+    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     sessionStorage.setItem('at', accessToken);
     return accessToken;
   }, []);
