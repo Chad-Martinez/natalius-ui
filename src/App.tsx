@@ -28,6 +28,8 @@ import VendorForm from './pages/Vendors/VendorForm.tsx';
 import { vendorsLoader } from './routes/vendorLoaders.ts';
 import ViewExpenses from './pages/Expenses/ViewExpenses.tsx';
 import { paginatedExpenseLoader } from './routes/expenseLoaders.ts';
+import ViewIncome from './pages/Incomes/ViewIncome.tsx';
+import { paginatedIncomeLoader } from './routes/incomeLoaders.ts';
 
 axios.defaults.withCredentials = true;
 
@@ -139,6 +141,11 @@ const App: FC = (): JSX.Element => {
           element: <IncomeForm />,
           loader: isAuth && gigNamesLoader,
         },
+        {
+          path: 'view-income',
+          element: <ViewIncome />,
+          loader: isAuth && paginatedIncomeLoader,
+        },
       ],
     },
     {
@@ -157,7 +164,7 @@ const App: FC = (): JSX.Element => {
         {
           path: 'view-expenses',
           element: <ViewExpenses />,
-          loader: paginatedExpenseLoader,
+          loader: isAuth && paginatedExpenseLoader,
         },
       ],
     },
