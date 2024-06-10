@@ -11,10 +11,10 @@ import { AxiosError } from 'axios';
 import useInput from '../../hooks/useInput';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { addIncome } from '../../services/incomeServices';
+import { addIncome, updateIncome } from '../../services/incomeServices';
 import { IShift } from '../../interfaces/IShift.interface';
 import { getShiftsByGig } from '../../services/shiftServices';
-import { IIncomeBase } from '../../interfaces/IIncome.interface';
+import { IIncome, IIncomeBase } from '../../interfaces/IIncome.interface';
 import { SelectOptions } from '../../types/SelectOptions';
 dayjs.extend(utc);
 
@@ -25,6 +25,7 @@ const IncomeForm: FC = (): JSX.Element => {
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const income: IIncome = location.state?.income;
   const shift: IShift = location.state?.shift;
 
   const loaderData = useLoaderData();
@@ -35,7 +36,10 @@ const IncomeForm: FC = (): JSX.Element => {
     hasError: gigIdHasError,
     valueChangeHandler: gigIdChangeHandler,
     inputBlurHandler: gigIdBlurHandler,
-  } = useInput((v) => v !== '', shift ? shift.gigId : '');
+  } = useInput(
+    (v) => v !== '',
+    income ? income.gigId : shift ? shift.gigId : ''
+  );
 
   const {
     value: shiftId,
@@ -43,7 +47,10 @@ const IncomeForm: FC = (): JSX.Element => {
     hasError: shiftIdHasError,
     valueChangeHandler: shiftIdChangeHandler,
     inputBlurHandler: shiftIdBlurHandler,
-  } = useInput((v) => v !== '', shift ? shift._id : '');
+  } = useInput(
+    (v) => v !== '',
+    income ? income.shiftId : shift ? shift._id : ''
+  );
 
   const {
     value: date,
@@ -51,7 +58,14 @@ const IncomeForm: FC = (): JSX.Element => {
     hasError: dateHasError,
     valueChangeHandler: dateChangeHandler,
     inputBlurHandler: dateBlurHandler,
-  } = useInput((v) => dayjs(v).isValid(), dayjs().utc().format('YYYY-MM-DD'));
+  } = useInput(
+    (v) => dayjs(v).isValid(),
+    income
+      ? dayjs(income.date).utc().format('YYYY-MM-DD')
+      : shift
+      ? dayjs(shift.start).utc().format('YYYY-MM-DD')
+      : dayjs().utc().format('YYYY-MM-DD')
+  );
 
   const {
     value: amount,
@@ -59,7 +73,7 @@ const IncomeForm: FC = (): JSX.Element => {
     hasError: amountHasError,
     valueChangeHandler: amountChangeHandler,
     inputBlurHandler: amountBlurHandler,
-  } = useInput((v) => v !== '');
+  } = useInput((v) => v !== '', income ? income.amount.toString() : '');
 
   const {
     value: type,
@@ -67,7 +81,7 @@ const IncomeForm: FC = (): JSX.Element => {
     hasError: typeHasError,
     valueChangeHandler: typeChangeHandler,
     inputBlurHandler: typeBlurHandler,
-  } = useInput((v) => v !== '');
+  } = useInput((v) => v !== '', income ? income.type : '');
 
   useEffect(() => {
     if (loaderData instanceof AxiosError) {
@@ -107,7 +121,7 @@ const IncomeForm: FC = (): JSX.Element => {
       const payload: IIncomeBase = {
         gigId,
         date,
-        amount,
+        amount: +amount,
         type,
       };
       if (shiftId) {
@@ -115,8 +129,20 @@ const IncomeForm: FC = (): JSX.Element => {
         const shiftDate = shiftOptions.find((option) => option._id === shiftId);
         if (shiftDate) payload.date = shiftDate?.name;
       }
-      await addIncome(payload);
-      notify('Income added', 'success', 'add-income-success');
+      if (income) {
+        const updatedIncome: IIncome = {
+          ...payload,
+          _id: income._id,
+        };
+        await updateIncome(updatedIncome);
+      } else {
+        await addIncome(payload);
+      }
+      notify(
+        income ? 'Income updated' : 'Income added',
+        'success',
+        'add-income-success'
+      );
       navigate(-1);
     } catch (error) {
       console.error('Income Form Error: ', error);
@@ -149,7 +175,9 @@ const IncomeForm: FC = (): JSX.Element => {
     <>
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
-          <h3 className={formStyles.title}>Add Income</h3>
+          <h3 className={formStyles.title}>
+            {income ? 'Edit Income' : 'Add Income'}
+          </h3>
           <Select
             name='gig'
             defaultOptionName='Gig'
