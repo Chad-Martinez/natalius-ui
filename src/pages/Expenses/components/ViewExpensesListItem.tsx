@@ -29,7 +29,7 @@ const ViewExpensesListItem: FC<{
       </div>
       <div className={styles.amount}>${expense.amount.toFixed(2)}</div>
       <div className={styles.type}>{expense.type[0]}</div>
-      <div className={styles.ellipsisMenu}>
+      <div className={styles.actions}>
         <FontAwesomeIcon icon={faEllipsisVertical} onClick={handleClick} />
       </div>
     </div>
