@@ -1,8 +1,8 @@
-import { getUpcomingShifts } from '../services/dashboardServices';
+import { getDashboardData } from '../services/dashboardServices';
 
 export const dashboardLoader = async () => {
   try {
-    const { data } = await getUpcomingShifts();
+    const { data } = await getDashboardData();
     return data;
   } catch (error) {
     console.error('Loader Error: Get Upcoming Shifts ', error);
