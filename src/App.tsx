@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect, lazy } from 'react';
 import axios from 'axios';
 import {
   RouterProvider,
@@ -8,29 +8,30 @@ import {
 import { gigsLoader, gigNamesLoader } from './routes/gigLoaders.ts';
 import { AuthContext } from './store/AuthContext.tsx';
 import useRefreshToken from './hooks/useRefreshToken.tsx';
-import LandingLayout from './layouts/LandingLayout.tsx';
-import Landing from './pages/Landing.tsx';
-import Login from './pages/Login.tsx';
-import Register from './pages/Register.tsx';
-import VerifyEmail from './pages/VerifyEmail.tsx';
-import NotFound from './pages/NotFound.tsx';
-import ProtectedLayout from './layouts/ProtectedLayout.tsx';
-import Dashboard from './pages/Dashboard/Dashboard.tsx';
-import Gigs from './pages/Gigs/Gigs.tsx';
-import GigForm from './pages/Gigs/GigForm.tsx';
-import ShiftForm from './pages/Gigs/ShiftForm.tsx';
-import Incomes from './pages/Incomes/Incomes.tsx';
-import IncomeForm from './pages/Incomes/IncomeForm.tsx';
-import Expenses from './pages/Expenses/Expenses.tsx';
-import ExpenseForm from './pages/Expenses/ExpenseForm.tsx';
-import Vendors from './pages/Vendors/Vendors.tsx';
-import VendorForm from './pages/Vendors/VendorForm.tsx';
 import { vendorsLoader } from './routes/vendorLoaders.ts';
-import ViewExpenses from './pages/Expenses/ViewExpenses.tsx';
 import { paginatedExpenseLoader } from './routes/expenseLoaders.ts';
-import ViewIncome from './pages/Incomes/ViewIncome.tsx';
 import { paginatedIncomeLoader } from './routes/incomeLoaders.ts';
 import { dashboardLoader } from './routes/dashboardLoaders.ts';
+
+const LandingLayout = lazy(() => import('./layouts/LandingLayout.tsx'));
+const Landing = lazy(() => import('./pages/Landing.tsx'));
+const Login = lazy(() => import('./pages/Login.tsx'));
+const Register = lazy(() => import('./pages/Register.tsx'));
+const VerifyEmail = lazy(() => import('./pages/VerifyEmail.tsx'));
+const NotFound = lazy(() => import('./pages/NotFound.tsx'));
+const ProtectedLayout = lazy(() => import('./layouts/ProtectedLayout.tsx'));
+const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard.tsx'));
+const Gigs = lazy(() => import('./pages/Gigs/Gigs.tsx'));
+const GigForm = lazy(() => import('./pages/Gigs/GigForm.tsx'));
+const ShiftForm = lazy(() => import('./pages/Gigs/ShiftForm.tsx'));
+const Incomes = lazy(() => import('./pages/Incomes/Incomes.tsx'));
+const IncomeForm = lazy(() => import('./pages/Incomes/IncomeForm.tsx'));
+const Expenses = lazy(() => import('./pages/Expenses/Expenses.tsx'));
+const ExpenseForm = lazy(() => import('./pages/Expenses/ExpenseForm.tsx'));
+const Vendors = lazy(() => import('./pages/Vendors/Vendors.tsx'));
+const VendorForm = lazy(() => import('./pages/Vendors/VendorForm.tsx'));
+const ViewExpenses = lazy(() => import('./pages/Expenses/ViewExpenses.tsx'));
+const ViewIncome = lazy(() => import('./pages/Incomes/ViewIncome.tsx'));
 
 axios.defaults.withCredentials = true;
 
@@ -106,7 +107,7 @@ const App: FC = (): JSX.Element => {
         {
           index: true,
           element: <Dashboard />,
-          loader: isAuth && dashboardLoader,
+          loader: dashboardLoader,
         },
       ],
     },
