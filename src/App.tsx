@@ -15,7 +15,7 @@ import Register from './pages/Register.tsx';
 import VerifyEmail from './pages/VerifyEmail.tsx';
 import NotFound from './pages/NotFound.tsx';
 import ProtectedLayout from './layouts/ProtectedLayout.tsx';
-import Dashboard from './pages/Dashboard.tsx';
+import Dashboard from './pages/Dashboard/Dashboard.tsx';
 import Gigs from './pages/Gigs/Gigs.tsx';
 import GigForm from './pages/Gigs/GigForm.tsx';
 import ShiftForm from './pages/Gigs/ShiftForm.tsx';
@@ -30,6 +30,7 @@ import ViewExpenses from './pages/Expenses/ViewExpenses.tsx';
 import { paginatedExpenseLoader } from './routes/expenseLoaders.ts';
 import ViewIncome from './pages/Incomes/ViewIncome.tsx';
 import { paginatedIncomeLoader } from './routes/incomeLoaders.ts';
+import { dashboardLoader } from './routes/dashboardLoaders.ts';
 
 axios.defaults.withCredentials = true;
 
@@ -105,6 +106,7 @@ const App: FC = (): JSX.Element => {
         {
           index: true,
           element: <Dashboard />,
+          loader: isAuth && dashboardLoader,
         },
       ],
     },
@@ -123,6 +125,11 @@ const App: FC = (): JSX.Element => {
         },
         {
           path: 'shift-form/:gig',
+          element: <ShiftForm />,
+          loader: isAuth && gigNamesLoader,
+        },
+        {
+          path: 'shift-form',
           element: <ShiftForm />,
           loader: isAuth && gigNamesLoader,
         },
