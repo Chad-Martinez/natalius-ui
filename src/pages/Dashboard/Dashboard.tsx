@@ -7,9 +7,14 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 import UpcomingShiftsWidget from './components/UpcomingShiftsWidget';
 import PageHeader from '../../components/ui/PageHeader/PageHeader';
 import { IShift } from '../../interfaces/IShift.interface';
+import GaugeWidget from './components/GaugeWidget';
 
 const Dashboard: FC = (): JSX.Element => {
-  const dashboardData = useLoaderData() as IShift[];
+  const dashboardData = useLoaderData() as {
+    upcomingShifts: IShift[];
+    ytdExpenses: number;
+    ytdIncome: number;
+  };
 
   const navigate = useNavigate();
   const handleAddIncome = () => {
@@ -24,7 +29,11 @@ const Dashboard: FC = (): JSX.Element => {
       <div className={pageStyles.mainContent}>
         <PageHeader />
         <div className={styles.widgetContainer}>
-          <UpcomingShiftsWidget shifts={dashboardData} />
+          <UpcomingShiftsWidget shifts={dashboardData?.upcomingShifts} />
+          <GaugeWidget
+            ytdIncome={dashboardData?.ytdIncome}
+            ytdExpenses={dashboardData?.ytdExpenses}
+          />
         </div>
       </div>
       <BottomNav>

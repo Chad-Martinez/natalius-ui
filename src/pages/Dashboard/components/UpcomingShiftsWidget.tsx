@@ -4,7 +4,7 @@ import CardHeader from '../../../components/ui/Card/CardHeader';
 import CardContent from '../../../components/ui/Card/CardContent';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons';
-import styles from './UpcomingShiftsWidget.module.css';
+import styles from './Widget.module.css';
 import CardFooter from '../../../components/ui/Card/CardFooter';
 import ShiftsList from '../../Gigs/components/ShiftsList';
 import { IShift } from '../../../interfaces/IShift.interface';
