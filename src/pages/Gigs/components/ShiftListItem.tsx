@@ -26,7 +26,7 @@ const ShiftListItem: FC<{
   const navigate = useNavigate();
 
   const handleEdit = () => {
-    navigate(`shift-form/${shift.gigId}`, { state: { shift } });
+    navigate(`/gigs/shift-form/${shift.gigId}`, { state: { shift } });
   };
 
   const handleIncome = () => {

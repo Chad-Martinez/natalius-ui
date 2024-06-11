@@ -106,9 +106,7 @@ const ViewIncome: FC = (): JSX.Element => {
     try {
       if (income?._id) {
         const { data } = await deleteIncome(income._id);
-        console.log('income deleted');
         const response = await paginatedIncome(currPage, 10);
-        console.log('paginated response ', response);
         setIncomes(response.data.income);
         notify(data.message, 'success', 'delete-income-success');
       }

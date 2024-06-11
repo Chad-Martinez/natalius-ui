@@ -38,7 +38,7 @@ const ShiftForm: FC = (): JSX.Element => {
 
   const { value: gigId, valueChangeHandler: gigIdChangeHandler } = useInput(
     (v) => v !== '',
-    gig
+    gig ? gig : ''
   );
 
   const {
