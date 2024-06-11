@@ -8,6 +8,7 @@ import styles from './UpcomingShiftsWidget.module.css';
 import CardFooter from '../../../components/ui/Card/CardFooter';
 import ShiftsList from '../../Gigs/components/ShiftsList';
 import { IShift } from '../../../interfaces/IShift.interface';
+import CardContentVacant from '../../../components/ui/Card/CardContentVacant';
 
 const UpcomingShiftsWidget: FC<{ shifts: IShift[] }> = ({
   shifts,
@@ -22,7 +23,11 @@ const UpcomingShiftsWidget: FC<{ shifts: IShift[] }> = ({
         <FontAwesomeIcon className={styles.faIcon} icon={faGripVertical} />
       </CardHeader>
       <CardContent>
-        {shifts.length > 0 ? <ShiftsList shiftData={shifts} /> : ''}
+        {shifts && shifts.length > 0 ? (
+          <ShiftsList shiftData={shifts} />
+        ) : (
+          <CardContentVacant title='No Scheuled Shifts' />
+        )}
       </CardContent>
       <CardFooter linkRight='/gigs/shift-form' linkRightText='Add Shift' />
     </Card>
