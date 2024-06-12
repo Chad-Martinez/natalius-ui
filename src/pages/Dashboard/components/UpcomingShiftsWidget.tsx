@@ -26,7 +26,7 @@ const UpcomingShiftsWidget: FC<{ shifts: IShift[] }> = ({
         {shifts && shifts.length > 0 ? (
           <ShiftsList shiftData={shifts} />
         ) : (
-          <CardContentVacant title='No Scheuled Shifts' />
+          <CardContentVacant title='No Scheduled Shifts' />
         )}
       </CardContent>
       <CardFooter linkRight='/gigs/shift-form' linkRightText='Add Shift' />
