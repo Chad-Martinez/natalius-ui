@@ -9,12 +9,13 @@ type Props = {
   min?: number;
   max?: number;
   step?: number;
+  disabled?: boolean;
   minLength?: number;
   maxLength?: number;
   hasError?: boolean;
   placeholder?: string;
   errorMessage?: string;
-  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   handleBlur?: () => void;
 };
 
@@ -26,6 +27,7 @@ const Input: FC<Props> = ({
   min,
   max,
   step,
+  disabled = false,
   minLength,
   maxLength,
   hasError,
@@ -44,6 +46,7 @@ const Input: FC<Props> = ({
         min={min}
         max={max}
         step={step}
+        disabled={disabled}
         minLength={minLength}
         maxLength={maxLength}
         value={value}
