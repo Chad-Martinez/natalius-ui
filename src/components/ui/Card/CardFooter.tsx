@@ -5,15 +5,32 @@ import { Link } from 'react-router-dom';
 const CardFooter: FC<{
   linkLeft?: string;
   linkLeftText?: string;
+  linkLeftHandleClick?: () => void;
   linkRight: string;
   linkRightText: string;
-}> = ({ linkLeft, linkLeftText, linkRight, linkRightText }): JSX.Element => {
+  linkRightHandleClick?: () => void;
+}> = ({
+  linkLeft,
+  linkLeftText,
+  linkLeftHandleClick,
+  linkRight,
+  linkRightText,
+  linkRightHandleClick,
+}): JSX.Element => {
   return (
     <div className={styles.cardFooter}>
-      <Link className={styles.cardFooterLink} to={linkLeft || ''}>
+      <Link
+        className={styles.cardFooterLink}
+        to={linkLeft || ''}
+        onClick={linkLeftHandleClick}
+      >
         {linkLeftText}
       </Link>
-      <Link className={styles.cardFooterLink} to={linkRight}>
+      <Link
+        className={styles.cardFooterLink}
+        to={linkRight}
+        onClick={linkRightHandleClick}
+      >
         {linkRightText}
       </Link>
     </div>

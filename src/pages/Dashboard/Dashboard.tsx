@@ -8,9 +8,12 @@ import UpcomingShiftsWidget from './components/UpcomingShiftsWidget';
 import PageHeader from '../../components/ui/PageHeader/PageHeader';
 import { IShift } from '../../interfaces/IShift.interface';
 import GaugeWidget from './components/GaugeWidget';
+import SprintGoalWidget from './components/SprintGoalWidget';
+import { ISprint } from '../../interfaces/ISprint.interface';
 
 const Dashboard: FC = (): JSX.Element => {
   const dashboardData = useLoaderData() as {
+    sprint: ISprint;
     upcomingShifts: IShift[];
     ytdExpenses: number;
     ytdIncome: number;
@@ -29,6 +32,7 @@ const Dashboard: FC = (): JSX.Element => {
       <div className={pageStyles.mainContent}>
         <PageHeader />
         <div className={styles.widgetContainer}>
+          <SprintGoalWidget sprint={dashboardData?.sprint} />
           <UpcomingShiftsWidget shifts={dashboardData?.upcomingShifts} />
           <GaugeWidget
             ytdIncome={dashboardData?.ytdIncome}

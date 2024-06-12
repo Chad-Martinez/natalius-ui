@@ -11,7 +11,7 @@ import useRefreshToken from './hooks/useRefreshToken.tsx';
 import { vendorsLoader } from './routes/vendorLoaders.ts';
 import { paginatedExpenseLoader } from './routes/expenseLoaders.ts';
 import { paginatedIncomeLoader } from './routes/incomeLoaders.ts';
-import { dashboardLoader } from './routes/dashboardLoaders.ts';
+import { dashboardLoader, sprintLoader } from './routes/dashboardLoaders.ts';
 
 const LandingLayout = lazy(() => import('./layouts/LandingLayout.tsx'));
 const Landing = lazy(() => import('./pages/Landing.tsx'));
@@ -32,6 +32,9 @@ const Vendors = lazy(() => import('./pages/Vendors/Vendors.tsx'));
 const VendorForm = lazy(() => import('./pages/Vendors/VendorForm.tsx'));
 const ViewExpenses = lazy(() => import('./pages/Expenses/ViewExpenses.tsx'));
 const ViewIncome = lazy(() => import('./pages/Incomes/ViewIncome.tsx'));
+const SprintGoalForm = lazy(
+  () => import('./pages/Dashboard/SprintGoalForm.tsx')
+);
 
 axios.defaults.withCredentials = true;
 
@@ -108,6 +111,11 @@ const App: FC = (): JSX.Element => {
           index: true,
           element: <Dashboard />,
           loader: dashboardLoader,
+        },
+        {
+          path: 'sprint-form',
+          element: <SprintGoalForm />,
+          loader: sprintLoader,
         },
       ],
     },
