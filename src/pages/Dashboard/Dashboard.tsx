@@ -5,7 +5,6 @@ import BottomNav from '../../components/dashboard/BottomNav';
 import Button from '../../components/ui/Button/Button';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import UpcomingShiftsWidget from './components/UpcomingShiftsWidget';
-import PageHeader from '../../components/ui/PageHeader/PageHeader';
 import { IShift } from '../../interfaces/IShift.interface';
 import GaugeWidget from './components/GaugeWidget';
 import SprintGoalWidget from './components/SprintGoalWidget';
@@ -30,7 +29,6 @@ const Dashboard: FC = (): JSX.Element => {
   return (
     <>
       <div className={pageStyles.mainContent}>
-        <PageHeader />
         <div className={styles.widgetContainer}>
           <SprintGoalWidget sprint={dashboardData?.sprint} />
           <UpcomingShiftsWidget shifts={dashboardData?.upcomingShifts} />
