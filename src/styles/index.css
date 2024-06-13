@@ -16,14 +16,16 @@
   --color-primary: #34c6fe;
   --color-primary-trans: hsla(197, 99%, 60%, 0.639);
   --color-dark-primary: #2ca3cc;
-  --color-light-primary: #a0e4fb;
+  --color-light-primary: #a1cedd;
   --color-success: #34fe66;
+  --color-light-success: #c9f8d5;
   --color-danger: #fe343d;
   --color-warning: #feaf34;
 }
 
 #root {
   max-width: 1280px;
+  min-width: 375px;
   margin: 0 auto;
   text-align: center;
   color: var(--color-light-grey)
