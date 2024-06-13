@@ -4,7 +4,7 @@
 
 ## By aware the backend is hosted for free so when making an initial request (like to register) it may take the api up to 60 seconds to respond.  Be patient.
 
-### Features Funcational as of 05/27/24
+### Features Funcational as of 06/13/24
 * Register - with email verification (check your junk folder - it'll be coming from natalius-noreply@somoslocos.co)
 * Login
 * Dashboard - Sprint Goal
@@ -13,6 +13,7 @@
 * Gigs Page - Shows a list of Gigs
 * Add/Edit Gig Form
 * Add/Edit Shift Form
+* Income dashboard - Averages
 * View Income List
 * Add/Edit Income Form
 * View Expenses List
