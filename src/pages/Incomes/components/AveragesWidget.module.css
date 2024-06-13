@@ -1,0 +1,12 @@
+.avgsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.avgItem {
+    width: 50%;
+    padding-bottom: 10px;
+    text-align: center;
+    letter-spacing: .07rem;
+}

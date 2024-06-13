@@ -4,7 +4,7 @@ import CardHeader from '../../../components/ui/Card/CardHeader';
 import CardContent from '../../../components/ui/Card/CardContent';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons';
-import styles from './Widget.module.css';
+import widgetStyles from '../../../styles/Widget.module.css';
 import CardFooter from '../../../components/ui/Card/CardFooter';
 import ShiftsList from '../../Gigs/components/ShiftsList';
 import { IShift } from '../../../interfaces/IShift.interface';
@@ -20,7 +20,10 @@ const UpcomingShiftsWidget: FC<{ shifts: IShift[] }> = ({
       }}
     >
       <CardHeader text={'Upcoming Shifts'}>
-        <FontAwesomeIcon className={styles.faIcon} icon={faGripVertical} />
+        <FontAwesomeIcon
+          className={widgetStyles.faIcon}
+          icon={faGripVertical}
+        />
       </CardHeader>
       <CardContent>
         {shifts && shifts.length > 0 ? (

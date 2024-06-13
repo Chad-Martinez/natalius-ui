@@ -4,7 +4,7 @@ import CardHeader from '../../../components/ui/Card/CardHeader';
 import CardContent from '../../../components/ui/Card/CardContent';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons';
-import styles from './Widget.module.css';
+import widgetStyles from '../../../styles/Widget.module.css';
 import CardFooter from '../../../components/ui/Card/CardFooter';
 import CardContentVacant from '../../../components/ui/Card/CardContentVacant';
 import Gauges from '../../../components/charts/Gauge/Gauge';
@@ -25,11 +25,14 @@ const GaugeWidget: FC<GaugeWidgetProps> = ({
       }}
     >
       <CardHeader text='Year to Date'>
-        <FontAwesomeIcon className={styles.faIcon} icon={faGripVertical} />
+        <FontAwesomeIcon
+          className={widgetStyles.faIcon}
+          icon={faGripVertical}
+        />
       </CardHeader>
       <CardContent>
         {ytdIncome || ytdExpenses ? (
-          <div className={styles.gaugeContainer}>
+          <div className={widgetStyles.gaugeContainer}>
             <Gauges title='Income' ytdValue={ytdIncome} max={60000} />
             <Gauges
               title='Expenses'
