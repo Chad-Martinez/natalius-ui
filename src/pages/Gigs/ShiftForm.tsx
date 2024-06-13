@@ -50,8 +50,8 @@ const ShiftForm: FC = (): JSX.Element => {
   } = useInput(
     (v) => dayjs(v).isValid(),
     shift
-      ? dayjs(shift.start).utc().format('YYYY-MM-DDTHH:mm')
-      : dayjs().utc().format('YYYY-MM-DDTHH:mm')
+      ? dayjs(shift.start).format('YYYY-MM-DDTHH:mm')
+      : dayjs().format('YYYY-MM-DDTHH:mm')
   );
 
   const {
@@ -63,8 +63,8 @@ const ShiftForm: FC = (): JSX.Element => {
   } = useInput(
     (v) => dayjs(v).isValid(),
     shift
-      ? dayjs(shift.end).utc().format('YYYY-MM-DDTHH:mm')
-      : dayjs().add(4, 'hour').utc().format('YYYY-MM-DDTHH:mm')
+      ? dayjs(shift.end).format('YYYY-MM-DDTHH:mm')
+      : dayjs().add(4, 'hour').format('YYYY-MM-DDTHH:mm')
   );
 
   const { value: notes, valueChangeHandler: notesChangeHandler } = useInput(

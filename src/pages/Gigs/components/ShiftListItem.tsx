@@ -1,6 +1,5 @@
 import { FC, useRef } from 'react';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import styles from './ShiftListItem.module.css';
 import Modal from '../../../components/ui/Modal/Modal';
 import { IHTMLDialogElement } from '../../../interfaces/IHTMLDialog.interface';
@@ -13,7 +12,6 @@ import {
   faSackDollar,
   faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
-dayjs.extend(utc);
 
 const ShiftListItem: FC<{
   shift: IShift;
@@ -56,9 +54,9 @@ const ShiftListItem: FC<{
       />
       <div className={styles.shiftListItem}>
         <div>
-          {dayjs(shift.start).utc().format('ddd: MMM D')} @{' '}
-          {dayjs(shift.start).utc().format('h:mma')} -{' '}
-          {dayjs(shift.end).utc().format('h:mma')}
+          {dayjs(shift.start).format('ddd: MMM D')} @{' '}
+          {dayjs(shift.start).format('h:mma')} -{' '}
+          {dayjs(shift.end).format('h:mma')}
         </div>
         <div className={styles.iconGroup}>
           <FontAwesomeIcon

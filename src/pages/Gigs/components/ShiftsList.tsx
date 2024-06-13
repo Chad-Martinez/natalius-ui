@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import ShiftListItem from './ShiftListItem';
 import styles from './ShiftsList.module.css';
 import { deleteShift } from '../../../services/shiftServices';
@@ -9,7 +9,13 @@ import { IShift } from '../../../interfaces/IShift.interface';
 const ShiftsList: FC<{ shiftData: IShift[] }> = ({
   shiftData,
 }): JSX.Element => {
-  const [shifts, setShifts] = useState<IShift[]>(shiftData);
+  const [shifts, setShifts] = useState<IShift[]>([]);
+
+  useEffect(() => {
+    if (shiftData) {
+      setShifts(shiftData);
+    }
+  }, [shiftData]);
 
   const handleDelete = async (payload: {
     shiftId: IShift['_id'];

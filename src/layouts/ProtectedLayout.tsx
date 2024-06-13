@@ -49,17 +49,6 @@ const ProtectedLayout: FC = (): JSX.Element => {
         value={{ isOpen, setIsOpen, showPopup, setShowPopup }}
       >
         <TopNav title={title} />
-        {/* {pathname !== '/dashboard' ? (
-          <div className={styles.backContainer}>
-            <FontAwesomeIcon
-              className={styles.back}
-              icon={faArrowLeft}
-              onClick={() => navigate(-1)}
-            />
-          </div>
-        ) : (
-          ''
-        )} */}
         <div className={styles.container}>
           <Outlet />
         </div>
