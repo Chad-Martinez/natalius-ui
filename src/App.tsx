@@ -10,7 +10,10 @@ import { AuthContext } from './store/AuthContext.tsx';
 import useRefreshToken from './hooks/useRefreshToken.tsx';
 import { vendorsLoader } from './routes/vendorLoaders.ts';
 import { paginatedExpenseLoader } from './routes/expenseLoaders.ts';
-import { paginatedIncomeLoader } from './routes/incomeLoaders.ts';
+import {
+  averagesLoader,
+  paginatedIncomeLoader,
+} from './routes/incomeLoaders.ts';
 import { dashboardLoader, sprintLoader } from './routes/dashboardLoaders.ts';
 
 const LandingLayout = lazy(() => import('./layouts/LandingLayout.tsx'));
@@ -151,6 +154,7 @@ const App: FC = (): JSX.Element => {
         {
           index: true,
           element: <Incomes />,
+          loader: isAuth && averagesLoader,
         },
         {
           path: 'income-form',
