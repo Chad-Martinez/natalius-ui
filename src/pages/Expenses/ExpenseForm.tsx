@@ -10,12 +10,10 @@ import { notify } from '../../utils/toastify';
 import { AxiosError } from 'axios';
 import useInput from '../../hooks/useInput';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import { IExpense, IExpenseBase } from '../../interfaces/IExpense.interface';
 import { addExpense, updateExpense } from '../../services/expensesService';
 import { SelectOptions } from '../../types/SelectOptions';
 import TextArea from '../../components/forms/TextArea';
-dayjs.extend(utc);
 
 const ExpenseForm: FC = (): JSX.Element => {
   const [vendorOptions, setVendorOptions] = useState<SelectOptions[] | []>();
@@ -26,6 +24,8 @@ const ExpenseForm: FC = (): JSX.Element => {
   const location = useLocation();
 
   const expense: IExpense = location.state?.expense;
+  const vendor: { vendorId: string; defaultType: string } =
+    location.state?.vendor;
 
   const {
     value: vendorId,
@@ -33,7 +33,10 @@ const ExpenseForm: FC = (): JSX.Element => {
     hasError: vendorIdHasError,
     valueChangeHandler: vendorIdChangeHandler,
     inputBlurHandler: vendorIdBlurHandler,
-  } = useInput((v) => v !== '', expense ? expense.vendorId : '');
+  } = useInput(
+    (v) => v !== '',
+    vendor ? vendor.vendorId : expense ? expense.vendorId : ''
+  );
 
   const {
     value: date,
@@ -44,8 +47,8 @@ const ExpenseForm: FC = (): JSX.Element => {
   } = useInput(
     (v) => dayjs(v).isValid(),
     expense
-      ? dayjs(expense.date).utc().format('YYYY-MM-DD')
-      : dayjs().utc().format('YYYY-MM-DD')
+      ? dayjs(expense.date).format('YYYY-MM-DD')
+      : dayjs().format('YYYY-MM-DD')
   );
 
   const {
@@ -62,7 +65,10 @@ const ExpenseForm: FC = (): JSX.Element => {
     hasError: typeHasError,
     valueChangeHandler: typeChangeHandler,
     inputBlurHandler: typeBlurHandler,
-  } = useInput((v) => v !== '', expense ? expense.type : '');
+  } = useInput(
+    (v) => v !== '',
+    vendor ? vendor.defaultType : expense ? expense.type : ''
+  );
 
   const { value: notes, valueChangeHandler: notesChangeHandler } = useInput(
     (v) => v !== ''
@@ -75,27 +81,6 @@ const ExpenseForm: FC = (): JSX.Element => {
       setVendorOptions(loaderData as SelectOptions[]);
     }
   }, [loaderData]);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     if (gigId !== '') {
-  //       try {
-  //         const { data } = await getShiftsByGig(gigId);
-  //         const options = data.map((shift: IShift) => {
-  //           return {
-  //             _id: shift._id,
-  //             name: dayjs(shift.start).format('dddd: MMMM D, YYYY'),
-  //           };
-  //         });
-  //         setShiftOPtions(options);
-  //       } catch (error) {
-  //         console.error('Get Shifts Error: ', error);
-  //         if (error instanceof AxiosError)
-  //           notify(error.response?.data.message, 'error', 'get-shifts-error');
-  //       }
-  //     }
-  //   })();
-  // }, [gigId]);
 
   const handleCancel = () => {
     navigate(-1);
@@ -135,6 +120,12 @@ const ExpenseForm: FC = (): JSX.Element => {
     }
   };
 
+  const handleLinkClick = () => {
+    navigate('/vendors/vendor-form', {
+      state: { from: '/expenses/expense-form' },
+    });
+  };
+
   useEffect(() => {
     setIsFormValid(
       vendorIdIsValid && dateIsValid && amountIsValid && typeIsValid
@@ -152,8 +143,8 @@ const ExpenseForm: FC = (): JSX.Element => {
             options={vendorOptions}
             value={vendorId}
             hasError={vendorIdHasError}
-            link='/vendors/vendor-form'
             linkText='Add Vendor'
+            handleLinkClick={handleLinkClick}
             errorMessage='Vendor required'
             handleChange={vendorIdChangeHandler}
             handleBlur={vendorIdBlurHandler}

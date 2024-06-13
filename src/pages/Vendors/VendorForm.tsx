@@ -8,7 +8,7 @@ import useInput from '../../hooks/useInput';
 import Select from '../../components/forms/Select';
 import { notify } from '../../utils/toastify';
 import { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { IVendorBase } from '../../interfaces/IVendor.interface';
 import { addVendor } from '../../services/vendorsServices';
 import TextArea from '../../components/forms/TextArea';
@@ -17,6 +17,7 @@ const VendorForm: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     value: name,
@@ -54,10 +55,14 @@ const VendorForm: FC = (): JSX.Element => {
       };
       if (distance) payload.distance = +distance;
 
-      await addVendor(payload);
+      const { data } = await addVendor(payload);
       notify('Vendor added', 'success', 'add-gig-success');
 
-      navigate(-1);
+      if (location.state?.from)
+        navigate('/expenses/expense-form', {
+          state: { vendor: { vendorId: data._id, defaultType } },
+        });
+      else navigate(-1);
     } catch (error) {
       console.error('Vendor Form Error: ', error);
       if (error instanceof AxiosError)
