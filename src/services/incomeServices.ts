@@ -17,9 +17,9 @@ export const paginatedIncome = async (
   return await axios(config);
 };
 
-export const getAverages = async () => {
+export const getIncomeDashboardData = async () => {
   const config: AxiosRequestConfig = {
-    url: `${endpoint}/income/averages`,
+    url: `${endpoint}/income/dashboard`,
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

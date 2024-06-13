@@ -4,11 +4,11 @@ import styles from './Dashboard.module.css';
 import BottomNav from '../../components/dashboard/BottomNav';
 import Button from '../../components/ui/Button/Button';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import UpcomingShiftsWidget from './components/UpcomingShiftsWidget';
 import { IShift } from '../../interfaces/IShift.interface';
-import GaugeWidget from './components/GaugeWidget';
-import SprintGoalWidget from './components/SprintGoalWidget';
 import { ISprint } from '../../interfaces/ISprint.interface';
+import SprintGoalWidget from '../../components/Widgets/SprintGoalWidget';
+import UpcomingShiftsWidget from '../../components/Widgets/UpcomingShiftsWidget';
+import GaugeWidget from '../../components/Widgets/GaugeWidget';
 
 const Dashboard: FC = (): JSX.Element => {
   const dashboardData = useLoaderData() as {

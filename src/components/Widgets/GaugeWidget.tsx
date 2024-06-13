@@ -1,13 +1,13 @@
 import { FC } from 'react';
-import Card from '../../../components/ui/Card/Card';
-import CardHeader from '../../../components/ui/Card/CardHeader';
-import CardContent from '../../../components/ui/Card/CardContent';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons';
-import widgetStyles from '../../../styles/Widget.module.css';
-import CardFooter from '../../../components/ui/Card/CardFooter';
-import CardContentVacant from '../../../components/ui/Card/CardContentVacant';
-import Gauges from '../../../components/charts/Gauge/Gauge';
+import widgetStyles from './Widget.module.css';
+import Card from '../ui/Card/Card';
+import CardHeader from '../ui/Card/CardHeader';
+import CardContent from '../ui/Card/CardContent';
+import Gauges from '../charts/Gauge/Gauge';
+import CardContentVacant from '../ui/Card/CardContentVacant';
+import CardFooter from '../ui/Card/CardFooter';
 
 type GaugeWidgetProps = {
   ytdIncome: number;
