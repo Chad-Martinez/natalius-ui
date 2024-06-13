@@ -13,8 +13,6 @@ import { addSprint, updateSprint } from '../../services/sprintServices';
 import { notify } from '../../utils/toastify';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
 
 const SprintGoalForm: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -32,8 +30,8 @@ const SprintGoalForm: FC = (): JSX.Element => {
   } = useInput(
     (v) => dayjs(v).isValid(),
     sprint
-      ? dayjs(sprint.start).utc().format('YYYY-MM-DD')
-      : dayjs().utc().format('YYYY-MM-DD')
+      ? dayjs(sprint.start).format('YYYY-MM-DD')
+      : dayjs().format('YYYY-MM-DD')
   );
 
   const {
