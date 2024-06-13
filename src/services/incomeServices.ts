@@ -17,6 +17,17 @@ export const paginatedIncome = async (
   return await axios(config);
 };
 
+export const getAverages = async () => {
+  const config: AxiosRequestConfig = {
+    url: `${endpoint}/income/averages`,
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  return await axios(config);
+};
+
 export const addIncome = async (
   payload: IIncomeBase
 ): Promise<AxiosResponse> => {

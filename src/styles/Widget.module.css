@@ -1,0 +1,31 @@
+.widgetContainer {
+    padding: 10px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  @media (min-width: 650px) {
+    .widgetContainer {
+      justify-content: center;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .widgetContainer {
+      justify-content: flex-start;
+    }
+  }
+
+.gaugeContainer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.faIcon {
+    font-size: 2rem;
+}
+
+.faIcon:hover {
+    cursor: grab;
+}

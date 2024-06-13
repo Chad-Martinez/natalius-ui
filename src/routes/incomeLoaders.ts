@@ -1,4 +1,4 @@
-import { paginatedIncome } from '../services/incomeServices';
+import { getAverages, paginatedIncome } from '../services/incomeServices';
 
 export const paginatedIncomeLoader = async () => {
   try {
@@ -6,6 +6,16 @@ export const paginatedIncomeLoader = async () => {
     return data;
   } catch (error) {
     console.error('Loader Error: Get Income ', error);
+    return error;
+  }
+};
+
+export const averagesLoader = async () => {
+  try {
+    const { data } = await getAverages();
+    return data;
+  } catch (error) {
+    console.error('Loader Error: Get Averages ', error);
     return error;
   }
 };

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import widgetStyles from './Widget.module.css';
+import widgetStyles from '../../../styles/Widget.module.css';
 import Card from '../../../components/ui/Card/Card';
 import CardHeader from '../../../components/ui/Card/CardHeader';
 import CardContent from '../../../components/ui/Card/CardContent';
