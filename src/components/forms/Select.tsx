@@ -12,6 +12,7 @@ const Select: FC<{
   errorMessage?: string;
   link?: string;
   linkText?: string;
+  handleLinkClick?: () => void;
   handleChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   handleBlur?: () => void;
 }> = ({
@@ -23,6 +24,7 @@ const Select: FC<{
   errorMessage,
   link,
   linkText,
+  handleLinkClick,
   handleChange,
   handleBlur,
 }): JSX.Element => {
@@ -38,7 +40,7 @@ const Select: FC<{
         <option className={formStyles.option} disabled value=''>
           Select a {defaultOptionName}
         </option>
-        {options
+        {options && options.length > 0
           ? options.map((option) => (
               <option
                 key={option._id}
@@ -51,9 +53,9 @@ const Select: FC<{
             ))
           : ''}
       </select>
-      {link && (
-        <div className={formStyles.linkContainer}>
-          <Link className={formStyles.link} to={link}>
+      {linkText && (
+        <div className={formStyles.linkContainer} onClick={handleLinkClick}>
+          <Link className={formStyles.link} to={link || ''}>
             {linkText}
           </Link>
         </div>
