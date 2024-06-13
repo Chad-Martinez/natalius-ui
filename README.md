@@ -2,6 +2,9 @@
 ## An app for independent contractors
 * Live deployment @ https://natalius.netlify.app
 
+## API Repo
+https://github.com/Chad-Martinez/natalius-api
+
 ## By aware the backend is hosted for free so when making an initial request (like to register) it may take the api up to 60 seconds to respond.  Be patient.
 
 ### Features Funcational as of 06/13/24
