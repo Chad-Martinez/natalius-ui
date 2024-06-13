@@ -39,7 +39,7 @@ const GaugeWidget: FC<GaugeWidgetProps> = ({
             />
           </div>
         ) : (
-          <CardContentVacant title='No Fianance Data Available' />
+          <CardContentVacant title='No Finance Data Available' />
         )}
       </CardContent>
       <CardFooter
