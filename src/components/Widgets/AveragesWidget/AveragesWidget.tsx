@@ -1,29 +1,24 @@
 import { FC } from 'react';
 import styles from './AveragesWidget.module.css';
-import widgetStyles from '../../../styles/Widget.module.css';
-import Card from '../../../components/ui/Card/Card';
-import CardHeader from '../../../components/ui/Card/CardHeader';
+import widgetStyles from '../Widget.module.css';
+import Card from '../../ui/Card/Card';
+import CardHeader from '../../ui/Card/CardHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons';
-import CardContent from '../../../components/ui/Card/CardContent';
-import Counter from '../../../components/ui/Counter/Counter';
-import { useLoaderData } from 'react-router-dom';
+import CardContent from '../../ui/Card/CardContent';
+import Counter from '../../ui/Counter/Counter';
+import { IncomeAverages } from '../../../types/IncomeAverages';
 
-const AveragesWidget: FC = (): JSX.Element => {
-  const avgsLoaderData = useLoaderData() as {
-    daily: number;
-    weekly: number;
-    monthly: number;
-    quarterly: number;
-    yearly: number;
-  };
+const AveragesWidget: FC<{ averages: IncomeAverages }> = ({
+  averages,
+}): JSX.Element => {
   return (
     <Card
       addedStyles={{
         maxWidth: '607.5px',
       }}
     >
-      <CardHeader text='Averages'>
+      <CardHeader text='Average Earnings'>
         <FontAwesomeIcon
           className={widgetStyles.faIcon}
           icon={faGripVertical}
@@ -34,41 +29,41 @@ const AveragesWidget: FC = (): JSX.Element => {
           <div className={styles.avgItem}>
             <Counter
               period='Daily'
-              amount={avgsLoaderData.daily}
-              interval={10}
+              amount={averages?.daily}
+              interval={5}
               skip={2}
             />
           </div>
           <div className={styles.avgItem}>
             <Counter
               period='Weekly'
-              amount={avgsLoaderData.weekly}
+              amount={averages?.weekly}
               interval={2}
-              skip={3}
+              skip={5}
             />
           </div>
           <div className={styles.avgItem}>
             <Counter
               period='Monthly'
-              amount={avgsLoaderData.monthly}
+              amount={averages?.monthly}
               interval={1}
-              skip={5}
+              skip={10}
             />
           </div>
           <div className={styles.avgItem}>
-            {avgsLoaderData.yearly ? (
+            {averages?.yearly ? (
               <Counter
                 period='Yearly'
-                amount={avgsLoaderData.yearly}
+                amount={averages?.yearly}
                 interval={1}
                 skip={25}
               />
             ) : (
               <Counter
                 period='Quarterly'
-                amount={avgsLoaderData.quarterly}
+                amount={averages?.quarterly}
                 interval={1}
-                skip={13}
+                skip={19}
               />
             )}
           </div>

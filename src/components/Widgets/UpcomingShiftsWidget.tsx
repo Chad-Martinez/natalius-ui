@@ -1,14 +1,14 @@
 import { FC } from 'react';
-import Card from '../../../components/ui/Card/Card';
-import CardHeader from '../../../components/ui/Card/CardHeader';
-import CardContent from '../../../components/ui/Card/CardContent';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons';
-import widgetStyles from '../../../styles/Widget.module.css';
-import CardFooter from '../../../components/ui/Card/CardFooter';
-import ShiftsList from '../../Gigs/components/ShiftsList';
-import { IShift } from '../../../interfaces/IShift.interface';
-import CardContentVacant from '../../../components/ui/Card/CardContentVacant';
+import widgetStyles from './Widget.module.css';
+import Card from '../ui/Card/Card';
+import CardHeader from '../ui/Card/CardHeader';
+import CardContent from '../ui/Card/CardContent';
+import CardContentVacant from '../ui/Card/CardContentVacant';
+import CardFooter from '../ui/Card/CardFooter';
+import { IShift } from '../../interfaces/IShift.interface';
+import ShiftsList from '../../pages/Gigs/components/ShiftsList';
 
 const UpcomingShiftsWidget: FC<{ shifts: IShift[] }> = ({
   shifts,

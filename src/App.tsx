@@ -11,7 +11,7 @@ import useRefreshToken from './hooks/useRefreshToken.tsx';
 import { vendorsLoader } from './routes/vendorLoaders.ts';
 import { paginatedExpenseLoader } from './routes/expenseLoaders.ts';
 import {
-  averagesLoader,
+  incomeDashboardLoader,
   paginatedIncomeLoader,
 } from './routes/incomeLoaders.ts';
 import { dashboardLoader, sprintLoader } from './routes/dashboardLoaders.ts';
@@ -154,7 +154,7 @@ const App: FC = (): JSX.Element => {
         {
           index: true,
           element: <Incomes />,
-          loader: isAuth && averagesLoader,
+          loader: isAuth && incomeDashboardLoader,
         },
         {
           path: 'income-form',

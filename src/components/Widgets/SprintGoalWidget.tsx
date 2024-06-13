@@ -1,15 +1,15 @@
 import { FC } from 'react';
-import widgetStyles from '../../../styles/Widget.module.css';
-import Card from '../../../components/ui/Card/Card';
-import CardHeader from '../../../components/ui/Card/CardHeader';
-import CardContent from '../../../components/ui/Card/CardContent';
-import CardContentVacant from '../../../components/ui/Card/CardContentVacant';
-import CardFooter from '../../../components/ui/Card/CardFooter';
-import SprintBar from '../../../components/charts/SprintBar/SprintBar';
+import widgetStyles from './Widget.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGripVertical } from '@fortawesome/free-solid-svg-icons';
-import { ISprint } from '../../../interfaces/ISprint.interface';
-import { deleteSprint } from '../../../services/sprintServices';
+import Card from '../ui/Card/Card';
+import CardHeader from '../ui/Card/CardHeader';
+import CardContent from '../ui/Card/CardContent';
+import CardContentVacant from '../ui/Card/CardContentVacant';
+import CardFooter from '../ui/Card/CardFooter';
+import { ISprint } from '../../interfaces/ISprint.interface';
+import { deleteSprint } from '../../services/sprintServices';
+import SprintBar from '../charts/SprintBar/SprintBar';
 
 const SprintGoalWidget: FC<{ sprint: ISprint }> = ({ sprint }): JSX.Element => {
   const handleDeleteSprint = async (): Promise<void> => {
