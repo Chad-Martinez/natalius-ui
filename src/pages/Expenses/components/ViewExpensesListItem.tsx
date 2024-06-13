@@ -3,9 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, PointerEvent, SyntheticEvent } from 'react';
 import styles from '../ViewExpenses.module.css';
 import { IExpense } from '../../../interfaces/IExpense.interface';
-import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
-dayjs.extend(utc);
 
 const ViewExpensesListItem: FC<{
   expense: IExpense;
@@ -22,7 +20,7 @@ const ViewExpensesListItem: FC<{
   return (
     <div className={styles.listItem}>
       <div className={styles.date}>
-        {dayjs(expense.date).utc().format('MM/DD/YY')}
+        {dayjs(expense.date).format('MM/DD/YY')}
       </div>
       <div className={styles.vendor}>
         <span>{expense.vendor}</span>

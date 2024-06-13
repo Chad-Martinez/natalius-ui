@@ -12,7 +12,7 @@ const MenuContainer: FC<{ open: boolean }> = ({ open }): JSX.Element => {
     try {
       await logout();
     } catch (error) {
-      console.error('Handle Logout Error: ', error);
+      console.error('Logout Error: ', error);
     } finally {
       sessionStorage.removeItem('at');
       setIsAuth(false);
@@ -47,21 +47,7 @@ const MenuContainer: FC<{ open: boolean }> = ({ open }): JSX.Element => {
       >
         <li>Gigs</li>
       </NavLink>
-      {/* <NavLink
-        className={({ isActive }) => (isActive ? styles.active : undefined)}
-        to='/reports'
-      >
-        <li>Reports</li>
-      </NavLink>
-      <NavLink
-        className={({ isActive }) => (isActive ? styles.active : undefined)}
-        to='/profile'
-      >
-        <li>Profile</li>
-      </NavLink> */}
-      {/* <NavLink to='logout'> */}
       <li onClick={handleLogout}>Logout</li>
-      {/* </NavLink> */}
     </ul>
   );
 };

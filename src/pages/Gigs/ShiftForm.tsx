@@ -13,7 +13,6 @@ import Select from '../../components/forms/Select';
 import { AxiosError } from 'axios';
 import { notify } from '../../utils/toastify';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import useInput from '../../hooks/useInput';
 import Input from '../../components/forms/Input';
 import FormGroup from '../../components/forms/FormGroup';
@@ -22,7 +21,6 @@ import TextArea from '../../components/forms/TextArea';
 import { addShift, updateShift } from '../../services/shiftServices';
 import { IShift, IShiftBase } from '../../interfaces/IShift.interface';
 import { SelectOptions } from '../../types/SelectOptions';
-dayjs.extend(utc);
 
 const ShiftForm: FC = (): JSX.Element => {
   const [gigOptions, setGigOptions] = useState<SelectOptions[]>([]);
