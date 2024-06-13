@@ -1,0 +1,27 @@
+.counter {
+  font-size: 1rem;
+}
+
+.amount {
+  font-size: 1.6rem;
+  padding-bottom: 6px;
+}
+
+@-webkit-keyframes slam-animation {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(3);
+    transform: scale(3) rotateZ(30deg);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1) rotateZ(0deg);
+  }
+}
+
+.slam {
+  -webkit-animation: slam-animation 0.5s ease-in infinite;
+  animation: slam-animation 0.85s;
+}
