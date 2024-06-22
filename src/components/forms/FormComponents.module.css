@@ -114,3 +114,35 @@ textArea:focus-visible {
   border-radius: 4px;
   border: none;
 }
+
+.radioGroup {
+  display: flex;
+  justify-content: space-around;
+}
+
+.radio {
+  appearance: none;
+  border-radius: 50%;
+  height: 14px;
+  width: 14px;
+  border: 1px solid var(--color-dark-grey);
+  transition: 0.3s all linear;
+  position: relative;
+  top: 1.5px;
+}
+
+.radioLabel {
+  font-size: 1rem;
+  letter-spacing: 0.07rem;
+  margin-left: 4px;
+  color: var(--color-dark-grey)
+}
+
+input.radio:checked {
+  border: 7px solid var(--color-light-grey)
+}
+
+input.radio:checked + label {
+  color: var(--color-light-grey);
+  font-weight: 400;
+}
