@@ -9,6 +9,7 @@ import AveragesWidget from '../../components/Widgets/AveragesWidget/AveragesWidg
 import { ISprint } from '../../interfaces/ISprint.interface';
 import { IncomeAverages } from '../../types/IncomeAverages';
 import SprintGoalWidget from '../../components/Widgets/SprintGoalWidget';
+import BarGraphWidget from '../../components/Widgets/BarGraphWidget';
 
 const Incomes: FC = (): JSX.Element => {
   const navigate = useNavigate();
@@ -16,7 +17,6 @@ const Incomes: FC = (): JSX.Element => {
     sprint: ISprint;
     averages: IncomeAverages;
   };
-  console.log(incomeLoaderData);
 
   const handleAddIncome = () => {
     navigate('income-form');
@@ -28,6 +28,7 @@ const Incomes: FC = (): JSX.Element => {
         <div className={widgetStyles.widgetContainer}>
           <SprintGoalWidget sprint={incomeLoaderData?.sprint} />
           <AveragesWidget averages={incomeLoaderData?.averages} />
+          <BarGraphWidget />
         </div>
       </div>
       <BottomNav>
