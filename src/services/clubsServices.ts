@@ -1,11 +1,11 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { IGig, IGigBase } from '../interfaces/IGig.interface';
+import { IClub, IClubBase } from '../interfaces/IClub.interface';
 
 const endpoint = process.env.API_ENDPOINT;
 
-export const getGigs = async (): Promise<AxiosResponse> => {
+export const getClubs = async (): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
-    url: `${endpoint}/gigs`,
+    url: `${endpoint}/clubs`,
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -14,9 +14,9 @@ export const getGigs = async (): Promise<AxiosResponse> => {
   return await axios(config);
 };
 
-export const getGigNames = async (): Promise<AxiosResponse> => {
+export const getClubNames = async (): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
-    url: `${endpoint}/gigs/names`,
+    url: `${endpoint}/clubs/names`,
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -25,9 +25,9 @@ export const getGigNames = async (): Promise<AxiosResponse> => {
   return await axios(config);
 };
 
-export const addGig = async (payload: IGigBase): Promise<AxiosResponse> => {
+export const addClub = async (payload: IClubBase): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
-    url: `${endpoint}/gigs`,
+    url: `${endpoint}/clubs`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -37,9 +37,9 @@ export const addGig = async (payload: IGigBase): Promise<AxiosResponse> => {
   return await axios(config);
 };
 
-export const updateGig = async (payload: IGig) => {
+export const updateClub = async (payload: IClub) => {
   const config: AxiosRequestConfig = {
-    url: `${endpoint}/gigs`,
+    url: `${endpoint}/clubs`,
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

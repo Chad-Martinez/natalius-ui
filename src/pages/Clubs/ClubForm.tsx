@@ -7,19 +7,19 @@ import Input from '../../components/forms/Input';
 import useInput from '../../hooks/useInput';
 import Select from '../../components/forms/Select';
 import { US_STATES } from '../../utils/states';
-import { addGig, updateGig } from '../../services/gigsServices';
+import { addClub, updateClub } from '../../services/clubsServices';
 import { notify } from '../../utils/toastify';
 import { AxiosError } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { IGig, IGigBase } from '../../interfaces/IGig.interface';
+import { IClub, IClubBase } from '../../interfaces/IClub.interface';
 
-const GigForm: FC = (): JSX.Element => {
+const ClubForm: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const gig: IGig = location.state?.gig;
+  const club: IClub = location.state?.club;
 
   const {
     value: name,
@@ -27,21 +27,21 @@ const GigForm: FC = (): JSX.Element => {
     hasError: nameHasError,
     valueChangeHandler: nameChangeHandler,
     inputBlurHandler: nameBlurHandler,
-  } = useInput((v) => v !== '', gig ? gig.name : '');
+  } = useInput((v) => v !== '', club ? club.name : '');
 
   const { value: street, valueChangeHandler: streetChangeHandler } = useInput(
     (v) => v !== '',
-    gig ? gig.address?.street : ''
+    club ? club.address?.street : ''
   );
 
   const { value: city, valueChangeHandler: cityChangeHandler } = useInput(
     (v) => v !== '',
-    gig ? gig.address?.city : ''
+    club ? club.address?.city : ''
   );
 
   const { value: state, valueChangeHandler: stateChangeHandler } = useInput(
     (v) => v !== '',
-    gig ? gig.address?.state : ''
+    club ? club.address?.state : ''
   );
 
   const {
@@ -52,11 +52,11 @@ const GigForm: FC = (): JSX.Element => {
     inputBlurHandler: zipBlurHandler,
   } = useInput(
     (v) => v === '' || (!isNaN(+v) && v.length === 5),
-    gig ? gig.address?.zip?.toString() : ''
+    club ? club.address?.zip?.toString() : ''
   );
 
   const { value: contactName, valueChangeHandler: contactNameChangeHandler } =
-    useInput((v) => v !== '', gig ? gig.contact?.name : '');
+    useInput((v) => v !== '', club ? club.contact?.name : '');
 
   const {
     value: contactPhone,
@@ -66,7 +66,7 @@ const GigForm: FC = (): JSX.Element => {
     inputBlurHandler: contactPhoneBlurHandler,
   } = useInput(
     (v) => v === '' || /\d{3}-\d{3}-\d{4}/.test(v),
-    gig ? gig.contact?.phone : ''
+    club ? club.contact?.phone : ''
   );
 
   const {
@@ -75,7 +75,10 @@ const GigForm: FC = (): JSX.Element => {
     hasError: distanceHasError,
     valueChangeHandler: distanceChangeHandler,
     inputBlurHandler: distanceBlurHandler,
-  } = useInput((v) => +v >= 1 || v === '', gig ? gig.distance?.toString() : '');
+  } = useInput(
+    (v) => +v >= 1 || v === '',
+    club ? club.distance?.toString() : ''
+  );
 
   const handleCancel = () => {
     navigate(-1);
@@ -83,17 +86,17 @@ const GigForm: FC = (): JSX.Element => {
   const handleSubmit = async () => {
     setIsTransmitting(true);
     try {
-      const address: IGigBase['address'] = {};
+      const address: IClubBase['address'] = {};
       if (street) address.street = street;
       if (city) address.city = city;
       if (state) address.state = state;
       if (zip) address.zip = +zip;
 
-      const contact: IGigBase['contact'] = {};
+      const contact: IClubBase['contact'] = {};
       if (contactName) contact.name = contactName;
       if (contactPhone) contact.phone = contactPhone;
 
-      const payload: IGigBase = {
+      const payload: IClubBase = {
         name,
         isArchived: false,
       };
@@ -102,22 +105,22 @@ const GigForm: FC = (): JSX.Element => {
       if (contactName || contactPhone) payload.contact = contact;
       if (distance) payload.distance = +distance;
 
-      if (gig) {
-        const updatedGig: IGig = {
+      if (club) {
+        const updatedClub: IClub = {
           ...payload,
-          _id: gig._id,
+          _id: club._id,
         };
-        await updateGig(updatedGig);
-        notify('Gig updated', 'success', 'update-gig-sucess');
+        await updateClub(updatedClub);
+        notify('Club updated', 'success', 'update-club-sucess');
       } else {
-        await addGig(payload);
-        notify('Gig added', 'success', 'add-gig-success');
+        await addClub(payload);
+        notify('Club added', 'success', 'add-club-success');
       }
       navigate(-1);
     } catch (error) {
-      console.error('Gig Form Error: ', error);
+      console.error('Club Form Error: ', error);
       if (error instanceof AxiosError)
-        notify(error.response?.data.message, 'error', 'gig-form-error');
+        notify(error.response?.data.message, 'error', 'club-form-error');
     } finally {
       setIsTransmitting(false);
     }
@@ -133,12 +136,12 @@ const GigForm: FC = (): JSX.Element => {
     <>
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
-          <h3 className={formStyles.title}>{gig ? 'Edit' : 'Add'} Gig</h3>
+          <h3 className={formStyles.title}>{club ? 'Edit' : 'Add'} Club</h3>
           <Input
-            placeholder='Gig Name*'
+            placeholder='Club Name*'
             value={name}
             hasError={nameHasError}
-            errorMessage='Gig name required'
+            errorMessage='Club name required'
             handleChange={nameChangeHandler}
             handleBlur={nameBlurHandler}
           />
@@ -211,4 +214,4 @@ const GigForm: FC = (): JSX.Element => {
   );
 };
 
-export default GigForm;
+export default ClubForm;

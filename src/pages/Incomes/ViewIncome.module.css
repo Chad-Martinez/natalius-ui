@@ -69,12 +69,12 @@
   width: 20%;
 }
 
-.gig {
+.club {
   width: 38%;
   overflow: hidden;
 }
 
-.gig span {
+.club span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -19,7 +19,7 @@ const ShiftsList: FC<{ shiftData: IShift[] }> = ({
 
   const handleDelete = async (payload: {
     shiftId: IShift['_id'];
-    gigId: IShift['gigId'];
+    clubId: IShift['clubId'];
   }) => {
     try {
       await deleteShift(payload);

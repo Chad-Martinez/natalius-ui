@@ -13,8 +13,8 @@ https://github.com/Chad-Martinez/natalius-api
 * Dashboard - Sprint Goal
 * Dashboard - Upcoming Shifts
 * Dashboard - YTD Income Expenses
-* Gigs Page - Shows a list of Gigs
-* Add/Edit Gig Form
+* Clubs Page - Shows a list of Clubs
+* Add/Edit Club Form
 * Add/Edit Shift Form
 * Income dashboard - Averages
 * View Income List

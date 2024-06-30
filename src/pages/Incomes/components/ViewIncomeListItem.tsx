@@ -19,8 +19,8 @@ const ViewIncomeListItem: FC<{
   return (
     <div className={styles.listItem}>
       <div className={styles.date}>{dayjs(income.date).format('MM/DD/YY')}</div>
-      <div className={styles.gig}>
-        <span>{income.gig}</span>
+      <div className={styles.club}>
+        <span>{income.club}</span>
       </div>
       <div className={styles.amount}>${income.amount.toFixed(2)}</div>
       <div className={styles.actions}>

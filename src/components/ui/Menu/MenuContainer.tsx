@@ -43,9 +43,9 @@ const MenuContainer: FC<{ open: boolean }> = ({ open }): JSX.Element => {
       </NavLink>
       <NavLink
         className={({ isActive }) => (isActive ? styles.active : undefined)}
-        to='/gigs'
+        to='/clubs'
       >
-        <li>Gigs</li>
+        <li>Clubs</li>
       </NavLink>
       <li onClick={handleLogout}>Logout</li>
     </ul>

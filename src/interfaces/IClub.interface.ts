@@ -1,6 +1,6 @@
 import { IShift } from './IShift.interface';
 
-export interface IGigBase {
+export interface IClubBase {
   address?: {
     street?: string;
     city?: string;
@@ -16,7 +16,7 @@ export interface IGigBase {
   isArchived: boolean;
 }
 
-export interface IGig extends IGigBase {
+export interface IClub extends IClubBase {
   _id: string;
   fullAddress?: string;
   shifts?: IShift[];

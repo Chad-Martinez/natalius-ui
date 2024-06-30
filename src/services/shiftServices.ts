@@ -3,11 +3,11 @@ import { IShift, IShiftBase } from '../interfaces/IShift.interface';
 
 const endpoint = process.env.API_ENDPOINT;
 
-export const getShiftsByGig = async (
-  gigId: IShift['gigId']
+export const getShiftsByClub = async (
+  clubId: IShift['clubId']
 ): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
-    url: `${endpoint}/shifts/gig/${gigId}`,
+    url: `${endpoint}/shifts/club/${clubId}`,
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export const updateShift = async (payload: IShift) => {
 
 export const deleteShift = async (payload: {
   shiftId: IShift['_id'];
-  gigId: IShift['gigId'];
+  clubId: IShift['clubId'];
 }): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
     url: `${endpoint}/shifts`,
