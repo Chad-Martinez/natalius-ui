@@ -1,5 +1,5 @@
 export interface IShiftBase {
-  gigId: string;
+  clubId: string;
   start: string;
   end: string;
   notes?: string;

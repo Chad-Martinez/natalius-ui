@@ -1,5 +1,5 @@
 import { FC, useRef, useState } from 'react';
-import styles from './GigItem.module.css';
+import styles from './ClubItem.module.css';
 import {
   faBoxArchive,
   faClock,
@@ -17,17 +17,17 @@ import CardHeader from '../../../components/ui/Card/CardHeader';
 import Card from '../../../components/ui/Card/Card';
 import CardContent from '../../../components/ui/Card/CardContent';
 import Modal from '../../../components/ui/Modal/Modal';
-import { IGig } from '../../../interfaces/IGig.interface';
+import { IClub } from '../../../interfaces/IClub.interface';
 import { IHTMLDialogElement } from '../../../interfaces/IHTMLDialog.interface';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CardFooter from '../../../components/ui/Card/CardFooter';
 import { IShift } from '../../../interfaces/IShift.interface';
 
-const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
-  gig,
-  archiveGig,
+const ClubItem: FC<{ club: IClub; archiveClub: (payload: IClub) => void }> = ({
+  club,
+  archiveClub,
 }): JSX.Element => {
-  const { fullAddress, contact, name, shifts } = gig;
+  const { fullAddress, contact, name, shifts } = club;
   const [filteredShifts, setFilteredShifts] = useState<IShift[]>(
     shifts && shifts.length > 0
       ? shifts.filter((shift: IShift) => shift.incomeReported === false)
@@ -43,17 +43,17 @@ const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
   };
 
   const handleArchive = (): void => {
-    const payload: IGig = {
-      _id: gig._id,
-      isArchived: !gig.isArchived,
-      name: gig.name,
+    const payload: IClub = {
+      _id: club._id,
+      isArchived: !club.isArchived,
+      name: club.name,
     };
-    archiveGig(payload);
+    archiveClub(payload);
     dialogRef.current?.closeModal();
   };
 
   const handleEdit = () => {
-    navigate('gig-form', { state: { gig } });
+    navigate('club-form', { state: { club } });
   };
 
   const handleShowShifts = (): void => {
@@ -76,7 +76,7 @@ const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
     <>
       <Modal
         ref={dialogRef}
-        title={gig.isArchived ? 'Activate Gig?' : 'Archive Gig?'}
+        title={club.isArchived ? 'Activate Club?' : 'Archive Club?'}
         onConfirm={handleArchive}
       />
       <Card addedStyles={{ maxWidth: '607.5px' }}>
@@ -88,7 +88,7 @@ const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
           />
           <FontAwesomeIcon
             className={styles.faIcon}
-            icon={gig.isArchived ? faInbox : faBoxArchive}
+            icon={club.isArchived ? faInbox : faBoxArchive}
             onClick={openModal}
           />
         </CardHeader>
@@ -116,7 +116,7 @@ const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
             </CardContentAccordian>
           )}
         </CardContent>
-        {!gig.isArchived ? (
+        {!club.isArchived ? (
           <CardFooter
             linkLeftText={
               !showCompletedShifts
@@ -124,7 +124,7 @@ const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
                 : 'Show Active Shifts'
             }
             linkLeftHandleClick={handleShowShifts}
-            linkRight={`shift-form/${gig._id}`}
+            linkRight={`shift-form/${club._id}`}
             linkRightText='Add Shift'
           />
         ) : (
@@ -135,4 +135,4 @@ const GigItem: FC<{ gig: IGig; archiveGig: (payload: IGig) => void }> = ({
   );
 };
 
-export default GigItem;
+export default ClubItem;

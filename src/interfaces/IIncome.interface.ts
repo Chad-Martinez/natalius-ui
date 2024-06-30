@@ -1,7 +1,7 @@
 import { IShift } from './IShift.interface';
 
 export interface IIncomeBase {
-  gigId: string;
+  clubId: string;
   shiftId?: string;
   date: string;
   amount: number;
@@ -10,6 +10,6 @@ export interface IIncomeBase {
 
 export interface IIncome extends IIncomeBase {
   _id: string;
-  gig?: string;
+  club?: string;
   shiftDetails?: IShift[];
 }

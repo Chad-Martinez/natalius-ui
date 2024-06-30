@@ -56,7 +56,7 @@ const VendorForm: FC = (): JSX.Element => {
       if (distance) payload.distance = +distance;
 
       const { data } = await addVendor(payload);
-      notify('Vendor added', 'success', 'add-gig-success');
+      notify('Vendor added', 'success', 'add-club-success');
 
       if (location.state?.from)
         navigate('/expenses/expense-form', {
@@ -66,7 +66,7 @@ const VendorForm: FC = (): JSX.Element => {
     } catch (error) {
       console.error('Vendor Form Error: ', error);
       if (error instanceof AxiosError)
-        notify(error.response?.data.message, 'error', 'gig-form-error');
+        notify(error.response?.data.message, 'error', 'club-form-error');
     } finally {
       setIsTransmitting(false);
     }

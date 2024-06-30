@@ -8,7 +8,7 @@ import CardContent from '../ui/Card/CardContent';
 import CardContentVacant from '../ui/Card/CardContentVacant';
 import CardFooter from '../ui/Card/CardFooter';
 import { IShift } from '../../interfaces/IShift.interface';
-import ShiftsList from '../../pages/Gigs/components/ShiftsList';
+import ShiftsList from '../../pages/Clubs/components/ShiftsList';
 
 const UpcomingShiftsWidget: FC<{ shifts: IShift[] }> = ({
   shifts,
@@ -32,7 +32,7 @@ const UpcomingShiftsWidget: FC<{ shifts: IShift[] }> = ({
           <CardContentVacant title='No Scheduled Shifts' />
         )}
       </CardContent>
-      <CardFooter linkRight='/gigs/shift-form' linkRightText='Add Shift' />
+      <CardFooter linkRight='/clubs/shift-form' linkRightText='Add Shift' />
     </Card>
   );
 };

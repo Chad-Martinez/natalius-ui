@@ -5,7 +5,7 @@ import {
   Navigate,
   createBrowserRouter,
 } from 'react-router-dom';
-import { gigsLoader, gigNamesLoader } from './routes/gigLoaders.ts';
+import { clubsLoader, clubNamesLoader } from './routes/clubLoaders.ts';
 import { AuthContext } from './store/AuthContext.tsx';
 import useRefreshToken from './hooks/useRefreshToken.tsx';
 import { vendorsLoader } from './routes/vendorLoaders.ts';
@@ -24,9 +24,9 @@ const VerifyEmail = lazy(() => import('./pages/VerifyEmail.tsx'));
 const NotFound = lazy(() => import('./pages/NotFound.tsx'));
 const ProtectedLayout = lazy(() => import('./layouts/ProtectedLayout.tsx'));
 const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard.tsx'));
-const Gigs = lazy(() => import('./pages/Gigs/Gigs.tsx'));
-const GigForm = lazy(() => import('./pages/Gigs/GigForm.tsx'));
-const ShiftForm = lazy(() => import('./pages/Gigs/ShiftForm.tsx'));
+const Clubs = lazy(() => import('./pages/Clubs/Clubs.tsx'));
+const ClubForm = lazy(() => import('./pages/Clubs/ClubForm.tsx'));
+const ShiftForm = lazy(() => import('./pages/Clubs/ShiftForm.tsx'));
 const Incomes = lazy(() => import('./pages/Incomes/Incomes.tsx'));
 const IncomeForm = lazy(() => import('./pages/Incomes/IncomeForm.tsx'));
 const Expenses = lazy(() => import('./pages/Expenses/Expenses.tsx'));
@@ -123,27 +123,27 @@ const App: FC = (): JSX.Element => {
       ],
     },
     {
-      path: '/gigs',
+      path: '/clubs',
       element: <ProtectedLayout />,
       children: [
         {
           index: true,
-          element: <Gigs />,
-          loader: isAuth && gigsLoader,
+          element: <Clubs />,
+          loader: isAuth && clubsLoader,
         },
         {
-          path: 'gig-form',
-          element: <GigForm />,
+          path: 'club-form',
+          element: <ClubForm />,
         },
         {
-          path: 'shift-form/:gig',
+          path: 'shift-form/:club',
           element: <ShiftForm />,
-          loader: isAuth && gigNamesLoader,
+          loader: isAuth && clubNamesLoader,
         },
         {
           path: 'shift-form',
           element: <ShiftForm />,
-          loader: isAuth && gigNamesLoader,
+          loader: isAuth && clubNamesLoader,
         },
       ],
     },
@@ -159,7 +159,7 @@ const App: FC = (): JSX.Element => {
         {
           path: 'income-form',
           element: <IncomeForm />,
-          loader: isAuth && gigNamesLoader,
+          loader: isAuth && clubNamesLoader,
         },
         {
           path: 'view-income',

@@ -17,14 +17,14 @@ const ShiftListItem: FC<{
   shift: IShift;
   handleDelete: (payload: {
     shiftId: IShift['_id'];
-    gigId: IShift['gigId'];
+    clubId: IShift['clubId'];
   }) => Promise<void>;
 }> = ({ shift, handleDelete }): JSX.Element => {
   const dialogRef = useRef<IHTMLDialogElement | null>(null);
   const navigate = useNavigate();
 
   const handleEdit = () => {
-    navigate(`/gigs/shift-form/${shift.gigId}`, { state: { shift } });
+    navigate(`/clubs/shift-form/${shift.clubId}`, { state: { shift } });
   };
 
   const handleIncome = () => {
@@ -37,9 +37,9 @@ const ShiftListItem: FC<{
   };
 
   const deleteShift = (): void => {
-    const payload: { shiftId: IShift['_id']; gigId: IShift['gigId'] } = {
+    const payload: { shiftId: IShift['_id']; clubId: IShift['clubId'] } = {
       shiftId: shift._id,
-      gigId: shift.gigId,
+      clubId: shift.clubId,
     };
     handleDelete(payload);
     dialogRef.current?.closeModal();

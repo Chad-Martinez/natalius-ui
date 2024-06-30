@@ -12,12 +12,12 @@ import useInput from '../../hooks/useInput';
 import dayjs from 'dayjs';
 import { addIncome, updateIncome } from '../../services/incomeServices';
 import { IShift } from '../../interfaces/IShift.interface';
-import { getShiftsByGig } from '../../services/shiftServices';
+import { getShiftsByClub } from '../../services/shiftServices';
 import { IIncome, IIncomeBase } from '../../interfaces/IIncome.interface';
 import { SelectOptions } from '../../types/SelectOptions';
 
 const IncomeForm: FC = (): JSX.Element => {
-  const [gigOptions, setGigOptions] = useState<SelectOptions[]>([]);
+  const [clubOptions, setClubOptions] = useState<SelectOptions[]>([]);
   const [shiftOptions, setShiftOPtions] = useState<SelectOptions[]>([]);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
@@ -29,14 +29,14 @@ const IncomeForm: FC = (): JSX.Element => {
   const loaderData = useLoaderData();
 
   const {
-    value: gigId,
-    isValid: gigIdIsValid,
-    hasError: gigIdHasError,
-    valueChangeHandler: gigIdChangeHandler,
-    inputBlurHandler: gigIdBlurHandler,
+    value: clubId,
+    isValid: clubIdIsValid,
+    hasError: clubIdHasError,
+    valueChangeHandler: clubIdChangeHandler,
+    inputBlurHandler: clubIdBlurHandler,
   } = useInput(
     (v) => v !== '',
-    income ? income.gigId : shift ? shift.gigId : ''
+    income ? income.clubId : shift ? shift.clubId : ''
   );
 
   const {
@@ -83,17 +83,17 @@ const IncomeForm: FC = (): JSX.Element => {
 
   useEffect(() => {
     if (loaderData instanceof AxiosError) {
-      notify(loaderData.response?.data.message, 'error', 'gignames-error');
+      notify(loaderData.response?.data.message, 'error', 'clubnames-error');
     } else {
-      setGigOptions(loaderData as SelectOptions[]);
+      setClubOptions(loaderData as SelectOptions[]);
     }
   }, [loaderData]);
 
   useEffect(() => {
     (async () => {
-      if (gigId !== '') {
+      if (clubId !== '') {
         try {
-          const { data } = await getShiftsByGig(gigId);
+          const { data } = await getShiftsByClub(clubId);
           const options = data.map((shift: IShift) => {
             return {
               _id: shift._id,
@@ -108,7 +108,7 @@ const IncomeForm: FC = (): JSX.Element => {
         }
       }
     })();
-  }, [gigId]);
+  }, [clubId]);
 
   const handleCancel = () => {
     navigate(-1);
@@ -117,7 +117,7 @@ const IncomeForm: FC = (): JSX.Element => {
     setIsTransmitting(true);
     try {
       const payload: IIncomeBase = {
-        gigId,
+        clubId,
         date,
         amount: +amount,
         type,
@@ -154,14 +154,14 @@ const IncomeForm: FC = (): JSX.Element => {
   useEffect(() => {
     if (shiftOptions.length > 0)
       setIsFormValid(
-        gigIdIsValid && shiftIdIsValid && amountIsValid && typeIsValid
+        clubIdIsValid && shiftIdIsValid && amountIsValid && typeIsValid
       );
     else
       setIsFormValid(
-        gigIdIsValid && dateIsValid && amountIsValid && typeIsValid
+        clubIdIsValid && dateIsValid && amountIsValid && typeIsValid
       );
   }, [
-    gigIdIsValid,
+    clubIdIsValid,
     shiftIdIsValid,
     dateIsValid,
     amountIsValid,
@@ -177,16 +177,16 @@ const IncomeForm: FC = (): JSX.Element => {
             {income ? 'Edit Income' : 'Add Income'}
           </h3>
           <Select
-            name='gig'
-            defaultOptionName='Gig'
-            options={gigOptions}
-            value={gigId}
-            hasError={gigIdHasError}
-            link='/gigs/gig-form'
-            linkText='Add Gig'
-            errorMessage='Gig required'
-            handleChange={gigIdChangeHandler}
-            handleBlur={gigIdBlurHandler}
+            name='club'
+            defaultOptionName='Club'
+            options={clubOptions}
+            value={clubId}
+            hasError={clubIdHasError}
+            link='/clubs/club-form'
+            linkText='Add Club'
+            errorMessage='Club required'
+            handleChange={clubIdChangeHandler}
+            handleBlur={clubIdBlurHandler}
           />
           {shiftOptions.length > 0 ? (
             <Select

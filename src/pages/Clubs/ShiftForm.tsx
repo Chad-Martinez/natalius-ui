@@ -23,20 +23,20 @@ import { IShift, IShiftBase } from '../../interfaces/IShift.interface';
 import { SelectOptions } from '../../types/SelectOptions';
 
 const ShiftForm: FC = (): JSX.Element => {
-  const [gigOptions, setGigOptions] = useState<SelectOptions[]>([]);
+  const [clubOptions, setClubOptions] = useState<SelectOptions[]>([]);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
 
-  const { gig } = useParams();
+  const { club } = useParams();
   const loaderData = useLoaderData();
   const navigate = useNavigate();
   const location = useLocation();
 
   const shift: IShift = location.state?.shift;
 
-  const { value: gigId, valueChangeHandler: gigIdChangeHandler } = useInput(
+  const { value: clubId, valueChangeHandler: clubIdChangeHandler } = useInput(
     (v) => v !== '',
-    gig ? gig : ''
+    club ? club : ''
   );
 
   const {
@@ -77,7 +77,7 @@ const ShiftForm: FC = (): JSX.Element => {
     setIsTransmitting(true);
     try {
       const payload: IShiftBase = {
-        gigId,
+        clubId,
         start,
         end,
         notes,
@@ -114,7 +114,7 @@ const ShiftForm: FC = (): JSX.Element => {
     if (loaderData instanceof AxiosError)
       notify(loaderData.response?.data.message);
     else {
-      setGigOptions(loaderData as SelectOptions[]);
+      setClubOptions(loaderData as SelectOptions[]);
     }
   }, [loaderData]);
 
@@ -124,11 +124,11 @@ const ShiftForm: FC = (): JSX.Element => {
         <form className={formStyles.form}>
           <h3 className={formStyles.title}>Add Shift</h3>
           <Select
-            name='gig'
-            defaultOptionName='Gig'
-            options={gigOptions}
-            value={gigId}
-            handleChange={gigIdChangeHandler}
+            name='club'
+            defaultOptionName='Club'
+            options={clubOptions}
+            value={clubId}
+            handleChange={clubIdChangeHandler}
           />
           <FormGroup>
             <Label name='start' text='Shift Start' />

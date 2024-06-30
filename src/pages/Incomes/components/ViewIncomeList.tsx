@@ -32,7 +32,7 @@ const ViewIncomeList: FC<ViewIncomeProps> = ({
     <div className={styles.listContainer}>
       <div className={styles.header}>
         <div className={styles.date}>Date</div>
-        <div className={styles.gig}>Gig</div>
+        <div className={styles.club}>Club</div>
         <div className={styles.amount}>Amount</div>
         <div className={styles.actions}></div>
       </div>
