@@ -21,7 +21,7 @@ const Paginator: FC<PaginatorProps> = ({
       <FontAwesomeIcon
         className={currPage === 1 ? styles.faIconDisabled : styles.faIcon}
         icon={faAngleLeft}
-        onClick={handlePrev}
+        onClick={currPage === 1 ? () => {} : handlePrev}
       />
       <span className={styles.page}>{currPage}</span>
       <FontAwesomeIcon
@@ -29,7 +29,7 @@ const Paginator: FC<PaginatorProps> = ({
           currPage === totalPages ? styles.faIconDisabled : styles.faIcon
         }
         icon={faAngleRight}
-        onClick={handleNext}
+        onClick={currPage === totalPages ? () => {} : handleNext}
       />
     </div>
   );

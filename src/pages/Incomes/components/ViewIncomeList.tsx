@@ -36,7 +36,9 @@ const ViewIncomeList: FC<ViewIncomeProps> = ({
         <div className={styles.amount}>Amount</div>
         <div className={styles.actions}></div>
       </div>
-      {incomes.length > 0 ? mappedIncomes : ''}
+      <div className={styles.listItemsContainer}>
+        {incomes.length > 0 ? mappedIncomes : ''}
+      </div>
       <div className={styles.footer}>
         <Paginator
           currPage={currPage}

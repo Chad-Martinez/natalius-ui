@@ -38,7 +38,9 @@ const ViewExpensesList: FC<ViewExpenseProps> = ({
         <div className={styles.type}>Type</div>
         <div className={styles.actions}></div>
       </div>
-      {expenses.length > 0 ? mappedExpenses : ''}
+      <div className={styles.listItemsContainer}>
+        {expenses.length > 0 ? mappedExpenses : ''}
+      </div>
       <div className={styles.footer}>
         <Paginator
           currPage={currPage}

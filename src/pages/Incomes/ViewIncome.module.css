@@ -1,9 +1,10 @@
 .listContainer {
-  padding: 0px 20px;
+  margin: 0px 20px;
   display: flex;
   flex-direction: column;
   text-align: left;
   border-radius: 6px;
+  height: 486px;
 }
 
 .header {
@@ -15,7 +16,7 @@
   height: 40px;
   background-color: var(--color-dark-primary);
   gap: 4px;
-  padding: 5px;
+  padding: 8px;
   border-radius: 6px 6px 0px 0px;
 }
 
@@ -28,14 +29,19 @@
   height: 45px;
   background-color: var(--color-light-grey);
   gap: 4px;
-  padding: 5px;
+  padding: 8px;
   border-radius: 0px 0px 6px 6px;
+}
+
+.listItemsContainer {
+  flex-grow: 1;
+  background-color: var(--color-light-grey);
 }
 
 .listItem {
   display: flex;
   height: 40px;
-  padding: 5px;
+  padding: 8px;
   gap: 6px;
   align-items: center;
   font-size: 0.85rem;
@@ -43,8 +49,13 @@
 }
 
 @media (min-height: 844px) {
+  .listContainer {
+    height: 666px;
+  }
+
   .header {
     height: 55px;
+    padding: 15px;
   }
 
   .footer {
@@ -53,14 +64,15 @@
 
   .listItem {
     height: 55px;
+    padding: 15px;
   }
 }
 
-.listItem:nth-child(odd) {
+.listItem:nth-child(even) {
   background-color: var(--color-dark-primary);
 }
 
-.listItem:nth-child(even) {
+.listItem:nth-child(odd) {
   background-color: var(--color-light-grey);
   color: var(--color-dark-grey);
 }
@@ -89,7 +101,7 @@
   width: 15%;
   display: flex;
   gap: 8px;
-  justify-content: center;
+  justify-content: flex-end;
   font-size: 1.05rem;
 }
 
