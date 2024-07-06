@@ -1,14 +1,8 @@
 import { FC } from 'react';
 import { BarChart, axisClasses } from '@mui/x-charts';
+import { DataSet } from '../../../types/GraphData';
 
-type BarGraphProps = {
-  graphData: {
-    label: string;
-    total: number;
-  }[];
-};
-
-const BarGraph: FC<BarGraphProps> = ({ graphData }): JSX.Element => {
+const BarGraph: FC<{ graphData: DataSet }> = ({ graphData }): JSX.Element => {
   const valueFormatter = (value: number | null) => `$${value}`;
 
   return (
