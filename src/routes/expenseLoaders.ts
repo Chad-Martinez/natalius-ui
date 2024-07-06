@@ -1,4 +1,7 @@
-import { paginatedExpenses } from '../services/expensesService';
+import {
+  getExpenseDashboardData,
+  paginatedExpenses,
+} from '../services/expensesService';
 
 export const paginatedExpenseLoader = async () => {
   try {
@@ -6,6 +9,16 @@ export const paginatedExpenseLoader = async () => {
     return data;
   } catch (error) {
     console.error('Loader Error: Get Expenses ', error);
+    return error;
+  }
+};
+
+export const expenseDashboardLoader = async () => {
+  try {
+    const { data } = await getExpenseDashboardData();
+    return data;
+  } catch (error) {
+    console.error('Loader Error: Get Averages ', error);
     return error;
   }
 };
