@@ -4,7 +4,7 @@ import { BarChart, axisClasses } from '@mui/x-charts';
 type BarGraphProps = {
   graphData: {
     label: string;
-    totalIncome: number;
+    total: number;
   }[];
 };
 
@@ -34,7 +34,7 @@ const BarGraph: FC<BarGraphProps> = ({ graphData }): JSX.Element => {
       xAxis={[{ scaleType: 'band', dataKey: 'label', tickPlacement: 'middle' }]}
       series={[
         {
-          dataKey: 'totalIncome',
+          dataKey: 'total',
           valueFormatter,
           id: 'income_id',
         },
