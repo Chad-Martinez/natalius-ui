@@ -9,7 +9,10 @@ import { clubsLoader, clubNamesLoader } from './routes/clubLoaders.ts';
 import { AuthContext } from './store/AuthContext.tsx';
 import useRefreshToken from './hooks/useRefreshToken.tsx';
 import { vendorsLoader } from './routes/vendorLoaders.ts';
-import { paginatedExpenseLoader } from './routes/expenseLoaders.ts';
+import {
+  expenseDashboardLoader,
+  paginatedExpenseLoader,
+} from './routes/expenseLoaders.ts';
 import {
   incomeDashboardLoader,
   paginatedIncomeLoader,
@@ -175,6 +178,7 @@ const App: FC = (): JSX.Element => {
         {
           index: true,
           element: <Expenses />,
+          loader: isAuth && expenseDashboardLoader,
         },
         {
           path: 'expense-form',
