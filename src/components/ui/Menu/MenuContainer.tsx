@@ -28,7 +28,12 @@ const MenuContainer: FC<{ open: boolean }> = ({ open }): JSX.Element => {
       >
         <li>Dashboard</li>
       </NavLink>
-
+      <NavLink
+        className={({ isActive }) => (isActive ? styles.active : undefined)}
+        to='/profile'
+      >
+        <li>Profile</li>
+      </NavLink>
       <NavLink
         className={({ isActive }) => (isActive ? styles.active : undefined)}
         to='/income'
