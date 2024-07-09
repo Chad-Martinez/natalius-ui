@@ -3,6 +3,7 @@ import btnStyles from './Button.module.css';
 
 type Props = {
   text: string;
+  type?: 'submit' | 'reset' | 'button' | undefined;
   addedStyles?: { [key: string]: string };
   solid?: boolean;
   disabled?: boolean;
@@ -12,6 +13,7 @@ type Props = {
 
 const Button: FC<Props> = ({
   text,
+  type = 'submit',
   addedStyles,
   solid = false,
   disabled = false,
@@ -24,6 +26,7 @@ const Button: FC<Props> = ({
   };
   return (
     <button
+      type={type}
       className={`${btnStyles.btn} ${
         solid ? btnStyles.btnSolid : btnStyles.btnHallow
       }`}
