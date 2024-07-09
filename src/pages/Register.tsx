@@ -7,6 +7,7 @@ import { register } from '../services/authServices';
 import { AxiosError, AxiosResponse } from 'axios';
 import { notify } from '../utils/toastify';
 import Logo from '../components/ui/Logo/Logo';
+import { validateEmail, validatePassword } from '../utils/validators';
 
 const Register: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -37,11 +38,7 @@ const Register: FC = (): JSX.Element => {
     valueChangeHandler: emailChangeHandledr,
     inputBlurHandler: emailBlurHandler,
     reset: emailReset,
-  } = useInput((value) =>
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-      value
-    )
-  );
+  } = useInput((value) => validateEmail(value));
 
   const {
     value: password,
@@ -50,11 +47,7 @@ const Register: FC = (): JSX.Element => {
     valueChangeHandler: passwordChangeHandledr,
     inputBlurHandler: passwordBlurHandler,
     reset: passwordReset,
-  } = useInput((value) =>
-    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
-      value
-    )
-  );
+  } = useInput((value) => validatePassword(value));
 
   const {
     value: pwConfirm,

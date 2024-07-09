@@ -18,6 +18,8 @@ import {
   paginatedIncomeLoader,
 } from './routes/incomeLoaders.ts';
 import { dashboardLoader, sprintLoader } from './routes/dashboardLoaders.ts';
+import Profile from './pages/Profile.tsx';
+import { profileLoader } from './routes/profileLoaders.ts';
 
 const LandingLayout = lazy(() => import('./layouts/LandingLayout.tsx'));
 const Landing = lazy(() => import('./pages/Landing.tsx'));
@@ -122,6 +124,17 @@ const App: FC = (): JSX.Element => {
           path: 'sprint-form',
           element: <SprintGoalForm />,
           loader: sprintLoader,
+        },
+      ],
+    },
+    {
+      path: '/profile',
+      element: <ProtectedLayout />,
+      children: [
+        {
+          index: true,
+          element: <Profile />,
+          loader: isAuth && profileLoader,
         },
       ],
     },
