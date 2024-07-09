@@ -12,6 +12,7 @@ import { notify } from '../../utils/toastify';
 import { AxiosError } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IClub, IClubBase } from '../../interfaces/IClub.interface';
+import { validatePhone } from '../../utils/validators';
 
 const ClubForm: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -65,7 +66,7 @@ const ClubForm: FC = (): JSX.Element => {
     valueChangeHandler: contactPhoneChangeHandler,
     inputBlurHandler: contactPhoneBlurHandler,
   } = useInput(
-    (v) => v === '' || /\d{3}-\d{3}-\d{4}/.test(v),
+    (value) => value === '' || validatePhone(value),
     club ? club.contact?.phone : ''
   );
 
