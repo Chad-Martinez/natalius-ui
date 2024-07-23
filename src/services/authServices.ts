@@ -42,6 +42,29 @@ export const verifyEmail = async (token: string): Promise<AxiosResponse> => {
   return await axios(config);
 };
 
+export const passwordResetEmail = async (payload: {
+  email: string;
+}): Promise<AxiosResponse> => {
+  const config: AxiosRequestConfig = {
+    url: `${endpoint}/auth/password-reset-email`,
+    method: 'POST',
+    data: payload,
+  };
+  return await axios(config);
+};
+
+export const resetPassword = async (payload: {
+  token: string;
+  password: string;
+}): Promise<AxiosResponse> => {
+  const config: AxiosRequestConfig = {
+    url: `${endpoint}/auth/reset-password`,
+    method: 'POST',
+    data: payload,
+  };
+  return await axios(config);
+};
+
 export const logout = async (): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
     url: `${endpoint}/auth/logout`,
@@ -54,5 +77,7 @@ export default {
   register,
   login,
   verifyEmail,
+  passwordResetEmail,
+  resetPassword,
   logout,
 };
