@@ -20,6 +20,8 @@ import {
 import { dashboardLoader, sprintLoader } from './routes/dashboardLoaders.ts';
 import Profile from './pages/Profile.tsx';
 import { profileLoader } from './routes/profileLoaders.ts';
+import ForgotPassword from './pages/ForgotPassword.tsx';
+import PasswordReset from './pages/PasswordReset.tsx';
 
 const LandingLayout = lazy(() => import('./layouts/LandingLayout.tsx'));
 const Landing = lazy(() => import('./pages/Landing.tsx'));
@@ -107,6 +109,14 @@ const App: FC = (): JSX.Element => {
         {
           path: '/verify/:id',
           element: <VerifyEmail />,
+        },
+        {
+          path: '/forgot-password',
+          element: <ForgotPassword />,
+        },
+        {
+          path: '/password-reset/:token',
+          element: <PasswordReset />,
         },
       ],
       errorElement: <NotFound />,
