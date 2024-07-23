@@ -1,6 +1,7 @@
 import { FC, useCallback, useContext, useEffect, useState } from 'react';
 import Input from '../components/forms/Input';
 import useInput from '../hooks/useInput';
+import styles from './Login.module.css';
 import formStyles from '../components/forms/FormComponents.module.css';
 import { login } from '../services/authServices';
 import axios, { AxiosError, AxiosResponse } from 'axios';
@@ -9,6 +10,7 @@ import Button from '../components/forms/SubmitButton';
 import Logo from '../components/ui/Logo/Logo';
 import { AuthContext } from '../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const Login: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -96,6 +98,9 @@ export const Login: FC = (): JSX.Element => {
         enabled={isFormValid}
         loading={isTransmitting}
       />
+      <Link className={styles.forgotPassword} to='/forgot-password'>
+        Forgot Password
+      </Link>
     </form>
   );
 };
