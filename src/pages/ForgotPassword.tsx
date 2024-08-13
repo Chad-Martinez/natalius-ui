@@ -26,7 +26,6 @@ export const ForgotPassword: FC = (): JSX.Element => {
       const { data } = (await passwordResetEmail({
         email,
       })) as AxiosResponse;
-      console.log('data response ', data);
       notify(data.message, 'success', 'password-email-success');
     } catch (error) {
       console.error('Password Reset Email Error: ', error);

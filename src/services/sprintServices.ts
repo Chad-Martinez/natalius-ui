@@ -42,6 +42,20 @@ export const updateSprint = async (
   return await axios(config);
 };
 
+export const markSprintComplete = async (
+  payload: ISprint
+): Promise<AxiosResponse> => {
+  const config: AxiosRequestConfig = {
+    url: `${endpoint}/sprints/complete-sprint`,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: payload,
+  };
+  return await axios(config);
+};
+
 export const deleteSprint = async (_id: string): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
     url: `${endpoint}/sprints/${_id}`,
