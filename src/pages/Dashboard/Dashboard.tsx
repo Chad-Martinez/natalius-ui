@@ -19,18 +19,20 @@ const Dashboard: FC = (): JSX.Element => {
   };
 
   const navigate = useNavigate();
-  const handleAddIncome = () => {
+
+  const handleAddIncome = (): void => {
     navigate('/income/income-form');
   };
 
-  const handleAddExpense = () => {
+  const handleAddExpense = (): void => {
     navigate('/expenses/expense-form');
   };
+
   return (
     <>
       <div className={pageStyles.mainContent}>
         <div className={styles.widgetContainer}>
-          <SprintGoalWidget sprint={dashboardData?.sprint} />
+          <SprintGoalWidget sprintData={dashboardData.sprint} />
           <UpcomingShiftsWidget shifts={dashboardData?.upcomingShifts} />
           <GaugeWidget
             ytdIncome={dashboardData?.ytdIncome}
