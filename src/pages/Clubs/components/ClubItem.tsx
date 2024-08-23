@@ -12,7 +12,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import CardContentItem from '../../../components/ui/Card/CardContentItem';
 import CardContentAccordian from '../../../components/ui/Card/CardContentAccordian';
-import ShiftsList from './ShiftsList';
+import ShiftsList from '../../../components/shift/ShiftsList';
 import CardHeader from '../../../components/ui/Card/CardHeader';
 import Card from '../../../components/ui/Card/Card';
 import CardContent from '../../../components/ui/Card/CardContent';

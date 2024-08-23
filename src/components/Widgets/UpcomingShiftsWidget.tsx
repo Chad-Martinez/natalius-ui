@@ -8,7 +8,7 @@ import CardContent from '../ui/Card/CardContent';
 import CardContentVacant from '../ui/Card/CardContentVacant';
 import CardFooter from '../ui/Card/CardFooter';
 import { IShift } from '../../interfaces/IShift.interface';
-import ShiftsList from '../../pages/Clubs/components/ShiftsList';
+import ShiftsList from '../shift/ShiftsList';
 
 const UpcomingShiftsWidget: FC<{ shifts: IShift[] }> = ({
   shifts,
