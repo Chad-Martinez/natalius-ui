@@ -22,6 +22,7 @@ import Profile from './pages/Profile.tsx';
 import { profileLoader } from './routes/profileLoaders.ts';
 import ForgotPassword from './pages/ForgotPassword.tsx';
 import PasswordReset from './pages/PasswordReset.tsx';
+import { getShiftDetails } from './routes/shiftLoaders.ts';
 
 const LandingLayout = lazy(() => import('./layouts/LandingLayout.tsx'));
 const Landing = lazy(() => import('./pages/Landing.tsx'));
@@ -44,6 +45,9 @@ const ViewExpenses = lazy(() => import('./pages/Expenses/ViewExpenses.tsx'));
 const ViewIncome = lazy(() => import('./pages/Incomes/ViewIncome.tsx'));
 const SprintGoalForm = lazy(
   () => import('./pages/Dashboard/SprintGoalForm.tsx')
+);
+const ConfirmShift = lazy(
+  () => import('./pages/CompleteShiftWizard/ConfirmShift.tsx')
 );
 
 axios.defaults.withCredentials = true;
@@ -170,6 +174,17 @@ const App: FC = (): JSX.Element => {
           path: 'shift-form',
           element: <ShiftForm />,
           loader: isAuth && clubNamesLoader,
+        },
+      ],
+    },
+    {
+      path: '/confirm-shift/:shiftId',
+      element: <ProtectedLayout />,
+      children: [
+        {
+          index: true,
+          element: <ConfirmShift />,
+          loader: isAuth && getShiftDetails,
         },
       ],
     },
