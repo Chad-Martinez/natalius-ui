@@ -122,7 +122,9 @@ const ShiftForm: FC = (): JSX.Element => {
     <>
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
-          <h3 className={formStyles.title}>Add Shift</h3>
+          <h3 className={formStyles.title}>
+            {shift && shift._id ? 'Edit' : 'Add'} Shift
+          </h3>
           <Select
             name='club'
             defaultOptionName='Club'
