@@ -27,11 +27,6 @@ const ShiftListItem: FC<{
     navigate(`/clubs/shift-form/${shift.clubId}`, { state: { shift } });
   };
 
-  // const handleIncome = () => {
-  //   if (shift.incomeReported) return;
-  //   navigate('/income/income-form', { state: { shift } });
-  // };
-
   const handleCompleteShift = () => {
     if (shift.incomeReported) return;
     navigate(`/confirm-shift/${shift._id}`);
