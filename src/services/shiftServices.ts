@@ -16,6 +16,19 @@ export const getShiftsByClub = async (
   return await axios(config);
 };
 
+export const getShift = async (
+  shiftId: IShift['_id']
+): Promise<AxiosResponse> => {
+  const config: AxiosRequestConfig = {
+    url: `${endpoint}/shifts/${shiftId}`,
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  return await axios(config);
+};
+
 export const addShift = async (payload: IShiftBase): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
     url: `${endpoint}/shifts`,
