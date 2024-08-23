@@ -6,9 +6,9 @@
 
 .iconGroup {
   display: flex;
-  gap: 10px;
+  gap: 7px;
   justify-content: flex-end;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .faIconSuccess {

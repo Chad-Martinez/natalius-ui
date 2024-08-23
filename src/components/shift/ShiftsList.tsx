@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import ShiftListItem from './ShiftListItem';
 import styles from './ShiftsList.module.css';
-import { deleteShift } from '../../../services/shiftServices';
-import { notify } from '../../../utils/toastify';
+import { deleteShift } from '../../services/shiftServices';
+import { notify } from '../../utils/toastify';
 import { AxiosError } from 'axios';
-import { IShift } from '../../../interfaces/IShift.interface';
+import { IShift } from '../../interfaces/IShift.interface';
 
 const ShiftsList: FC<{ shiftData: IShift[] }> = ({
   shiftData,

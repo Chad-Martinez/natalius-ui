@@ -1,17 +1,17 @@
 import { FC, useRef } from 'react';
 import dayjs from 'dayjs';
 import styles from './ShiftListItem.module.css';
-import Modal from '../../../components/ui/Modal/Modal';
-import { IHTMLDialogElement } from '../../../interfaces/IHTMLDialog.interface';
-import { IShift } from '../../../interfaces/IShift.interface';
+import Modal from '../ui/Modal/Modal';
+import { IHTMLDialogElement } from '../../interfaces/IHTMLDialog.interface';
+import { IShift } from '../../interfaces/IShift.interface';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faDollarSign,
+  faCircleCheck,
   faPencil,
-  faSackDollar,
   faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
+import { faCircleCheck as farCircleCheck } from '@fortawesome/free-regular-svg-icons';
 
 const ShiftListItem: FC<{
   shift: IShift;
@@ -27,9 +27,14 @@ const ShiftListItem: FC<{
     navigate(`/clubs/shift-form/${shift.clubId}`, { state: { shift } });
   };
 
-  const handleIncome = () => {
+  // const handleIncome = () => {
+  //   if (shift.incomeReported) return;
+  //   navigate('/income/income-form', { state: { shift } });
+  // };
+
+  const handleCompleteShift = () => {
     if (shift.incomeReported) return;
-    navigate('/income/income-form', { state: { shift } });
+    navigate(`/confirm-shift/${shift._id}`);
   };
 
   const openModal = (): void => {
@@ -65,8 +70,8 @@ const ShiftListItem: FC<{
             } ${shift.incomeReported ? styles.faIconSuccess : ''} ${
               shift.incomeReported ? styles.incomeReported : ''
             }`}
-            icon={shift.incomeReported ? faSackDollar : faDollarSign}
-            onClick={handleIncome}
+            icon={shift.incomeReported ? faCircleCheck : farCircleCheck}
+            onClick={handleCompleteShift}
           />
           <FontAwesomeIcon
             className={styles.faIcon}
