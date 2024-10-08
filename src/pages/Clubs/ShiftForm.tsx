@@ -13,6 +13,7 @@ import Select from '../../components/forms/Select';
 import { AxiosError } from 'axios';
 import { notify } from '../../utils/toastify';
 import dayjs from 'dayjs';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import useInput from '../../hooks/useInput';
 import Input from '../../components/forms/Input';
 import FormGroup from '../../components/forms/FormGroup';
@@ -21,6 +22,7 @@ import TextArea from '../../components/forms/TextArea';
 import { addShift, updateShift } from '../../services/shiftServices';
 import { IShift, IShiftBase } from '../../interfaces/IShift.interface';
 import { SelectOptions } from '../../types/SelectOptions';
+dayjs.extend(isSameOrBefore);
 
 const ShiftForm: FC = (): JSX.Element => {
   const [clubOptions, setClubOptions] = useState<SelectOptions[]>([]);
@@ -34,10 +36,13 @@ const ShiftForm: FC = (): JSX.Element => {
 
   const shift: IShift = location.state?.shift;
 
-  const { value: clubId, valueChangeHandler: clubIdChangeHandler } = useInput(
-    (v) => v !== '',
-    club ? club : ''
-  );
+  const {
+    value: clubId,
+    isValid: clubIdIsValid,
+    hasError: clubIdHasError,
+    inputBlurHandler: clubIdBlurHandler,
+    valueChangeHandler: clubIdChangeHandler,
+  } = useInput((v) => v !== '', club ? club : '');
 
   const {
     value: start,
@@ -59,7 +64,7 @@ const ShiftForm: FC = (): JSX.Element => {
     valueChangeHandler: endChangeHandler,
     inputBlurHandler: endBlurHandler,
   } = useInput(
-    (v) => dayjs(v).isValid(),
+    (v) => dayjs(v).isValid() && !dayjs(v).isSameOrBefore(dayjs(start)),
     shift
       ? dayjs(shift.end).format('YYYY-MM-DDTHH:mm')
       : dayjs().add(4, 'hour').format('YYYY-MM-DDTHH:mm')
@@ -81,8 +86,8 @@ const ShiftForm: FC = (): JSX.Element => {
         start,
         end,
         notes,
-        incomeReported:
-          shift && shift.incomeReported ? shift.incomeReported : false,
+        shiftComplete:
+          shift && shift.shiftComplete ? shift.shiftComplete : false,
       };
 
       if (shift) {
@@ -107,8 +112,8 @@ const ShiftForm: FC = (): JSX.Element => {
   };
 
   useEffect(() => {
-    setIsFormValid(startIsValid && endIsValid);
-  }, [startIsValid, endIsValid]);
+    setIsFormValid(clubIdIsValid && startIsValid && endIsValid);
+  }, [clubIdIsValid, startIsValid, endIsValid]);
 
   useEffect(() => {
     if (loaderData instanceof AxiosError)
@@ -128,8 +133,12 @@ const ShiftForm: FC = (): JSX.Element => {
           <Select
             name='club'
             defaultOptionName='Club'
+            autoFocus={true}
             options={clubOptions}
             value={clubId}
+            hasError={clubIdHasError}
+            handleBlur={clubIdBlurHandler}
+            errorMessage='Club required'
             handleChange={clubIdChangeHandler}
           />
           <FormGroup>
@@ -149,7 +158,7 @@ const ShiftForm: FC = (): JSX.Element => {
               type='datetime-local'
               value={end}
               hasError={endHasError}
-              errorMessage='End date and time required'
+              errorMessage='End date and time must be after Start'
               handleChange={endChangeHandler}
               handleBlur={endBlurHandler}
             />

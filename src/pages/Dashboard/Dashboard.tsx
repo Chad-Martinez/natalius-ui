@@ -32,7 +32,7 @@ const Dashboard: FC = (): JSX.Element => {
     <>
       <div className={pageStyles.mainContent}>
         <div className={styles.widgetContainer}>
-          <SprintGoalWidget sprintData={dashboardData.sprint} />
+          <SprintGoalWidget sprintData={dashboardData?.sprint} />
           <UpcomingShiftsWidget shifts={dashboardData?.upcomingShifts} />
           <GaugeWidget
             ytdIncome={dashboardData?.ytdIncome}
