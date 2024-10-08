@@ -48,14 +48,17 @@ const CompleteShiftWizard: FC = (): JSX.Element => {
     }
   }, [shiftLoaderData]);
 
-  const goNext = (shiftDataFromStep: IShift | null) => {
+  const goNext = (shiftDataFromStep: IShift | null): void => {
     if (shiftDataFromStep) {
       setShiftData({ ...shiftData, ...shiftDataFromStep });
       setCurrentStepIndex(currentStepIndex + 1);
     }
   };
 
-  const goBack = (shiftDataFromStep: IShift | null, jumpToStep?: number) => {
+  const goBack = (
+    shiftDataFromStep: IShift | null,
+    jumpToStep?: number
+  ): void => {
     if (shiftDataFromStep) {
       setShiftData({ ...shiftData, ...shiftDataFromStep });
       jumpToStep === undefined
