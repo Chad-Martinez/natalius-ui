@@ -32,8 +32,12 @@ const ProtectedLayout: FC = (): JSX.Element => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const path = pathname.split('/');
-    setTitle(path[1]);
+    const path: string[] = pathname.split('/');
+    if (path[1].includes('-')) {
+      setTitle(path[1].replace('-', ' '));
+    } else {
+      setTitle(path[1]);
+    }
   }, [pathname]);
 
   const handleToggle = () => {

@@ -3,40 +3,29 @@ import styles from '../PageWrapper.module.css';
 import formStyles from '../../components/forms/FormComponents.module.css';
 import BottomNav from '../../components/dashboard/BottomNav';
 import Button from '../../components/ui/Button/Button';
-import {
-  useLoaderData,
-  useLocation,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Select from '../../components/forms/Select';
-import { AxiosError } from 'axios';
-import { notify } from '../../utils/toastify';
 import dayjs from 'dayjs';
 import useInput from '../../hooks/useInput';
 import Input from '../../components/forms/Input';
 import FormGroup from '../../components/forms/FormGroup';
 import Label from '../../components/forms/Label';
 import TextArea from '../../components/forms/TextArea';
-import { addShift, updateShift } from '../../services/shiftServices';
-import { IShift, IShiftBase } from '../../interfaces/IShift.interface';
+import { IShift } from '../../interfaces/IShift.interface';
 import { SelectOptions } from '../../types/SelectOptions';
 
-const ShiftForm: FC = (): JSX.Element => {
-  const [clubOptions, setClubOptions] = useState<SelectOptions[]>([]);
+const ShiftDetails: FC<{
+  goNext: (shift: IShift) => void;
+  shiftData: IShift | null;
+  clubOptions: SelectOptions[] | [];
+}> = ({ goNext, shiftData, clubOptions }): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
-  const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
 
-  const { club } = useParams();
-  const loaderData = useLoaderData();
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const shift: IShift = location.state?.shift;
 
   const { value: clubId, valueChangeHandler: clubIdChangeHandler } = useInput(
     (v) => v !== '',
-    club ? club : ''
+    shiftData?.clubId
   );
 
   const {
@@ -47,9 +36,7 @@ const ShiftForm: FC = (): JSX.Element => {
     inputBlurHandler: startBlurHandler,
   } = useInput(
     (v) => dayjs(v).isValid(),
-    shift
-      ? dayjs(shift.start).format('YYYY-MM-DDTHH:mm')
-      : dayjs().format('YYYY-MM-DDTHH:mm')
+    dayjs(shiftData?.start).format('YYYY-MM-DDTHH:mm')
   );
 
   const {
@@ -60,78 +47,48 @@ const ShiftForm: FC = (): JSX.Element => {
     inputBlurHandler: endBlurHandler,
   } = useInput(
     (v) => dayjs(v).isValid(),
-    shift
-      ? dayjs(shift.end).format('YYYY-MM-DDTHH:mm')
-      : dayjs().add(4, 'hour').format('YYYY-MM-DDTHH:mm')
+    dayjs(shiftData?.end).format('YYYY-MM-DDTHH:mm')
   );
 
   const { value: notes, valueChangeHandler: notesChangeHandler } = useInput(
     (v) => v !== '',
-    shift ? shift.notes : ''
+    shiftData?.notes
   );
-
-  const handleCancel = (): void => {
-    navigate(-1);
-  };
-  const handleSubmit = async (): Promise<void> => {
-    setIsTransmitting(true);
-    try {
-      const payload: IShiftBase = {
-        clubId,
-        start,
-        end,
-        notes,
-        incomeReported:
-          shift && shift.incomeReported ? shift.incomeReported : false,
-      };
-
-      if (shift) {
-        const updatedShift: IShift = {
-          ...payload,
-          _id: shift._id,
-        };
-        await updateShift(updatedShift);
-        notify('Shift updated', 'success', 'update-shift-success');
-      } else {
-        await addShift(payload);
-        notify('Shift added', 'success', 'add-shift-success');
-      }
-      navigate(-1);
-    } catch (error) {
-      console.error('Shift Form Error: ', error);
-      if (error instanceof AxiosError)
-        notify(error.response?.data.message, 'error', 'add-shift-error');
-    } finally {
-      setIsTransmitting(false);
-    }
-  };
 
   useEffect(() => {
     setIsFormValid(startIsValid && endIsValid);
   }, [startIsValid, endIsValid]);
 
-  useEffect(() => {
-    if (loaderData instanceof AxiosError)
-      notify(loaderData.response?.data.message);
-    else {
-      setClubOptions(loaderData as SelectOptions[]);
+  const handleCancel = (): void => navigate(-1);
+
+  const handleNext = (): void => {
+    if (shiftData) {
+      const updatedShift: IShift = {
+        ...shiftData,
+        clubId,
+        start,
+        end,
+        notes,
+      };
+      goNext(updatedShift);
     }
-  }, [loaderData]);
+  };
 
   return (
     <>
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
-          <h3 className={formStyles.title}>
-            {shift && shift._id ? 'Edit' : 'Add'} Shift
-          </h3>
-          <Select
-            name='club'
-            defaultOptionName='Club'
-            options={clubOptions}
-            value={clubId}
-            handleChange={clubIdChangeHandler}
-          />
+          <h3 className={formStyles.title}>Confirm Shift Details</h3>
+          <FormGroup>
+            <Label name='club' text='Club' />
+            <Select
+              name='club'
+              defaultOptionName='Club'
+              options={clubOptions}
+              value={clubId}
+              handleChange={clubIdChangeHandler}
+            />
+          </FormGroup>
           <FormGroup>
             <Label name='start' text='Shift Start' />
             <Input
@@ -168,15 +125,14 @@ const ShiftForm: FC = (): JSX.Element => {
       <BottomNav>
         <Button text='Cancel' onClick={handleCancel} />
         <Button
-          text='Submit'
+          text='Next'
           solid={true}
           disabled={!isFormValid}
-          loading={isTransmitting}
-          onClick={handleSubmit}
+          onClick={handleNext}
         />
       </BottomNav>
     </>
   );
 };
 
-export default ShiftForm;
+export default ShiftDetails;

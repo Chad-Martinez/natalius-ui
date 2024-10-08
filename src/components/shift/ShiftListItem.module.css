@@ -6,13 +6,13 @@
 
 .iconGroup {
   display: flex;
-  gap: 10px;
+  gap: 7px;
   justify-content: flex-end;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .faIconSuccess {
-  color: var(--color-success)
+  color: var(--color-success);
 }
 
 .faIcon:hover,
@@ -21,8 +21,8 @@
   animation: wiggle 0.25s ease 1;
 }
 
-.incomeReported:hover,
-.incomeReported:active {
+.shiftComplete:hover,
+.shiftComplete:active {
   cursor: unset;
   animation: unset;
 }

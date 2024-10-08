@@ -6,7 +6,7 @@ import { SelectOptions } from '../../types/SelectOptions';
 const Select: FC<{
   options: SelectOptions[] | undefined;
   name: string;
-  defaultOptionName: string;
+  defaultOptionName?: string;
   value: string;
   hasError?: boolean;
   errorMessage?: string;
@@ -37,9 +37,11 @@ const Select: FC<{
         onChange={handleChange}
         onBlur={handleBlur}
       >
-        <option className={formStyles.option} disabled value=''>
-          Select a {defaultOptionName}
-        </option>
+        {defaultOptionName && (
+          <option className={formStyles.option} disabled value=''>
+            Select a {defaultOptionName}
+          </option>
+        )}
         {options && options.length > 0
           ? options.map((option) => (
               <option
