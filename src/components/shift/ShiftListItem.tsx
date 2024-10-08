@@ -28,8 +28,8 @@ const ShiftListItem: FC<{
   };
 
   const handleCompleteShift = () => {
-    if (shift.incomeReported) return;
-    navigate(`/confirm-shift/${shift._id}`);
+    if (shift.shiftComplete) return;
+    navigate(`/complete-shift/${shift._id}`);
   };
 
   const openModal = (): void => {
@@ -61,11 +61,11 @@ const ShiftListItem: FC<{
         <div className={styles.iconGroup}>
           <FontAwesomeIcon
             className={`${styles.faIcon} ${
-              shift.incomeReported ? styles.faIconSuccess : ''
-            } ${shift.incomeReported ? styles.faIconSuccess : ''} ${
-              shift.incomeReported ? styles.incomeReported : ''
+              shift.shiftComplete ? styles.faIconSuccess : ''
+            } ${shift.shiftComplete ? styles.faIconSuccess : ''} ${
+              shift.shiftComplete ? styles.shiftComplete : ''
             }`}
-            icon={shift.incomeReported ? faCircleCheck : farCircleCheck}
+            icon={shift.shiftComplete ? faCircleCheck : farCircleCheck}
             onClick={handleCompleteShift}
           />
           <FontAwesomeIcon
