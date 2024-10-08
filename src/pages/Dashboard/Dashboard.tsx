@@ -20,8 +20,8 @@ const Dashboard: FC = (): JSX.Element => {
 
   const navigate = useNavigate();
 
-  const handleAddIncome = (): void => {
-    navigate('/income/income-form');
+  const handleAddShift = (): void => {
+    navigate('/clubs/shift-form');
   };
 
   const handleAddExpense = (): void => {
@@ -41,7 +41,7 @@ const Dashboard: FC = (): JSX.Element => {
         </div>
       </div>
       <BottomNav>
-        <Button text='Add Income' onClick={handleAddIncome} />
+        <Button text='Add Shift' onClick={handleAddShift} />
         <Button text='Add Expense' onClick={handleAddExpense} />
       </BottomNav>
     </>
