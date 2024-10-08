@@ -30,7 +30,7 @@ const ClubItem: FC<{ club: IClub; archiveClub: (payload: IClub) => void }> = ({
   const { fullAddress, contact, name, shifts } = club;
   const [filteredShifts, setFilteredShifts] = useState<IShift[]>(
     shifts && shifts.length > 0
-      ? shifts.filter((shift: IShift) => shift.incomeReported === false)
+      ? shifts.filter((shift: IShift) => shift.shiftComplete === false)
       : []
   );
   const [showCompletedShifts, setShowCompletedShifts] =
@@ -60,12 +60,12 @@ const ClubItem: FC<{ club: IClub; archiveClub: (payload: IClub) => void }> = ({
     if (shifts) {
       if (showCompletedShifts) {
         setFilteredShifts(
-          shifts.filter((shift: IShift) => shift.incomeReported === false)
+          shifts.filter((shift: IShift) => shift.shiftComplete === false)
         );
         setShowCompletedShifts(false);
       } else {
         setFilteredShifts(
-          shifts.filter((shift: IShift) => shift.incomeReported === true)
+          shifts.filter((shift: IShift) => shift.shiftComplete === true)
         );
         setShowCompletedShifts(true);
       }
