@@ -12,6 +12,7 @@ const Select: FC<{
   errorMessage?: string;
   link?: string;
   linkText?: string;
+  autoFocus?: boolean;
   handleLinkClick?: () => void;
   handleChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   handleBlur?: () => void;
@@ -24,6 +25,7 @@ const Select: FC<{
   errorMessage,
   link,
   linkText,
+  autoFocus = false,
   handleLinkClick,
   handleChange,
   handleBlur,
@@ -34,6 +36,7 @@ const Select: FC<{
         className={formStyles.input}
         name={name}
         value={value}
+        autoFocus={autoFocus}
         onChange={handleChange}
         onBlur={handleBlur}
       >
