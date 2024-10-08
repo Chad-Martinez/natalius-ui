@@ -21,8 +21,8 @@
   animation: wiggle 0.25s ease 1;
 }
 
-.incomeReported:hover,
-.incomeReported:active {
+.shiftComplete:hover,
+.shiftComplete:active {
   cursor: unset;
   animation: unset;
 }
