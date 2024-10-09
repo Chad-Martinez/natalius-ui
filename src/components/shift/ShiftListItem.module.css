@@ -2,32 +2,22 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  align-items: center;
 }
 
-.iconGroup {
-  display: flex;
-  gap: 7px;
-  justify-content: flex-end;
-  font-size: 1.1rem;
+.actions {
+  width: 20px;
+  text-align: center;
+  font-size: 1.35rem;
 }
 
-.faIconSuccess {
-  color: var(--color-success);
-}
-
-.faIcon:hover,
+/* .faIcon:hover,
 .faIcon:active {
   cursor: pointer;
   animation: wiggle 0.25s ease 1;
-}
+} */
 
-.shiftComplete:hover,
-.shiftComplete:active {
-  cursor: unset;
-  animation: unset;
-}
-
-@keyframes wiggle {
+/* @keyframes wiggle {
   0% {
     transform: rotateZ(0deg);
   }
@@ -43,4 +33,4 @@
   100% {
     transform: rotateZ(0deg);
   }
-}
+} */
