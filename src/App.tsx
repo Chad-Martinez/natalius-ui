@@ -109,12 +109,12 @@ const App: FC = (): JSX.Element => {
           loader: isAuth && incomeDashboardLoader,
         },
         {
-          path: 'incomes/income-form',
+          path: 'income/income-form',
           element: <IncomeForm />,
           loader: isAuth && clubNamesLoader,
         },
         {
-          path: 'incomes/view-income',
+          path: 'income/view-income',
           element: <ViewIncome />,
           loader: isAuth && paginatedIncomeLoader,
         },
@@ -129,7 +129,7 @@ const App: FC = (): JSX.Element => {
           loader: isAuth && vendorsLoader,
         },
         {
-          path: 'incomes/view-expenses',
+          path: 'expenses/view-expenses',
           element: <ViewExpenses />,
           loader: isAuth && paginatedExpenseLoader,
         },
