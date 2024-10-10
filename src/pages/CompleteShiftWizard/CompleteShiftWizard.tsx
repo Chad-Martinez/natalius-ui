@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react';
-import ShiftDetails from './ShiftDetails';
-import ShiftIncome from './ShiftIncome';
-import ShiftExpenses from './ShiftExpenses';
-import ShiftMilage from './ShiftMilage';
-import ShiftSummary from './ShiftSummary';
+import ShiftDetails from '../../components/shift-wizard/ShiftDetails';
+import ShiftIncome from '../../components/shift-wizard/ShiftIncome';
+import ShiftExpenses from '../../components/shift-wizard/ShiftExpenses';
+import ShiftMilage from '../../components/shift-wizard/ShiftMilage';
+import ShiftSummary from '../../components/shift-wizard/ShiftSummary';
 import { IShift } from '../../interfaces/IShift.interface';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 import { SelectOptions } from '../../types/SelectOptions';
 import { AxiosError } from 'axios';
 import { notify } from '../../utils/toastify';
@@ -17,9 +17,12 @@ type ShiftLoaderData = {
 };
 
 const CompleteShiftWizard: FC = (): JSX.Element => {
+  const location = useLocation();
   const [shiftData, setShiftData] = useState<IShift | null>(null);
   const [clubNames, setClubNames] = useState<SelectOptions[]>([]);
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [currentStepIndex, setCurrentStepIndex] = useState(
+    location.state?.goToPage || 0
+  );
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -67,11 +70,13 @@ const CompleteShiftWizard: FC = (): JSX.Element => {
     }
   };
 
-  const handleFinish = async (): Promise<void> => {
-    if (shiftData) {
+  const handleFinish = async (shift?: IShift): Promise<void> => {
+    if (shiftData || shift) {
       try {
         setIsTransmitting(true);
-        await updateShift({ ...shiftData, shiftComplete: true });
+        const shiftToUpdate = shift ? shift : shiftData;
+        if (!shiftToUpdate) return;
+        await updateShift({ ...shiftToUpdate, shiftComplete: true });
         notify('Shift Completed!', 'success', 'complete-shift-success');
         navigate(-1);
       } catch (error) {
