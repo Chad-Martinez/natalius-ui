@@ -29,4 +29,5 @@ export interface IShiftBase {
 
 export interface IShift extends IShiftBase {
   _id: string;
+  club: string;
 }

@@ -1,23 +1,28 @@
 import { FC, useEffect, useState } from 'react';
-import styles from '../PageWrapper.module.css';
-import formStyles from '../../components/forms/FormComponents.module.css';
-import Input from '../../components/forms/Input';
-import BottomNav from '../../components/dashboard/BottomNav';
-import Button from '../../components/ui/Button/Button';
-import Select from '../../components/forms/Select';
+import styles from '../../pages/PageWrapper.module.css';
+import formStyles from '../forms/FormComponents.module.css';
+import Input from '../forms/Input';
+import BottomNav from '../dashboard/BottomNav';
+import Button from '../ui/Button/Button';
+import Select from '../forms/Select';
 import useInput from '../../hooks/useInput';
 import dayjs from 'dayjs';
 import { IShift } from '../../interfaces/IShift.interface';
-import FormGroup from '../../components/forms/FormGroup';
-import Label from '../../components/forms/Label';
+import FormGroup from '../forms/FormGroup';
+import Label from '../forms/Label';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ShiftIncome: FC<{
   goNext: (shift: IShift | null) => void;
   goBack: (shift: IShift | null) => void;
+  onFinish: (shift: IShift) => void;
   shiftData: IShift | null;
-}> = ({ goNext, goBack, shiftData }): JSX.Element => {
+}> = ({ goNext, goBack, onFinish, shiftData }): JSX.Element => {
   const [updatedShift, setUpdatedShift] = useState<IShift | null>(shiftData);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const {
     value: amount,
@@ -49,7 +54,14 @@ const ShiftIncome: FC<{
     setIsFormValid(amountIsValid);
   }, [amountIsValid]);
 
+  const handleCancel = (): void => navigate(-1);
+
   const handlePrev = (): void => goBack(updatedShift);
+
+  const handleUpdate = (): void => {
+    if (!updatedShift) return;
+    onFinish(updatedShift);
+  };
 
   const handleNext = (): void => goNext(updatedShift);
 
@@ -57,7 +69,9 @@ const ShiftIncome: FC<{
     <>
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
-          <h3 className={formStyles.title}>Add Shift Income</h3>
+          <h3 className={formStyles.title}>
+            {location.state?.goToPage ? 'Update' : 'Add'} Shift Income
+          </h3>
           <FormGroup>
             <Label name='date' text='Shift Date' />
             <Input
@@ -99,12 +113,15 @@ const ShiftIncome: FC<{
         </form>
       </div>
       <BottomNav>
-        <Button text='Prev' onClick={handlePrev} />
         <Button
-          text='Next'
+          text={location.state?.goToPage ? 'Cancel' : 'Prev'}
+          onClick={location.state?.goToPage ? handleCancel : handlePrev}
+        />
+        <Button
+          text={location.state?.goToPage ? 'Update' : 'Next'}
           solid={true}
           disabled={!isFormValid}
-          onClick={handleNext}
+          onClick={location.state?.goToPage ? handleUpdate : handleNext}
         />
       </BottomNav>
     </>
