@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import pageStyles from '../PageWrapper.module.css';
+import pageStyles from '../../pages/PageWrapper.module.css';
 import shiftSummaryStyles from './ShiftSummary.module.css';
-import BottomNav from '../../components/dashboard/BottomNav';
-import Button from '../../components/ui/Button/Button';
+import BottomNav from '../dashboard/BottomNav';
+import Button from '../ui/Button/Button';
 import { IShift } from '../../interfaces/IShift.interface';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';

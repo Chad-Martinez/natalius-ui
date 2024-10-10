@@ -1,13 +1,13 @@
 import { FC, useEffect, useState } from 'react';
-import styles from '../PageWrapper.module.css';
-import formStyles from '../../components/forms/FormComponents.module.css';
+import styles from '../../pages/PageWrapper.module.css';
+import formStyles from '../forms/FormComponents.module.css';
 import shiftExpensesStyles from './ShiftExpenses.module.css';
-import Input from '../../components/forms/Input';
-import BottomNav from '../../components/dashboard/BottomNav';
-import Button from '../../components/ui/Button/Button';
+import Input from '../forms/Input';
+import BottomNav from '../dashboard/BottomNav';
+import Button from '../ui/Button/Button';
 import useInput from '../../hooks/useInput';
-import FormGroup from '../../components/forms/FormGroup';
-import Label from '../../components/forms/Label';
+import FormGroup from '../forms/FormGroup';
+import Label from '../forms/Label';
 import { IShift } from '../../interfaces/IShift.interface';
 
 const ShiftExpenses: FC<{

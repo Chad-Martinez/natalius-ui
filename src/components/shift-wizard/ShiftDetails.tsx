@@ -1,16 +1,16 @@
 import { FC, useEffect, useState } from 'react';
-import styles from '../PageWrapper.module.css';
-import formStyles from '../../components/forms/FormComponents.module.css';
-import BottomNav from '../../components/dashboard/BottomNav';
-import Button from '../../components/ui/Button/Button';
+import styles from '../../pages/PageWrapper.module.css';
+import formStyles from '../forms/FormComponents.module.css';
+import BottomNav from '../dashboard/BottomNav';
+import Button from '../ui/Button/Button';
 import { useNavigate } from 'react-router-dom';
-import Select from '../../components/forms/Select';
+import Select from '../forms/Select';
 import dayjs from 'dayjs';
 import useInput from '../../hooks/useInput';
-import Input from '../../components/forms/Input';
-import FormGroup from '../../components/forms/FormGroup';
-import Label from '../../components/forms/Label';
-import TextArea from '../../components/forms/TextArea';
+import Input from '../forms/Input';
+import FormGroup from '../forms/FormGroup';
+import Label from '../forms/Label';
+import TextArea from '../forms/TextArea';
 import { IShift } from '../../interfaces/IShift.interface';
 import { SelectOptions } from '../../types/SelectOptions';
 
