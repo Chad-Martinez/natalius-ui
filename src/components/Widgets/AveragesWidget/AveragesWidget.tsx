@@ -8,6 +8,7 @@ import { faGripVertical } from '@fortawesome/free-solid-svg-icons';
 import CardContent from '../../ui/Card/CardContent';
 import Counter from '../../ui/Counter/Counter';
 import { IncomeAverages } from '../../../types/IncomeAverages';
+import dayjs from 'dayjs';
 
 const AveragesWidget: FC<{ averages: IncomeAverages }> = ({
   averages,
@@ -18,7 +19,7 @@ const AveragesWidget: FC<{ averages: IncomeAverages }> = ({
         maxWidth: '607.5px',
       }}
     >
-      <CardHeader text='Average Earnings'>
+      <CardHeader text={`${dayjs().year()} Average Income`}>
         <FontAwesomeIcon
           className={widgetStyles.faIcon}
           icon={faGripVertical}
@@ -28,16 +29,16 @@ const AveragesWidget: FC<{ averages: IncomeAverages }> = ({
         <div className={styles.avgsContainer}>
           <div className={styles.avgItem}>
             <Counter
-              period='Daily'
-              amount={averages?.daily}
-              interval={5}
-              skip={2}
+              period='Shift'
+              amount={averages?.perShift}
+              interval={2}
+              skip={5}
             />
           </div>
           <div className={styles.avgItem}>
             <Counter
               period='Weekly'
-              amount={averages?.weekly}
+              amount={averages?.perWeek}
               interval={2}
               skip={5}
             />
@@ -45,27 +46,18 @@ const AveragesWidget: FC<{ averages: IncomeAverages }> = ({
           <div className={styles.avgItem}>
             <Counter
               period='Monthly'
-              amount={averages?.monthly}
+              amount={averages?.perMonth}
               interval={1}
               skip={10}
             />
           </div>
           <div className={styles.avgItem}>
-            {averages?.yearly ? (
-              <Counter
-                period='Yearly'
-                amount={averages?.yearly}
-                interval={1}
-                skip={25}
-              />
-            ) : (
-              <Counter
-                period='Quarterly'
-                amount={averages?.quarterly}
-                interval={1}
-                skip={19}
-              />
-            )}
+            <Counter
+              period='Yearly'
+              amount={averages?.perYear}
+              interval={1}
+              skip={25}
+            />
           </div>
         </div>
       </CardContent>

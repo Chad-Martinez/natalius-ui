@@ -1,7 +1,6 @@
 export type IncomeAverages = {
-  daily: number;
-  weekly: number;
-  monthly: number;
-  quarterly: number;
-  yearly: number;
+  perShift: number;
+  perWeek: number;
+  perMonth: number;
+  perYear: number;
 };
