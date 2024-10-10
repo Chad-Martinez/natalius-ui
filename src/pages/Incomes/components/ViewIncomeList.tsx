@@ -1,32 +1,28 @@
 import { FC } from 'react';
 import styles from '../ViewIncome.module.css';
-import { IIncome } from '../../../interfaces/IIncome.interface';
 import Paginator from '../../../components/ui/Paginator/Paginator';
 import ViewIncomeListItem from './ViewIncomeListItem';
+import { IShift } from '../../../interfaces/IShift.interface';
 
 type ViewIncomeProps = {
-  incomes: IIncome[];
+  shifts: IShift[];
   currPage: number;
   totalPages: number;
   handlePrev: () => void;
   handleNext: () => void;
-  handleMenu: (top: number, left: number, income: IIncome) => void;
+  handleMenu: (top: number, left: number, shift: IShift) => void;
 };
 
 const ViewIncomeList: FC<ViewIncomeProps> = ({
-  incomes,
+  shifts,
   currPage,
   totalPages,
   handlePrev,
   handleNext,
   handleMenu,
 }): JSX.Element => {
-  const mappedIncomes = incomes.map((income: IIncome) => (
-    <ViewIncomeListItem
-      key={income._id}
-      income={income}
-      handleMenu={handleMenu}
-    />
+  const mappedIncomes = shifts.map((shift: IShift) => (
+    <ViewIncomeListItem key={shift._id} shift={shift} handleMenu={handleMenu} />
   ));
   return (
     <div className={styles.listContainer}>
@@ -37,7 +33,7 @@ const ViewIncomeList: FC<ViewIncomeProps> = ({
         <div className={styles.actions}></div>
       </div>
       <div className={styles.listItemsContainer}>
-        {incomes.length > 0 ? mappedIncomes : ''}
+        {shifts.length > 0 ? mappedIncomes : ''}
       </div>
       <div className={styles.footer}>
         <Paginator

@@ -14,20 +14,19 @@ import { IHTMLDialogElement } from '../../interfaces/IHTMLDialog.interface';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MenuContext } from '../../layouts/ProtectedLayout';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { IIncome } from '../../interfaces/IIncome.interface';
 import PageHeader from '../../components/ui/PageHeader/PageHeader';
-import BottomNav from '../../components/dashboard/BottomNav';
-import Button from '../../components/ui/Button/Button';
 import ViewIncomeList from './components/ViewIncomeList';
-import { deleteIncome, paginatedIncome } from '../../services/incomeServices';
+import { paginatedIncome } from '../../services/incomeServices';
 import { AxiosError } from 'axios';
 import { notify } from '../../utils/toastify';
+import { IShift } from '../../interfaces/IShift.interface';
+import { deleteShift } from '../../services/shiftServices';
 
-type PaginatedIncome = { income: IIncome[]; count: number; pages: number };
+type PaginatedIncome = { shiftIncome: IShift[]; count: number; pages: number };
 
 const ViewIncome: FC = (): JSX.Element => {
-  const [incomes, setIncomes] = useState<IIncome[]>([]);
-  const [income, setIncome] = useState<IIncome | null>(null);
+  const [shifts, setShifts] = useState<IShift[]>([]);
+  const [shift, setShift] = useState<IShift | null>(null);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [count, setCount] = useState<number>();
   const [currPage, setCurrPage] = useState<number>(1);
@@ -42,23 +41,15 @@ const ViewIncome: FC = (): JSX.Element => {
 
   useEffect(() => {
     if (incomeData) {
-      setIncomes(incomeData.income);
+      setShifts(incomeData.shiftIncome);
       setTotalPages(incomeData.pages);
       setCount(incomeData.count);
       setCurrPage(1);
     }
   }, [incomeData]);
 
-  useEffect(() => {
-    if (!showPopup && income) setIncome(null);
-  }, [showPopup, income]);
-
-  const handleAddIncome = () => {
-    navigate('/income/income-form');
-  };
-
-  const handleMenu = (Y: number, X: number, income: IIncome): void => {
-    setIncome(income);
+  const handleMenu = (Y: number, X: number, shift: IShift): void => {
+    setShift(shift);
     setTop(Y);
     setLeft(X - 52);
     setShowPopup(true);
@@ -67,47 +58,53 @@ const ViewIncome: FC = (): JSX.Element => {
   const handlePrev = async (): Promise<void> => {
     try {
       const { data } = await paginatedIncome(currPage - 1, 10);
-      setIncomes(data.income);
+      setShifts(data.shiftIncome);
       setCurrPage((prevPage) => prevPage - 1);
       if (+data.count !== count) setCount(+data.count);
       if (+data.pages !== totalPages) setTotalPages(+data.pages);
     } catch (error) {
       console.error('Paginated Income Error: ', error);
       if (error instanceof AxiosError)
-        notify(error.response?.data.message, 'error', 'paginate-income-error');
+        notify(error.response?.data.message, 'error', 'paginate-shift-error');
     }
   };
 
   const handleNext = async (): Promise<void> => {
     try {
       const { data } = await paginatedIncome(currPage + 1, 10);
-      setIncomes(data.income);
+
+      setShifts(data.shiftIncome);
       setCurrPage((prevPage) => prevPage + 1);
       if (+data.count !== count) setCount(+data.count);
       if (+data.pages !== totalPages) setTotalPages(+data.pages);
     } catch (error) {
       console.error('Paginated Income Error: ', error);
       if (error instanceof AxiosError)
-        notify(error.response?.data.message, 'error', 'paginate-income-error');
+        notify(error.response?.data.message, 'error', 'paginate-shift-error');
     }
   };
 
   const handleEdit = (event: SyntheticEvent): void => {
     event.stopPropagation();
-    navigate('/income/income-form', { state: { income } });
+    navigate(`/complete-shift/${shift?._id}`, { state: { goToPage: 1 } });
+    setShowPopup(false);
   };
 
   const openModal = (event: SyntheticEvent): void => {
     event.stopPropagation();
     dialogRef.current?.openModal();
+    setShowPopup(false);
   };
 
   const handleDelete = async (): Promise<void> => {
     try {
-      if (income?._id) {
-        const { data } = await deleteIncome(income._id);
+      if (shift?._id) {
+        const { data } = await deleteShift({
+          shiftId: shift?._id,
+          clubId: shift?.clubId,
+        });
         const response = await paginatedIncome(currPage, 10);
-        setIncomes(response.data.income);
+        setShifts(response.data.shiftIncome);
         notify(data.message, 'success', 'delete-income-success');
       }
     } catch (error) {
@@ -123,8 +120,8 @@ const ViewIncome: FC = (): JSX.Element => {
     <>
       <Modal
         ref={dialogRef}
-        title='Delete Income'
-        subtitle='This action cannot be undone'
+        title='Delete Shift'
+        subtitle='This action will delete the shift and all its data. It cannot be undone'
         onConfirm={handleDelete}
       />
       <div className={pageStyles.mainContent}>
@@ -145,9 +142,9 @@ const ViewIncome: FC = (): JSX.Element => {
           linkLeftText='Go back'
           linkLeftHandleClick={() => navigate(-1)}
         />
-        {incomes ? (
+        {shifts ? (
           <ViewIncomeList
-            incomes={incomes}
+            shifts={shifts}
             currPage={currPage}
             totalPages={totalPages}
             handlePrev={handlePrev}
@@ -158,9 +155,6 @@ const ViewIncome: FC = (): JSX.Element => {
           ''
         )}
       </div>
-      <BottomNav>
-        <Button text='Add Income' onClick={handleAddIncome} />
-      </BottomNav>
     </>
   );
 };
