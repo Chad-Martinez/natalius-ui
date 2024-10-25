@@ -7,8 +7,7 @@ const PieGraph: FC<{ graphData: DataSet }> = ({ graphData }): JSX.Element => {
     <PieChart
       series={[
         {
-          arcLabel: (item) =>
-            `${item.label ? item.label[0] : ''} - $${item.value}`,
+          arcLabel: (item) => `$${item.value}`,
           arcLabelMinAngle: 60,
           data: graphData,
         },
@@ -20,7 +19,7 @@ const PieGraph: FC<{ graphData: DataSet }> = ({ graphData }): JSX.Element => {
           position: { vertical: 'bottom', horizontal: 'middle' },
           padding: 2,
           labelStyle: {
-            fontSize: 15,
+            fontSize: 11,
             fill: '#eeeeee',
           },
         },

@@ -82,10 +82,9 @@ const ExpenseForm: FC = (): JSX.Element => {
     }
   }, [loaderData]);
 
-  const handleCancel = () => {
-    navigate(-1);
-  };
-  const handleSubmit = async () => {
+  const handleCancel = (): void => navigate(-1);
+
+  const handleSubmit = async (): Promise<void> => {
     setIsTransmitting(true);
     try {
       const payload: IExpenseBase = {
@@ -120,11 +119,10 @@ const ExpenseForm: FC = (): JSX.Element => {
     }
   };
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (): void =>
     navigate('/vendors/vendor-form', {
       state: { from: '/expenses/expense-form' },
     });
-  };
 
   useEffect(() => {
     setIsFormValid(
@@ -143,6 +141,7 @@ const ExpenseForm: FC = (): JSX.Element => {
             options={vendorOptions}
             value={vendorId}
             hasError={vendorIdHasError}
+            autoFocus={true}
             linkText='Add Vendor'
             handleLinkClick={handleLinkClick}
             errorMessage='Vendor required'
