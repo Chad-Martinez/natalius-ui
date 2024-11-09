@@ -8,31 +8,22 @@ import CardContent from '../ui/Card/CardContent';
 import CardContentVacant from '../ui/Card/CardContentVacant';
 import PieGraph from '../charts/Pie/PieGraph';
 import PeriodSelector from '../charts/PeriodSelector/PeriodSelector';
-import { DataSet, PieGraphData } from '../../types/GraphData';
+import { DataSet, GraphData } from '../../types/GraphData';
+import { PieChartSlotProps } from '@mui/x-charts';
 
 const PieGraphWidget: FC<{
-  graphLoaderData: PieGraphData;
-}> = ({ graphLoaderData }): JSX.Element => {
-  const [period, setPeriod] = useState<string>('Month');
-  const [graphData, setGraphData] = useState<DataSet>([]);
+  graphLoaderData: GraphData;
+  slotProps: PieChartSlotProps;
+  generateColors: (graphSet: DataSet[]) => string[];
+}> = ({ graphLoaderData, slotProps, generateColors }): JSX.Element => {
+  const [period, setPeriod] = useState<string>('Week');
+  const [graphData, setGraphData] = useState<DataSet[]>([]);
 
   const handleSwitch = useCallback(
-    (caseValue: string) => {
-      const { month, quarter, year } = graphLoaderData;
-      switch (caseValue) {
-        case 'quarter':
-          setPeriod('Quarter');
-          setGraphData(quarter);
-          break;
-        case 'year':
-          setPeriod('Year');
-          setGraphData(year);
-          break;
-        default:
-          setPeriod('Month');
-          setGraphData(month);
-          break;
-      }
+    (period: string) => {
+      // @ts-expect-error @ts-ignore
+      setGraphData(graphLoaderData[period.toLowerCase()]);
+      setPeriod(period);
     },
     [graphLoaderData]
   );
@@ -65,9 +56,13 @@ const PieGraphWidget: FC<{
             <PeriodSelector
               defaultChecked={graphLoaderData?.defaultDataSet}
               loadGraphData={loadGraphData}
-              hasWeek={false}
+              graphName='expense-pie'
             />
-            <PieGraph graphData={graphData} />
+            <PieGraph
+              graphData={graphData}
+              slotProps={slotProps}
+              generateColors={generateColors}
+            />
           </>
         ) : (
           <CardContentVacant title='No Finance Data Available' />
