@@ -8,35 +8,38 @@ import CardContent from '../ui/Card/CardContent';
 import CardContentVacant from '../ui/Card/CardContentVacant';
 import BarGraph from '../charts/Bar/BarGraph';
 import PeriodSelector from '../charts/PeriodSelector/PeriodSelector';
-import { DataSet, BarGraphData } from '../../types/GraphData';
+import { DataSet, GraphData, BarSeriesKeys } from '../../types/GraphData';
+import {
+  AxisConfig,
+  BarChartSlotProps,
+  BarSeriesType,
+  ChartsXAxisProps,
+  ScaleName,
+} from '@mui/x-charts';
 
-const BarGraphWidget: FC<{ graphLoaderData: BarGraphData }> = ({
+const BarGraphWidget: FC<{
+  graphLoaderData: GraphData | undefined;
+  defaultSet: string;
+  slotProps?: BarChartSlotProps;
+  xAxis: AxisConfig<ScaleName, string, ChartsXAxisProps>[];
+  series: Array<BarSeriesKeys & BarSeriesType>;
+  colors?: string[];
+}> = ({
   graphLoaderData,
+  defaultSet,
+  slotProps,
+  xAxis,
+  series,
+  colors,
 }): JSX.Element => {
   const [period, setPeriod] = useState<string>('Week');
-  const [graphData, setGraphData] = useState<DataSet>([]);
+  const [graphData, setGraphData] = useState<DataSet[]>([]);
 
   const handleSwitch = useCallback(
-    (caseValue: string) => {
-      const { week, month, quarter, year } = graphLoaderData;
-      switch (caseValue) {
-        case 'month':
-          setPeriod('Month');
-          setGraphData(month);
-          break;
-        case 'quarter':
-          setPeriod('Quarter');
-          setGraphData(quarter);
-          break;
-        case 'year':
-          setPeriod('Year');
-          setGraphData(year);
-          break;
-        default:
-          setPeriod('Week');
-          setGraphData(week);
-          break;
-      }
+    (period: string) => {
+      // @ts-expect-error @ts-ignore
+      setGraphData(graphLoaderData[period.toLowerCase()]);
+      setPeriod('Month');
     },
     [graphLoaderData]
   );
@@ -64,13 +67,20 @@ const BarGraphWidget: FC<{ graphLoaderData: BarGraphData }> = ({
         />
       </CardHeader>
       <CardContent>
-        {graphData && graphData.length > 0 ? (
+        {graphData ? (
           <>
             <PeriodSelector
-              defaultChecked={graphLoaderData?.defaultDataSet}
+              defaultChecked={defaultSet}
               loadGraphData={loadGraphData}
+              graphName='expense-bar'
             />
-            <BarGraph graphData={graphData} />
+            <BarGraph
+              graphData={graphData}
+              slotProps={slotProps}
+              xAxis={xAxis}
+              series={series}
+              colors={colors}
+            />
           </>
         ) : (
           <CardContentVacant title='No Finance Data Available' />

@@ -8,13 +8,14 @@ import { ISprint } from '../../interfaces/ISprint.interface';
 import { IncomeAverages } from '../../types/IncomeAverages';
 import SprintGoalWidget from '../../components/Widgets/SprintGoalWidget';
 import BarGraphWidget from '../../components/Widgets/BarGraphWidget';
-import { BarGraphData } from '../../types/GraphData';
+import { GraphData } from '../../types/GraphData';
+import { valueFormatter } from '../../utils/formatters';
 
 const Incomes: FC = (): JSX.Element => {
   const incomeLoaderData = useLoaderData() as {
     sprint: ISprint;
     averages: IncomeAverages;
-    graphData: BarGraphData;
+    graphData: GraphData;
   };
 
   return (
@@ -24,7 +25,27 @@ const Incomes: FC = (): JSX.Element => {
         <div className={widgetStyles.widgetContainer}>
           <SprintGoalWidget sprintData={incomeLoaderData?.sprint} />
           <AveragesWidget averages={incomeLoaderData?.averages} />
-          <BarGraphWidget graphLoaderData={incomeLoaderData?.graphData} />
+          <BarGraphWidget
+            graphLoaderData={incomeLoaderData?.graphData}
+            defaultSet={incomeLoaderData?.graphData?.defaultDataSet}
+            xAxis={[
+              {
+                scaleType: 'band',
+                dataKey: 'label',
+                tickPlacement: 'middle',
+                id: 'income',
+              },
+            ]}
+            series={[
+              {
+                dataKey: 'total',
+                valueFormatter,
+                id: 'income_id',
+                type: 'bar',
+              },
+            ]}
+            colors={['#eeeeee']}
+          />
         </div>
       </div>
     </>

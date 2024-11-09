@@ -1,19 +1,15 @@
 export type DataSet = {
-  label: string;
-  value: number;
-}[];
+  [key: string]: string | number;
+};
 
-export type BarGraphData = {
-  week: DataSet;
-  month: DataSet;
-  quarter: DataSet;
-  year: DataSet;
+export type GraphData = {
+  week: DataSet[];
+  month: DataSet[];
+  quarter: DataSet[];
+  year: DataSet[];
   defaultDataSet: string;
 };
 
-export type PieGraphData = {
-  month: DataSet;
-  quarter: DataSet;
-  year: DataSet;
-  defaultDataSet: string;
+export type BarSeriesKeys = {
+  [key: string]: string | ((v: number) => string);
 };

@@ -1,30 +1,195 @@
-import { FC } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import pageStyles from '../PageWrapper.module.css';
 import widgetStyles from '../../components/Widgets/Widget.module.css';
 import BottomNav from '../../components/dashboard/BottomNav';
 import Button from '../../components/ui/Button/Button';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import MonthlyBudgetWidget from './components/MonthlyBudgetWidget';
 import PageHeader from '../../components/ui/PageHeader/PageHeader';
 import PieGraphWidget from '../../components/Widgets/PieGraphWidget';
-import { PieGraphData } from '../../types/GraphData';
+import { GraphData, DataSet } from '../../types/GraphData';
+import BarGraphWidget from '../../components/Widgets/BarGraphWidget';
+import { valueFormatter } from '../../utils/formatters';
+import {
+  DAYS_OF_WEEK,
+  MONTHS_OF_YEAR,
+  WEEKS_OF_MONTH,
+} from '../../helpers/date-time-helpers';
+import dayjs from 'dayjs';
+
+type ExpenseGraphData = {
+  expenseBarGraphSet: GraphData;
+  shiftExpenseBarGraphSet: GraphData;
+  mergedExpenseBarGraphSet: GraphData;
+};
 
 const Expenses: FC = (): JSX.Element => {
+  const [expenseGraphData, setExpenseGraphData] = useState<
+    ExpenseGraphData | undefined
+  >(undefined);
   const navigate = useNavigate();
 
-  const handleAddExpense = () => {
-    navigate('expense-form');
+  const handleAddExpense = () => navigate('expense-form');
+
+  const expenseLoaderData = useLoaderData() as {
+    pieData: GraphData;
+    graphData: ExpenseGraphData;
   };
 
-  const dashboardLoaderData = useLoaderData() as { pieData: PieGraphData };
+  const addMissingPeriods = useCallback((data: DataSet[], period: string[]) => {
+    const existingPeriods = new Set(data.map((item) => item.label));
+
+    const missingPeriods = period.filter((day) => !existingPeriods.has(day));
+
+    const missingEntries = missingPeriods.map((day) => ({
+      label: day,
+      type: 'NONE',
+    }));
+
+    const completeData: DataSet[] = [...data, ...missingEntries];
+
+    return completeData.sort(
+      (a, b) =>
+        period.indexOf(a.label as string) - period.indexOf(b.label as string)
+    );
+  }, []);
+
+  useEffect(() => {
+    if (expenseLoaderData && expenseLoaderData.graphData) {
+      const mappedDataSets: Partial<ExpenseGraphData> = {};
+      const mappedDataSet: Partial<GraphData> = {};
+      for (const [k, v] of Object.entries(expenseLoaderData.graphData)) {
+        for (const [l, w] of Object.entries(v)) {
+          switch (l) {
+            case 'defaultDataSet':
+              break;
+            case 'month':
+              {
+                const monthData = addMissingPeriods(
+                  w as DataSet[],
+                  WEEKS_OF_MONTH
+                );
+                mappedDataSet[l] = monthData;
+              }
+              break;
+            case 'quarter':
+              {
+                const monthsCopy = [...MONTHS_OF_YEAR];
+                const monthsOfQuarter: string[] = monthsCopy.splice(
+                  Math.floor(dayjs().month() / 3) * 3,
+                  3
+                );
+
+                const quarterData = addMissingPeriods(
+                  w as DataSet[],
+                  monthsOfQuarter
+                );
+                mappedDataSet[l] = quarterData;
+              }
+              break;
+            case 'year':
+              {
+                const yearData = addMissingPeriods(
+                  w as DataSet[],
+                  MONTHS_OF_YEAR
+                );
+                mappedDataSet[l] = yearData;
+              }
+              break;
+            default:
+              {
+                const weekData = addMissingPeriods(
+                  w as DataSet[],
+                  DAYS_OF_WEEK
+                );
+                // @ts-expect-error @ts-ignore
+                mappedDataSet[l] = weekData;
+              }
+              break;
+          }
+        }
+        mappedDataSet.defaultDataSet = v.defaultDataSet;
+        // @ts-expect-error @ts-ignore
+        mappedDataSets[k] = { ...mappedDataSet };
+      }
+      setExpenseGraphData(mappedDataSets as ExpenseGraphData);
+    }
+  }, [setExpenseGraphData, expenseLoaderData, addMissingPeriods]);
+
+  const generatePieColors = (graphSet: DataSet[]): string[] => {
+    return graphSet.map((dataPoint: DataSet) => {
+      if (dataPoint.label === 'SERVICE') {
+        return '#FF9966';
+      } else if (dataPoint.label === 'MISC') {
+        return '#2BDA66';
+      } else if (dataPoint.label === 'EQUIPMENT') {
+        return '#FF6666';
+      } else if (dataPoint.label === 'SHIFT') {
+        return '#9966FF';
+      }
+    }) as string[];
+  };
 
   return (
     <>
       <div className={pageStyles.mainContent}>
         <PageHeader linkRight='view-expenses' linkRightText='View Expenses' />
         <div className={widgetStyles.widgetContainer}>
-          <MonthlyBudgetWidget />
-          <PieGraphWidget graphLoaderData={dashboardLoaderData?.pieData} />
+          <BarGraphWidget
+            defaultSet={
+              expenseLoaderData?.graphData.mergedExpenseBarGraphSet
+                .defaultDataSet
+            }
+            graphLoaderData={expenseGraphData?.mergedExpenseBarGraphSet}
+            slotProps={{
+              legend: {
+                direction: 'row',
+                position: { vertical: 'bottom', horizontal: 'middle' },
+                padding: 1,
+                labelStyle: {
+                  fontSize: 11,
+                  fill: '#eeeeee',
+                },
+              },
+            }}
+            xAxis={[{ scaleType: 'band', dataKey: 'label', id: 'expenses' }]}
+            series={[
+              {
+                dataKey: 'service',
+                label: 'SERVICE',
+                valueFormatter,
+                type: 'bar',
+              },
+              { dataKey: 'misc', label: 'MISC', valueFormatter, type: 'bar' },
+              {
+                dataKey: 'equipment',
+                label: 'EQUIPMENT',
+                valueFormatter,
+                type: 'bar',
+              },
+              {
+                dataKey: 'shift',
+                label: 'SHIFT',
+                valueFormatter,
+                type: 'bar',
+              },
+            ]}
+            colors={['#FF9966', '#2BDA66', '#FF6666', '#9966FF']}
+          />
+          <PieGraphWidget
+            graphLoaderData={expenseLoaderData?.pieData}
+            slotProps={{
+              legend: {
+                direction: 'row',
+                position: { vertical: 'bottom', horizontal: 'middle' },
+                padding: 2,
+                labelStyle: {
+                  fontSize: 11,
+                  fill: '#eeeeee',
+                },
+              },
+            }}
+            generateColors={generatePieColors}
+          />
         </div>
       </div>
       <BottomNav>

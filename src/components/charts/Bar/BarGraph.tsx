@@ -1,10 +1,22 @@
 import { FC } from 'react';
-import { BarChart, axisClasses } from '@mui/x-charts';
-import { DataSet } from '../../../types/GraphData';
+import {
+  AxisConfig,
+  BarChart,
+  BarChartSlotProps,
+  BarSeriesType,
+  ChartsXAxisProps,
+  ScaleName,
+  axisClasses,
+} from '@mui/x-charts';
+import { DataSet, BarSeriesKeys } from '../../../types/GraphData';
 
-const BarGraph: FC<{ graphData: DataSet }> = ({ graphData }): JSX.Element => {
-  const valueFormatter = (value: number | null) => `$${value}`;
-
+const BarGraph: FC<{
+  graphData: DataSet[];
+  slotProps?: BarChartSlotProps;
+  xAxis: AxisConfig<ScaleName, string, ChartsXAxisProps>[];
+  series: (BarSeriesKeys & BarSeriesType)[];
+  colors?: string[];
+}> = ({ graphData, slotProps, xAxis, series, colors }): JSX.Element => {
   return (
     <BarChart
       margin={{ top: 20 }}
@@ -25,16 +37,11 @@ const BarGraph: FC<{ graphData: DataSet }> = ({ graphData }): JSX.Element => {
         },
       })}
       dataset={graphData}
-      xAxis={[{ scaleType: 'band', dataKey: 'label', tickPlacement: 'middle' }]}
-      series={[
-        {
-          dataKey: 'total',
-          valueFormatter,
-          id: 'income_id',
-        },
-      ]}
+      xAxis={xAxis}
+      slotProps={slotProps}
+      series={series}
+      colors={colors}
       height={300}
-      colors={['#eeeeee']}
     />
   );
 };

@@ -135,11 +135,11 @@ textArea:focus-visible {
   font-size: 1rem;
   letter-spacing: 0.07rem;
   margin-left: 4px;
-  color: var(--color-dark-grey)
+  color: var(--color-dark-grey);
 }
 
 input.radio:checked {
-  border: 7px solid var(--color-light-grey)
+  border: 7px solid var(--color-light-grey);
 }
 
 input.radio:checked + label {

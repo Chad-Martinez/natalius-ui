@@ -1,29 +1,26 @@
-import { PieChart, pieArcLabelClasses } from '@mui/x-charts';
+import { PieChart, PieChartSlotProps, pieArcLabelClasses } from '@mui/x-charts';
 import { FC } from 'react';
 import { DataSet } from '../../../types/GraphData';
 
-const PieGraph: FC<{ graphData: DataSet }> = ({ graphData }): JSX.Element => {
+const PieGraph: FC<{
+  graphData: DataSet[];
+  slotProps?: PieChartSlotProps;
+  colors?: string[];
+  generateColors: (graphSet: DataSet[]) => string[];
+}> = ({ graphData, slotProps, generateColors }): JSX.Element => {
+  const col: string[] = generateColors(graphData);
   return (
     <PieChart
+      slotProps={slotProps}
+      colors={col}
       series={[
         {
           arcLabel: (item) => `$${item.value}`,
           arcLabelMinAngle: 60,
-          data: graphData,
+          data: graphData as { label: string; value: number }[],
         },
       ]}
       margin={{ top: 10, bottom: 50, left: 0, right: 0 }}
-      slotProps={{
-        legend: {
-          direction: 'row',
-          position: { vertical: 'bottom', horizontal: 'middle' },
-          padding: 2,
-          labelStyle: {
-            fontSize: 11,
-            fill: '#eeeeee',
-          },
-        },
-      }}
       sx={{
         [`& .${pieArcLabelClasses.root}`]: {
           fill: 'white',
