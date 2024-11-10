@@ -1,18 +1,16 @@
 import { PieChart, PieChartSlotProps, pieArcLabelClasses } from '@mui/x-charts';
 import { FC } from 'react';
 import { DataSet } from '../../../types/GraphData';
+import { generateGraphColors } from '../../../helpers/graph-helpers';
 
 const PieGraph: FC<{
   graphData: DataSet[];
   slotProps?: PieChartSlotProps;
-  colors?: string[];
-  generateColors: (graphSet: DataSet[]) => string[];
-}> = ({ graphData, slotProps, generateColors }): JSX.Element => {
-  const col: string[] = generateColors(graphData);
+}> = ({ graphData, slotProps }): JSX.Element => {
   return (
     <PieChart
       slotProps={slotProps}
-      colors={col}
+      colors={generateGraphColors(graphData as { label: string }[])}
       series={[
         {
           arcLabel: (item) => `$${item.value}`,

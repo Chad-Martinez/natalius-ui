@@ -3,20 +3,34 @@ import {
   AxisConfig,
   BarChart,
   BarChartSlotProps,
-  BarSeriesType,
   ChartsXAxisProps,
   ScaleName,
   axisClasses,
 } from '@mui/x-charts';
-import { DataSet, BarSeriesKeys } from '../../../types/GraphData';
+import { DataSet, BarSeriesKey } from '../../../types/GraphData';
+import { generateGraphColors } from '../../../helpers/graph-helpers';
 
 const BarGraph: FC<{
   graphData: DataSet[];
   slotProps?: BarChartSlotProps;
   xAxis: AxisConfig<ScaleName, string, ChartsXAxisProps>[];
-  series: (BarSeriesKeys & BarSeriesType)[];
-  colors?: string[];
-}> = ({ graphData, slotProps, xAxis, series, colors }): JSX.Element => {
+  seriesKeys: {
+    [key: string]: BarSeriesKey;
+  };
+}> = ({ graphData, slotProps, xAxis, seriesKeys }): JSX.Element => {
+  const series: BarSeriesKey[] = [];
+
+  for (const [key, value] of Object.entries(seriesKeys)) {
+    graphData.forEach((dataPoint: DataSet) => {
+      if (
+        key === (dataPoint.type as string).toLowerCase() &&
+        !series.some((item) => item.dataKey === key)
+      ) {
+        series.push(value);
+      }
+    });
+  }
+
   return (
     <BarChart
       margin={{ top: 20 }}
@@ -40,7 +54,7 @@ const BarGraph: FC<{
       xAxis={xAxis}
       slotProps={slotProps}
       series={series}
-      colors={colors}
+      colors={generateGraphColors(series as { label: string }[])}
       height={300}
     />
   );

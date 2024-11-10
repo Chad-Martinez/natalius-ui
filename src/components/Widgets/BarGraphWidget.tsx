@@ -8,11 +8,10 @@ import CardContent from '../ui/Card/CardContent';
 import CardContentVacant from '../ui/Card/CardContentVacant';
 import BarGraph from '../charts/Bar/BarGraph';
 import PeriodSelector from '../charts/PeriodSelector/PeriodSelector';
-import { DataSet, GraphData, BarSeriesKeys } from '../../types/GraphData';
+import { DataSet, GraphData, BarSeriesKey } from '../../types/GraphData';
 import {
   AxisConfig,
   BarChartSlotProps,
-  BarSeriesType,
   ChartsXAxisProps,
   ScaleName,
 } from '@mui/x-charts';
@@ -22,15 +21,15 @@ const BarGraphWidget: FC<{
   defaultSet: string;
   slotProps?: BarChartSlotProps;
   xAxis: AxisConfig<ScaleName, string, ChartsXAxisProps>[];
-  series: Array<BarSeriesKeys & BarSeriesType>;
-  colors?: string[];
+  seriesKeys: {
+    [key: string]: BarSeriesKey;
+  };
 }> = ({
   graphLoaderData,
   defaultSet,
   slotProps,
   xAxis,
-  series,
-  colors,
+  seriesKeys,
 }): JSX.Element => {
   const [period, setPeriod] = useState<string>('Week');
   const [graphData, setGraphData] = useState<DataSet[]>([]);
@@ -78,8 +77,7 @@ const BarGraphWidget: FC<{
               graphData={graphData}
               slotProps={slotProps}
               xAxis={xAxis}
-              series={series}
-              colors={colors}
+              seriesKeys={seriesKeys}
             />
           </>
         ) : (

@@ -14,8 +14,7 @@ import { PieChartSlotProps } from '@mui/x-charts';
 const PieGraphWidget: FC<{
   graphLoaderData: GraphData;
   slotProps: PieChartSlotProps;
-  generateColors: (graphSet: DataSet[]) => string[];
-}> = ({ graphLoaderData, slotProps, generateColors }): JSX.Element => {
+}> = ({ graphLoaderData, slotProps }): JSX.Element => {
   const [period, setPeriod] = useState<string>('Week');
   const [graphData, setGraphData] = useState<DataSet[]>([]);
 
@@ -58,11 +57,7 @@ const PieGraphWidget: FC<{
               loadGraphData={loadGraphData}
               graphName='expense-pie'
             />
-            <PieGraph
-              graphData={graphData}
-              slotProps={slotProps}
-              generateColors={generateColors}
-            />
+            <PieGraph graphData={graphData} slotProps={slotProps} />
           </>
         ) : (
           <CardContentVacant title='No Finance Data Available' />
