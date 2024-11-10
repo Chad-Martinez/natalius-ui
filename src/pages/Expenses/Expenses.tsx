@@ -6,7 +6,7 @@ import Button from '../../components/ui/Button/Button';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import PageHeader from '../../components/ui/PageHeader/PageHeader';
 import PieGraphWidget from '../../components/Widgets/PieGraphWidget';
-import { GraphData, DataSet } from '../../types/GraphData';
+import { GraphData, DataSet, BarSeriesKey } from '../../types/GraphData';
 import BarGraphWidget from '../../components/Widgets/BarGraphWidget';
 import { valueFormatter } from '../../utils/formatters';
 import {
@@ -115,18 +115,40 @@ const Expenses: FC = (): JSX.Element => {
     }
   }, [setExpenseGraphData, expenseLoaderData, addMissingPeriods]);
 
-  const generatePieColors = (graphSet: DataSet[]): string[] => {
-    return graphSet.map((dataPoint: DataSet) => {
-      if (dataPoint.label === 'SERVICE') {
-        return '#FF9966';
-      } else if (dataPoint.label === 'MISC') {
-        return '#2BDA66';
-      } else if (dataPoint.label === 'EQUIPMENT') {
-        return '#FF6666';
-      } else if (dataPoint.label === 'SHIFT') {
-        return '#9966FF';
-      }
-    }) as string[];
+  // const generatePieColors = (graphSet: DataSet[]): string[] => {
+  //   return graphSet.map((dataPoint: DataSet) => {
+  //     if (dataPoint.label === 'SERVICE') {
+  //       return '#FF9966';
+  //     } else if (dataPoint.label === 'MISC') {
+  //       return '#2BDA66';
+  //     } else if (dataPoint.label === 'EQUIPMENT') {
+  //       return '#FF6666';
+  //     } else if (dataPoint.label === 'SHIFT') {
+  //       return '#9966FF';
+  //     }
+  //   }) as string[];
+  // };
+
+  const barSeriesKeys: { [key: string]: BarSeriesKey } = {
+    service: {
+      dataKey: 'service',
+      label: 'SERVICE',
+      valueFormatter,
+      type: 'bar',
+    },
+    misc: { dataKey: 'misc', label: 'MISC', valueFormatter, type: 'bar' },
+    equipment: {
+      dataKey: 'equipment',
+      label: 'EQUIPMENT',
+      valueFormatter,
+      type: 'bar',
+    },
+    shift: {
+      dataKey: 'shift',
+      label: 'SHIFT',
+      valueFormatter,
+      type: 'bar',
+    },
   };
 
   return (
@@ -152,28 +174,7 @@ const Expenses: FC = (): JSX.Element => {
               },
             }}
             xAxis={[{ scaleType: 'band', dataKey: 'label', id: 'expenses' }]}
-            series={[
-              {
-                dataKey: 'service',
-                label: 'SERVICE',
-                valueFormatter,
-                type: 'bar',
-              },
-              { dataKey: 'misc', label: 'MISC', valueFormatter, type: 'bar' },
-              {
-                dataKey: 'equipment',
-                label: 'EQUIPMENT',
-                valueFormatter,
-                type: 'bar',
-              },
-              {
-                dataKey: 'shift',
-                label: 'SHIFT',
-                valueFormatter,
-                type: 'bar',
-              },
-            ]}
-            colors={['#FF9966', '#2BDA66', '#FF6666', '#9966FF']}
+            seriesKeys={barSeriesKeys}
           />
           <PieGraphWidget
             graphLoaderData={expenseLoaderData?.pieData}
@@ -188,7 +189,6 @@ const Expenses: FC = (): JSX.Element => {
                 },
               },
             }}
-            generateColors={generatePieColors}
           />
         </div>
       </div>
