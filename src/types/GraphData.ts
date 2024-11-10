@@ -10,6 +10,6 @@ export type GraphData = {
   defaultDataSet: string;
 };
 
-export type BarSeriesKeys = {
+export type BarSeriesKey = {
   [key: string]: string | ((v: number) => string);
 };
