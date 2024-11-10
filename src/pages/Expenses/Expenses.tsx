@@ -115,20 +115,6 @@ const Expenses: FC = (): JSX.Element => {
     }
   }, [setExpenseGraphData, expenseLoaderData, addMissingPeriods]);
 
-  // const generatePieColors = (graphSet: DataSet[]): string[] => {
-  //   return graphSet.map((dataPoint: DataSet) => {
-  //     if (dataPoint.label === 'SERVICE') {
-  //       return '#FF9966';
-  //     } else if (dataPoint.label === 'MISC') {
-  //       return '#2BDA66';
-  //     } else if (dataPoint.label === 'EQUIPMENT') {
-  //       return '#FF6666';
-  //     } else if (dataPoint.label === 'SHIFT') {
-  //       return '#9966FF';
-  //     }
-  //   }) as string[];
-  // };
-
   const barSeriesKeys: { [key: string]: BarSeriesKey } = {
     service: {
       dataKey: 'service',
