@@ -1,6 +1,5 @@
-export const generateGraphColors = (dataSet: { label: string }[]): string[] => {
-  console.log('graph set ', dataSet);
-  return dataSet.map((dataPoint: { label: string }) => {
+export const generateGraphColors = (dataSet: { label: string }[]): string[] =>
+  dataSet.map((dataPoint: { label: string }) => {
     if (dataPoint.label === 'SERVICE') {
       return '#FF9966';
     } else if (dataPoint.label === 'MISC') {
@@ -11,4 +10,3 @@ export const generateGraphColors = (dataSet: { label: string }[]): string[] => {
       return '#9966FF';
     }
   }) as string[];
-};
