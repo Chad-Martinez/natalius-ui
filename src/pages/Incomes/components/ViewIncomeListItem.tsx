@@ -1,6 +1,6 @@
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FC, PointerEvent, SyntheticEvent } from 'react';
+import { FC, memo, PointerEvent, SyntheticEvent } from 'react';
 import styles from '../ViewIncome.module.css';
 import dayjs from 'dayjs';
 import { IShift } from '../../../interfaces/IShift.interface';
@@ -8,7 +8,7 @@ import { IShift } from '../../../interfaces/IShift.interface';
 const ViewIncomeListItem: FC<{
   shift: IShift;
   handleMenu: (top: number, left: number, shift: IShift) => void;
-}> = ({ shift, handleMenu }): JSX.Element => {
+}> = memo(({ shift, handleMenu }): JSX.Element => {
   const handleClick = (event: SyntheticEvent) => {
     event.stopPropagation();
     const e = {
@@ -28,6 +28,6 @@ const ViewIncomeListItem: FC<{
       </div>
     </div>
   );
-};
+});
 
 export default ViewIncomeListItem;
