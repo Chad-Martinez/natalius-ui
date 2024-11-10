@@ -1,6 +1,6 @@
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FC, PointerEvent, SyntheticEvent } from 'react';
+import { FC, memo, PointerEvent, SyntheticEvent } from 'react';
 import styles from '../ViewExpenses.module.css';
 import { IExpense } from '../../../interfaces/IExpense.interface';
 import dayjs from 'dayjs';
@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 const ViewExpensesListItem: FC<{
   expense: IExpense;
   handleMenu: (top: number, left: number, expense: IExpense) => void;
-}> = ({ expense, handleMenu }): JSX.Element => {
+}> = memo(({ expense, handleMenu }): JSX.Element => {
   const handleClick = (event: SyntheticEvent) => {
     event.stopPropagation();
     const e = {
@@ -32,6 +32,6 @@ const ViewExpensesListItem: FC<{
       </div>
     </div>
   );
-};
+});
 
 export default ViewExpensesListItem;

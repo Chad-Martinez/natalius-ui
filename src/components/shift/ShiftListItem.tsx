@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent } from 'react';
+import { FC, memo, SyntheticEvent } from 'react';
 import dayjs from 'dayjs';
 import styles from './ShiftListItem.module.css';
 import { IShift } from '../../interfaces/IShift.interface';
@@ -12,7 +12,7 @@ const ShiftListItem: FC<{
     shiftId: IShift['_id'];
     clubId: IShift['clubId'];
   }) => Promise<void>;
-}> = ({ shift, handleMenu }): JSX.Element => {
+}> = memo(({ shift, handleMenu }): JSX.Element => {
   const handleClick = (event: SyntheticEvent) => {
     event.stopPropagation();
     const e = {
@@ -35,6 +35,6 @@ const ShiftListItem: FC<{
       </div>
     </>
   );
-};
+});
 
 export default ShiftListItem;
