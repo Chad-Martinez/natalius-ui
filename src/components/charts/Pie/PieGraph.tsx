@@ -10,7 +10,7 @@ const PieGraph: FC<{
   return (
     <PieChart
       slotProps={slotProps}
-      colors={generateGraphColors(graphData as { label: string }[])}
+      colors={generateGraphColors(graphData as { id: string }[])}
       series={[
         {
           arcLabel: (item) => `$${item.value}`,
