@@ -10,12 +10,14 @@ import SprintGoalWidget from '../../components/Widgets/SprintGoalWidget';
 import BarGraphWidget from '../../components/Widgets/BarGraphWidget';
 import { GraphData } from '../../types/GraphData';
 import { valueFormatter } from '../../utils/formatters';
+import ShiftPredictionWidget from '../../components/Widgets/ShiftPredictionWidget';
 
 const Incomes: FC = (): JSX.Element => {
   const incomeLoaderData = useLoaderData() as {
     sprint: ISprint;
     averages: IncomeAverages;
     graphData: GraphData;
+    shiftPrediction: { prediction: number; nextShift: Date } | null;
   };
 
   return (
@@ -24,6 +26,9 @@ const Incomes: FC = (): JSX.Element => {
         <PageHeader linkRight='view-income' linkRightText='View Income' />
         <div className={widgetStyles.widgetContainer}>
           <SprintGoalWidget sprintData={incomeLoaderData?.sprint} />
+          <ShiftPredictionWidget
+            shiftPrediction={incomeLoaderData?.shiftPrediction}
+          />
           <AveragesWidget averages={incomeLoaderData?.averages} />
           <BarGraphWidget
             graphLoaderData={incomeLoaderData?.graphData}
@@ -36,15 +41,14 @@ const Incomes: FC = (): JSX.Element => {
                 id: 'income',
               },
             ]}
-            series={[
+            seriesKeys={[
               {
-                dataKey: 'total',
+                dataKey: 'income',
                 valueFormatter,
                 id: 'income_id',
                 type: 'bar',
               },
             ]}
-            colors={['#eeeeee']}
           />
         </div>
       </div>
