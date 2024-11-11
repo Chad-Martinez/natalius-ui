@@ -50,9 +50,7 @@ const ClubItem: FC<{ club: IClub; archiveClub: (payload: IClub) => void }> =
       dialogRef.current?.closeModal();
     };
 
-    const handleEdit = () => {
-      navigate('club-form', { state: { club } });
-    };
+    const handleEdit = (): void => navigate('club-form', { state: { club } });
 
     const handleShowShifts = (): void => {
       if (shifts) {
@@ -100,19 +98,20 @@ const ClubItem: FC<{ club: IClub; archiveClub: (payload: IClub) => void }> =
             {fullAddress && (
               <CardContentItem text={fullAddress} icon={faLocationDot} />
             )}
-            {filteredShifts && filteredShifts.length > 0 && (
-              <CardContentAccordian
-                text='Scheduled Shifts'
-                icon={faClock}
-                enabled={filteredShifts.length > 0}
-              >
-                {filteredShifts.length > 0 ? (
-                  <ShiftsList shiftData={filteredShifts} />
-                ) : (
-                  ''
-                )}
-              </CardContentAccordian>
-            )}
+            <CardContentAccordian
+              text={
+                filteredShifts && filteredShifts.length > 0
+                  ? 'Scheduled Shifts'
+                  : 'No Scheduled Shifts'
+              }
+              icon={faClock}
+            >
+              {filteredShifts.length > 0 ? (
+                <ShiftsList shiftData={filteredShifts} />
+              ) : (
+                ''
+              )}
+            </CardContentAccordian>
           </CardContent>
           {!club.isArchived ? (
             <CardFooter
