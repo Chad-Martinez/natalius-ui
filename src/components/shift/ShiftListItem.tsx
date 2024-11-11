@@ -25,7 +25,7 @@ const ShiftListItem: FC<{
     <>
       <div className={styles.shiftListItem}>
         <div>
-          {dayjs(shift.start).format('ddd: MMM D')} @{' '}
+          {dayjs(shift.start).format('ddd: MMM Do')} @{' '}
           {dayjs(shift.start).format('h:mma')} -{' '}
           {dayjs(shift.end).format('h:mma')}
         </div>
