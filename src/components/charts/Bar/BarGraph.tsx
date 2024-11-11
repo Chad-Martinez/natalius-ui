@@ -14,21 +14,28 @@ const BarGraph: FC<{
   graphData: DataSet[];
   slotProps?: BarChartSlotProps;
   xAxis: AxisConfig<ScaleName, string, ChartsXAxisProps>[];
-  seriesKeys: {
-    [key: string]: BarSeriesKey;
-  };
+  seriesKeys:
+    | {
+        [key: string]: BarSeriesKey;
+      }
+    | BarSeriesKey[];
 }> = ({ graphData, slotProps, xAxis, seriesKeys }): JSX.Element => {
   const series: BarSeriesKey[] = [];
 
-  for (const [key, value] of Object.entries(seriesKeys)) {
-    graphData.forEach((dataPoint: DataSet) => {
-      if (
-        key === (dataPoint.type as string).toLowerCase() &&
-        !series.some((item) => item.dataKey === key)
-      ) {
-        series.push(value);
-      }
-    });
+  if (Array.isArray(seriesKeys)) {
+    series.push(...seriesKeys);
+  } else {
+    for (const [key, value] of Object.entries(seriesKeys)) {
+      graphData.forEach((dataPoint: DataSet) => {
+        if (
+          key === (dataPoint.type as string).toLowerCase() &&
+          !series.some((item) => item.dataKey === key)
+        ) {
+          value.id = `${key}_id`;
+          series.push(value);
+        }
+      });
+    }
   }
 
   return (
@@ -54,7 +61,7 @@ const BarGraph: FC<{
       xAxis={xAxis}
       slotProps={slotProps}
       series={series}
-      colors={generateGraphColors(series as { label: string }[])}
+      colors={generateGraphColors(series as { id: string }[])}
       height={300}
     />
   );

@@ -21,9 +21,11 @@ const BarGraphWidget: FC<{
   defaultSet: string;
   slotProps?: BarChartSlotProps;
   xAxis: AxisConfig<ScaleName, string, ChartsXAxisProps>[];
-  seriesKeys: {
-    [key: string]: BarSeriesKey;
-  };
+  seriesKeys:
+    | {
+        [key: string]: BarSeriesKey;
+      }
+    | BarSeriesKey[];
 }> = ({
   graphLoaderData,
   defaultSet,
