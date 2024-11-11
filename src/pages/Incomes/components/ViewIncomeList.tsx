@@ -30,7 +30,7 @@ const ViewIncomeList: FC<ViewIncomeProps> = ({
         <div className={styles.date}>Date</div>
         <div className={styles.club}>Club</div>
         <div className={styles.amount}>Amount</div>
-        <div className={styles.actions}></div>
+        <div className={styles.actionsContainer}></div>
       </div>
       <div className={styles.listItemsContainer}>
         {shifts.length > 0 ? mappedIncomes : ''}

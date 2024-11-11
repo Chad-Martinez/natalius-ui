@@ -23,8 +23,10 @@ const ViewIncomeListItem: FC<{
         <span>{shift?.club}</span>
       </div>
       <div className={styles.amount}>${shift.income?.amount.toFixed(2)}</div>
-      <div className={styles.actions}>
-        <FontAwesomeIcon icon={faEllipsisVertical} onClick={handleClick} />
+      <div className={styles.actionsContainer}>
+        <div className={styles.actions} onClick={handleClick}>
+          <FontAwesomeIcon icon={faEllipsisVertical} />
+        </div>
       </div>
     </div>
   );
