@@ -26,9 +26,7 @@ const Clubs: FC = (): JSX.Element => {
     }
   }, [clubData]);
 
-  const handleAddClub = () => {
-    navigate('club-form');
-  };
+  const handleAddClub = (): void => navigate('club-form');
 
   const archiveClub = async (payload: IClub): Promise<void> => {
     try {
@@ -60,7 +58,7 @@ const Clubs: FC = (): JSX.Element => {
     }
   };
 
-  const handleViewArchive = () => setViewArchive(!viewArchive);
+  const handleViewArchive = (): void => setViewArchive(!viewArchive);
 
   return (
     <>
