@@ -36,7 +36,7 @@ const ViewExpensesList: FC<ViewExpenseProps> = ({
         <div className={styles.vendor}>Vendor</div>
         <div className={styles.amount}>Cost</div>
         <div className={styles.type}>Type</div>
-        <div className={styles.actions}></div>
+        <div className={styles.actionsContainer}></div>
       </div>
       <div className={styles.listItemsContainer}>
         {expenses.length > 0 ? mappedExpenses : ''}

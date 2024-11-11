@@ -102,12 +102,17 @@
   text-align: center;
 }
 
-.actions {
+.actionsContainer {
   width: 15%;
   display: flex;
   gap: 8px;
   justify-content: center;
   font-size: 1.05rem;
+}
+
+.actions {
+  width: 25px;
+  text-align: center;
 }
 
 .ellipsisMenuContainer {

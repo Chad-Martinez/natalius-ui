@@ -27,8 +27,10 @@ const ViewExpensesListItem: FC<{
       </div>
       <div className={styles.amount}>${expense.amount.toFixed(2)}</div>
       <div className={styles.type}>{expense.type[0]}</div>
-      <div className={styles.actions}>
-        <FontAwesomeIcon icon={faEllipsisVertical} onClick={handleClick} />
+      <div className={styles.actionsContainer}>
+        <div className={styles.actions} onClick={handleClick}>
+          <FontAwesomeIcon icon={faEllipsisVertical} />
+        </div>
       </div>
     </div>
   );
