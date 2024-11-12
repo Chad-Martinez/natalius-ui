@@ -10,7 +10,10 @@ import CardFooter from '../ui/Card/CardFooter';
 import dayjs from 'dayjs';
 
 const ShiftPredictionWidget: FC<{
-  shiftPrediction: { prediction: number; nextShift: Date } | null;
+  shiftPrediction: {
+    prediction: number;
+    nextShift: { start: Date; timezone: string };
+  } | null;
 }> = ({ shiftPrediction }): JSX.Element => {
   return (
     <Card
@@ -27,7 +30,10 @@ const ShiftPredictionWidget: FC<{
       <CardContent>
         {shiftPrediction ? (
           <span>
-            {`${dayjs(shiftPrediction.nextShift).format('dddd MMM Do')}: `}
+            {`${dayjs
+              .utc(shiftPrediction.nextShift.start)
+              .tz(shiftPrediction.nextShift.timezone)
+              .format('dddd MMM Do')}: `}
             <span
               className={widgetStyles.highlight}
             >{`$${shiftPrediction.prediction}`}</span>

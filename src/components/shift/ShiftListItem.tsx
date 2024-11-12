@@ -25,9 +25,9 @@ const ShiftListItem: FC<{
     <>
       <div className={styles.shiftListItem}>
         <div>
-          {dayjs(shift.start).format('ddd: MMM Do')} @{' '}
-          {dayjs(shift.start).format('h:mma')} -{' '}
-          {dayjs(shift.end).format('h:mma')}
+          {dayjs.utc(shift.start).tz(shift.timezone).format('ddd: MMM Do')} @{' '}
+          {dayjs.utc(shift.start).tz(shift.timezone).format('h:mma')} -{' '}
+          {dayjs.utc(shift.end).tz(shift.timezone).format('h:mma')}
         </div>
         <div className={styles.actions} onClick={handleClick}>
           <FontAwesomeIcon icon={faEllipsisVertical} />

@@ -13,7 +13,6 @@ import Select from '../../components/forms/Select';
 import { AxiosError } from 'axios';
 import { notify } from '../../utils/toastify';
 import dayjs from 'dayjs';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import useInput from '../../hooks/useInput';
 import Input from '../../components/forms/Input';
 import FormGroup from '../../components/forms/FormGroup';
@@ -22,7 +21,10 @@ import TextArea from '../../components/forms/TextArea';
 import { addShift, updateShift } from '../../services/shiftServices';
 import { IShift, IShiftBase } from '../../interfaces/IShift.interface';
 import { SelectOptions } from '../../types/SelectOptions';
-dayjs.extend(isSameOrBefore);
+import {
+  getUserTimezone,
+  TIMEZONE_SELECT,
+} from '../../helpers/date-time-helpers';
 
 const ShiftForm: FC = (): JSX.Element => {
   const [clubOptions, setClubOptions] = useState<SelectOptions[]>([]);
@@ -53,7 +55,7 @@ const ShiftForm: FC = (): JSX.Element => {
   } = useInput(
     (v) => dayjs(v).isValid(),
     shift
-      ? dayjs(shift.start).format('YYYY-MM-DDTHH:mm')
+      ? dayjs.utc(shift.start).tz(shift.timezone).format('YYYY-MM-DDTHH:mm')
       : dayjs().format('YYYY-MM-DDTHH:mm')
   );
 
@@ -66,25 +68,33 @@ const ShiftForm: FC = (): JSX.Element => {
   } = useInput(
     (v) => dayjs(v).isValid() && !dayjs(v).isSameOrBefore(dayjs(start)),
     shift
-      ? dayjs(shift.end).format('YYYY-MM-DDTHH:mm')
+      ? dayjs.utc(shift.end).tz(shift.timezone).format('YYYY-MM-DDTHH:mm')
       : dayjs().add(4, 'hour').format('YYYY-MM-DDTHH:mm')
   );
+
+  const {
+    value: timezone,
+    inputBlurHandler: timezoneBlurHandler,
+    valueChangeHandler: timezoneChangeHandler,
+  } = useInput((v) => v !== '', shift ? shift.timezone : getUserTimezone());
 
   const { value: notes, valueChangeHandler: notesChangeHandler } = useInput(
     (v) => v !== '',
     shift ? shift.notes : ''
   );
 
-  const handleCancel = (): void => {
-    navigate(-1);
-  };
+  const handleCancel = (): void => navigate(-1);
+
   const handleSubmit = async (): Promise<void> => {
     setIsTransmitting(true);
     try {
+      const startWithTZ = dayjs.tz(start, timezone);
+      const endWithTZ = dayjs.tz(end, timezone);
       const payload: IShiftBase = {
         clubId,
-        start,
-        end,
+        start: dayjs(startWithTZ).utc().format(),
+        end: dayjs(endWithTZ).utc().format(),
+        timezone,
         notes,
         shiftComplete:
           shift && shift.shiftComplete ? shift.shiftComplete : false,
@@ -163,6 +173,14 @@ const ShiftForm: FC = (): JSX.Element => {
               handleBlur={endBlurHandler}
             />
           </FormGroup>
+          <Select
+            name='timezone'
+            defaultOptionName={'Timezone'}
+            options={TIMEZONE_SELECT}
+            value={timezone}
+            handleBlur={timezoneBlurHandler}
+            handleChange={timezoneChangeHandler}
+          />
           <TextArea
             value={notes}
             placeholder='Notes...'

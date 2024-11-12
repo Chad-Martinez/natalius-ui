@@ -24,7 +24,7 @@ const ViewExpensesListItem: FC<{
       return (
         <div className={styles.listItem}>
           <div className={styles.date}>
-            {dayjs(expense.date).format('MM/DD/YY')}
+            {dayjs.utc(expense.date).local().format('MM/DD/YY')}
           </div>
           <div className={styles.vendor}>
             <span>{expense.vendor}</span>
@@ -43,7 +43,7 @@ const ViewExpensesListItem: FC<{
       return (
         <div className={styles.listItem}>
           <div className={styles.date}>
-            {dayjs(shift.start).format('MM/DD/YY')}
+            {dayjs.utc(shift.start).tz(shift.timezone).format('MM/DD/YY')}
           </div>
           <div className={styles.vendor}>
             <span>{shift.club}</span>

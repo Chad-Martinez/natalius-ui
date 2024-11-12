@@ -18,7 +18,9 @@ const ViewIncomeListItem: FC<{
   };
   return (
     <div className={styles.listItem}>
-      <div className={styles.date}>{dayjs(shift.start).format('MM/DD/YY')}</div>
+      <div className={styles.date}>
+        {dayjs.utc(shift.start).tz(shift.timezone).format('MM/DD/YY')}
+      </div>
       <div className={styles.club}>
         <span>{shift?.club}</span>
       </div>

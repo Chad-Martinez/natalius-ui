@@ -30,7 +30,7 @@ const SprintGoalForm: FC = (): JSX.Element => {
   } = useInput(
     (v) => dayjs(v).isValid(),
     sprint
-      ? dayjs(sprint.start).format('YYYY-MM-DD')
+      ? dayjs.utc(sprint.start).local().format('YYYY-MM-DD')
       : dayjs().format('YYYY-MM-DD')
   );
 
@@ -52,7 +52,7 @@ const SprintGoalForm: FC = (): JSX.Element => {
     setIsTransmitting(true);
     try {
       const payload: ISprintBase = {
-        start,
+        start: dayjs(start).utc().format('YYYY-MM-DD'),
         goal: +goal,
       };
       if (sprint) {
