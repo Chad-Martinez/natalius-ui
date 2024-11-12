@@ -25,12 +25,17 @@ import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { MenuContext } from '../../layouts/ProtectedLayout';
 import Modal from '../../components/ui/Modal/Modal';
 import { IHTMLDialogElement } from '../../interfaces/IHTMLDialog.interface';
+import { IShift } from '../../interfaces/IShift.interface';
 
-type PaginatedExpenses = { expenses: IExpense[]; count: number; pages: number };
+type PaginatedExpenses = {
+  expenses: Array<IExpense | IShift>;
+  count: number;
+  pages: number;
+};
 
 const ViewExpenses: FC = (): JSX.Element => {
-  const [expenses, setExpenses] = useState<IExpense[]>([]);
-  const [expense, setExpense] = useState<IExpense | null>(null);
+  const [expenses, setExpenses] = useState<Array<IExpense | IShift>>([]);
+  const [expense, setExpense] = useState<IExpense | IShift | null>(null);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [count, setCount] = useState<number>();
   const [currPage, setCurrPage] = useState<number>(1);
@@ -41,26 +46,30 @@ const ViewExpenses: FC = (): JSX.Element => {
 
   const navigate = useNavigate();
 
-  const expenseData = useLoaderData() as PaginatedExpenses;
+  const expenseLoaderData = useLoaderData() as PaginatedExpenses;
+
+  console.log('expense loader ', expenseLoaderData);
 
   useEffect(() => {
-    if (expenseData) {
-      setExpenses(expenseData.expenses);
-      setTotalPages(expenseData.pages);
-      setCount(expenseData.count);
+    if (expenseLoaderData) {
+      setExpenses(expenseLoaderData.expenses);
+      setTotalPages(expenseLoaderData.pages);
+      setCount(expenseLoaderData.count);
       setCurrPage(1);
     }
-  }, [expenseData]);
+  }, [expenseLoaderData]);
 
   useEffect(() => {
     if (!showPopup && expense) setExpense(null);
   }, [showPopup, expense]);
 
-  const handleAddExpense = () => {
-    navigate('/expenses/expense-form');
-  };
+  const handleAddExpense = (): void => navigate('/expenses/expense-form');
 
-  const handleMenu = (Y: number, X: number, expense: IExpense): void => {
+  const handleMenu = (
+    Y: number,
+    X: number,
+    expense: IExpense | IShift
+  ): void => {
     setExpense(expense);
     setTop(Y);
     setLeft(X - 52);
@@ -148,6 +157,9 @@ const ViewExpenses: FC = (): JSX.Element => {
           linkLeftText='Go back'
           linkLeftHandleClick={() => navigate(-1)}
         />
+        <div className={styles.legend}>
+          M: Misc | S: Service | E: Equipment | SH: Shift
+        </div>
         {expenses ? (
           <ViewExpensesList
             expenses={expenses}
