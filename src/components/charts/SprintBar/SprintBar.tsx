@@ -1,15 +1,13 @@
 import { FC } from 'react';
 import styles from './SprintBar.module.css';
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-dayjs.extend(relativeTime);
 
 const SprintBar: FC<{ progress: number; goal: number; end: string }> = ({
   progress,
   goal,
   end,
 }): JSX.Element => {
-  const timeLeft = `${dayjs(end).fromNow(true)} left`;
+  const timeLeft = `${dayjs.utc(end).local().fromNow(true)} left`;
 
   const progressWidth = (): string => {
     if (!progress) return '0%';

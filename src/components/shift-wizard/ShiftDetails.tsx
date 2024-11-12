@@ -13,6 +13,7 @@ import Label from '../forms/Label';
 import TextArea from '../forms/TextArea';
 import { IShift } from '../../interfaces/IShift.interface';
 import { SelectOptions } from '../../types/SelectOptions';
+import { TIMEZONE_SELECT } from '../../helpers/date-time-helpers';
 
 const ShiftDetails: FC<{
   goNext: (shift: IShift) => void;
@@ -36,7 +37,10 @@ const ShiftDetails: FC<{
     inputBlurHandler: startBlurHandler,
   } = useInput(
     (v) => dayjs(v).isValid(),
-    dayjs(shiftData?.start).format('YYYY-MM-DDTHH:mm')
+    dayjs
+      .utc(shiftData?.start)
+      .tz(shiftData?.timezone)
+      .format('YYYY-MM-DDTHH:mm')
   );
 
   const {
@@ -47,8 +51,14 @@ const ShiftDetails: FC<{
     inputBlurHandler: endBlurHandler,
   } = useInput(
     (v) => dayjs(v).isValid(),
-    dayjs(shiftData?.end).format('YYYY-MM-DDTHH:mm')
+    dayjs.utc(shiftData?.end).tz(shiftData?.timezone).format('YYYY-MM-DDTHH:mm')
   );
+
+  const {
+    value: timezone,
+    inputBlurHandler: timezoneBlurHandler,
+    valueChangeHandler: timezoneChangeHandler,
+  } = useInput((v) => v !== '', shiftData?.timezone);
 
   const { value: notes, valueChangeHandler: notesChangeHandler } = useInput(
     (v) => v !== '',
@@ -63,11 +73,13 @@ const ShiftDetails: FC<{
 
   const handleNext = (): void => {
     if (shiftData) {
+      const startWithTZ = dayjs.tz(start, timezone);
+      const endWithTZ = dayjs.tz(end, timezone);
       const updatedShift: IShift = {
         ...shiftData,
         clubId,
-        start,
-        end,
+        start: dayjs(startWithTZ).utc().format(),
+        end: dayjs(endWithTZ).utc().format(),
         notes,
       };
       goNext(updatedShift);
@@ -111,6 +123,14 @@ const ShiftDetails: FC<{
               handleBlur={endBlurHandler}
             />
           </FormGroup>
+          <Select
+            name='timezone'
+            defaultOptionName={'Timezone'}
+            options={TIMEZONE_SELECT}
+            value={timezone}
+            handleBlur={timezoneBlurHandler}
+            handleChange={timezoneChangeHandler}
+          />
           <TextArea
             value={notes}
             placeholder='Notes...'

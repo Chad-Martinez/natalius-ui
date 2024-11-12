@@ -56,7 +56,7 @@ const SprintGoalWidget: FC<{ sprintData: ISprint | undefined }> = ({
     if (sprintData) {
       setSprint(sprintData);
       const { end } = sprintData;
-      if (dayjs().isAfter(end, 'day')) {
+      if (dayjs().isAfter(dayjs.utc(end).local(), 'day')) {
         handleCompleteSprint();
       }
     }

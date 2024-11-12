@@ -20,6 +20,7 @@ export interface IShiftBase {
   clubId: string;
   start: string;
   end: string;
+  timezone: string;
   notes?: string;
   shiftComplete?: boolean;
   expenses?: IShiftExpenses;
@@ -29,5 +30,5 @@ export interface IShiftBase {
 
 export interface IShift extends IShiftBase {
   _id: string;
-  club: string;
+  club?: string;
 }

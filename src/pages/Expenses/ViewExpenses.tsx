@@ -48,8 +48,6 @@ const ViewExpenses: FC = (): JSX.Element => {
 
   const expenseLoaderData = useLoaderData() as PaginatedExpenses;
 
-  console.log('expense loader ', expenseLoaderData);
-
   useEffect(() => {
     if (expenseLoaderData) {
       setExpenses(expenseLoaderData.expenses);

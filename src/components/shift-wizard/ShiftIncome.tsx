@@ -77,7 +77,10 @@ const ShiftIncome: FC<{
             <Input
               name='date'
               type='text'
-              value={dayjs(shiftData?.start).format('dddd: MMMM D, YYYY')}
+              value={dayjs
+                .utc(shiftData?.start)
+                .tz(shiftData?.timezone)
+                .format('dddd: MMMM D, YYYY')}
               disabled={true}
             />
           </FormGroup>

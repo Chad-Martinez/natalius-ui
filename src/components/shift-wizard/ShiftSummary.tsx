@@ -7,9 +7,7 @@ import { IShift } from '../../interfaces/IShift.interface';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
-import localizedFormat from 'dayjs/plugin/localizedFormat';
 import { SelectOptions } from '../../types/SelectOptions';
-dayjs.extend(localizedFormat);
 
 const ShiftSummary: FC<{
   goNext: (shift: IShift | null) => void;
@@ -55,11 +53,17 @@ const ShiftSummary: FC<{
               </div>
               <div className={shiftSummaryStyles.detailsItem}>
                 <div className={shiftSummaryStyles.detailsItemName}>Start:</div>
-                {dayjs(shiftData?.start).format('llll')}
+                {dayjs
+                  .utc(shiftData?.start)
+                  .tz(shiftData?.timezone)
+                  .format('llll')}
               </div>
               <div className={shiftSummaryStyles.detailsItem}>
                 <div className={shiftSummaryStyles.detailsItemName}>End:</div>
-                {dayjs(shiftData?.end).format('llll')}
+                {dayjs
+                  .utc(shiftData?.end)
+                  .tz(shiftData?.timezone)
+                  .format('llll')}
               </div>
             </div>
           </div>

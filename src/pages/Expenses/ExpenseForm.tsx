@@ -47,7 +47,7 @@ const ExpenseForm: FC = (): JSX.Element => {
   } = useInput(
     (v) => dayjs(v).isValid(),
     expense
-      ? dayjs(expense.date).format('YYYY-MM-DD')
+      ? dayjs.utc(expense.date).local().format('YYYY-MM-DD')
       : dayjs().format('YYYY-MM-DD')
   );
 
@@ -89,7 +89,7 @@ const ExpenseForm: FC = (): JSX.Element => {
     try {
       const payload: IExpenseBase = {
         vendorId,
-        date,
+        date: dayjs(date).utc().format('YYYY-MM-DD'),
         amount: +amount,
         type,
         notes,
