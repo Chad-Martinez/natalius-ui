@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import pageStyles from '../../pages/PageWrapper.module.css';
 import shiftSummaryStyles from './ShiftSummary.module.css';
-import BottomNav from '../dashboard/BottomNav';
+import BottomNav from '../ui/BottomNav/BottomNav';
 import Button from '../ui/Button/Button';
 import { IShift } from '../../interfaces/IShift.interface';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

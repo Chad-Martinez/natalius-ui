@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import pageStyles from '../PageWrapper.module.css';
 import formStyles from '../../components/forms/FormComponents.module.css';
-import BottomNav from '../../components/dashboard/BottomNav';
+import BottomNav from '../../components/ui/BottomNav/BottomNav';
 import Button from '../../components/ui/Button/Button';
 import Input from '../../components/forms/Input';
 import FormGroup from '../../components/forms/FormGroup';

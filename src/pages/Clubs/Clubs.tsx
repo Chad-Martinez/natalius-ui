@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import ClubsList from './components/ClubsList';
-import BottomNav from '../../components/dashboard/BottomNav';
+import BottomNav from '../../components/ui/BottomNav/BottomNav';
 import Button from '../../components/ui/Button/Button';
 import styles from '../PageWrapper.module.css';
 import { IClub } from '../../interfaces/IClub.interface';

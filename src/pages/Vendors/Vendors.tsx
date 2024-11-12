@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styles from '../PageWrapper.module.css';
-import BottomNav from '../../components/dashboard/BottomNav';
+import BottomNav from '../../components/ui/BottomNav/BottomNav';
 import Button from '../../components/ui/Button/Button';
 import { useNavigate } from 'react-router-dom';
 

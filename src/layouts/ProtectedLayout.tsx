@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { AuthContext } from '../store/AuthContext';
-import TopNav from '../components/dashboard/TopNav';
+import TopNav from '../components/ui/TopNav/TopNav';
 import styles from './ProtectedLayout.module.css';
 
 export const MenuContext = createContext<{

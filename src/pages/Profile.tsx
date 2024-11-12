@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import styles from './Profile.module.css';
 import pageStyles from './PageWrapper.module.css';
 import formStyles from '../components/forms/FormComponents.module.css';
-import BottomNav from '../components/dashboard/BottomNav';
+import BottomNav from '../components/ui/BottomNav/BottomNav';
 import Button from '../components/ui/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import Input from '../components/forms/Input';
