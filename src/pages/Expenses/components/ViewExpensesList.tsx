@@ -3,14 +3,15 @@ import Paginator from '../../../components/ui/Paginator/Paginator';
 import styles from '../ViewExpenses.module.css';
 import { IExpense } from '../../../interfaces/IExpense.interface';
 import ViewExpensesListItem from './ViewExpensesListItem';
+import { IShift } from '../../../interfaces/IShift.interface';
 
 type ViewExpenseProps = {
-  expenses: IExpense[];
+  expenses: Array<IExpense | IShift>;
   currPage: number;
   totalPages: number;
   handlePrev: () => void;
   handleNext: () => void;
-  handleMenu: (top: number, left: number, expense: IExpense) => void;
+  handleMenu: (top: number, left: number, expense: IExpense | IShift) => void;
 };
 
 const ViewExpensesList: FC<ViewExpenseProps> = ({
@@ -21,7 +22,7 @@ const ViewExpensesList: FC<ViewExpenseProps> = ({
   handleNext,
   handleMenu,
 }): JSX.Element => {
-  const mappedExpenses = expenses.map((expense: IExpense) => (
+  const mappedExpenses = expenses.map((expense: IExpense | IShift) => (
     <ViewExpensesListItem
       key={expense._id}
       expense={expense}
@@ -34,7 +35,7 @@ const ViewExpensesList: FC<ViewExpenseProps> = ({
       <div className={styles.header}>
         <div className={styles.date}>Date</div>
         <div className={styles.vendor}>Vendor</div>
-        <div className={styles.amount}>Cost</div>
+        <div className={styles.amount}>Amount</div>
         <div className={styles.type}>Type</div>
         <div className={styles.actionsContainer}></div>
       </div>
