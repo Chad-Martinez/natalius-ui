@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import pageStyles from '../PageWrapper.module.css';
 import styles from './Dashboard.module.css';
-import BottomNav from '../../components/dashboard/BottomNav';
+import BottomNav from '../../components/ui/BottomNav/BottomNav';
 import Button from '../../components/ui/Button/Button';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { IShift } from '../../interfaces/IShift.interface';

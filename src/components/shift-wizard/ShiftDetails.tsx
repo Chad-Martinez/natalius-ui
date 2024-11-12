@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import styles from '../../pages/PageWrapper.module.css';
 import formStyles from '../forms/FormComponents.module.css';
-import BottomNav from '../dashboard/BottomNav';
+import BottomNav from '../ui/BottomNav/BottomNav';
 import Button from '../ui/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import Select from '../forms/Select';

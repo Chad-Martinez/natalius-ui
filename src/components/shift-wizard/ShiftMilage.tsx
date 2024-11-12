@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import styles from '../../pages/PageWrapper.module.css';
 import formStyles from '../forms/FormComponents.module.css';
 import Input from '../forms/Input';
-import BottomNav from '../dashboard/BottomNav';
+import BottomNav from '../ui/BottomNav/BottomNav';
 import Button from '../ui/Button/Button';
 import useInput from '../../hooks/useInput';
 import FormGroup from '../forms/FormGroup';

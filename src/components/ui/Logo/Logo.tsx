@@ -4,15 +4,17 @@ import styles from './Logo.module.css';
 
 type Props = {
   addedStyles?: { [key: string]: string };
+  clickHandler: () => void;
 };
 
-const Logo: FC<Props> = ({ addedStyles }): JSX.Element => {
+const Logo: FC<Props> = ({ addedStyles, clickHandler }): JSX.Element => {
   return (
     <img
       src={logo}
       style={addedStyles}
       className={styles.logo}
       alt='Natalius logo'
+      onClick={clickHandler}
     />
   );
 };

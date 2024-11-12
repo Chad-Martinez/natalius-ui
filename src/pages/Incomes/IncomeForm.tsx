@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import styles from '../PageWrapper.module.css';
 import formStyles from '../../components/forms/FormComponents.module.css';
 import Input from '../../components/forms/Input';
-import BottomNav from '../../components/dashboard/BottomNav';
+import BottomNav from '../../components/ui/BottomNav/BottomNav';
 import Button from '../../components/ui/Button/Button';
 import Select from '../../components/forms/Select';
 import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
