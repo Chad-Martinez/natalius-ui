@@ -51,7 +51,7 @@ export const getUserTimezone = () => {
     try {
       return dayjs.tz.guess();
     } catch (e) {
-      const offset = -new Date().getTimezoneOffset() / 60;
+      const offset = -dayjs().utcOffset() / 60;
       const gmtOffset = `GMT ${offset}`;
 
       if (offset === -4 || offset === -5) {
