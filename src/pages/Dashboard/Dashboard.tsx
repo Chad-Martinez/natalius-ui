@@ -15,7 +15,10 @@ const Dashboard: FC = (): JSX.Element => {
   const dashboardData = useLoaderData() as {
     sprint: ISprint;
     upcomingShifts: IShift[];
-    shiftPrediction: { prediction: number; nextShift: Date } | null;
+    shiftPrediction: {
+      prediction: number;
+      nextShift: { start: Date; timezone: string };
+    } | null;
     ytdExpenses: number;
     ytdIncome: number;
   };
