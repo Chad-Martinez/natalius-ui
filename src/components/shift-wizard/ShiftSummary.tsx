@@ -7,7 +7,7 @@ import { IShift } from '../../interfaces/IShift.interface';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
-import { SelectOptions } from '../../types/SelectOptions';
+import { IClub } from '../../interfaces/IClub.interface';
 
 const ShiftSummary: FC<{
   goNext: (shift: IShift | null) => void;
@@ -15,19 +15,13 @@ const ShiftSummary: FC<{
   onFinish: () => void;
   isTransmitting: boolean;
   shiftData: IShift | null;
-  clubOptions: SelectOptions[] | [];
-}> = ({
-  goBack,
-  shiftData,
-  clubOptions,
-  onFinish,
-  isTransmitting,
-}): JSX.Element => {
+  clubs: IClub[] | [];
+}> = ({ goBack, shiftData, clubs, onFinish, isTransmitting }): JSX.Element => {
   const handlePrev = (): void => goBack(shiftData);
 
   const handleCompleteShift = (): void => onFinish();
 
-  const club: SelectOptions | undefined = clubOptions.find(
+  const club: IClub | undefined = clubs.find(
     (club) => club._id === shiftData?.clubId
   );
 

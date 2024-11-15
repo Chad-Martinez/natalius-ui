@@ -8,14 +8,21 @@ import useInput from '../../hooks/useInput';
 import FormGroup from '../forms/FormGroup';
 import Label from '../forms/Label';
 import { IShift } from '../../interfaces/IShift.interface';
+import { IClub } from '../../interfaces/IClub.interface';
 
 const ShiftMilage: FC<{
   goNext: (shift: IShift | null) => void;
   goBack: (shift: IShift | null) => void;
   shiftData: IShift | null;
-}> = ({ goNext, goBack, shiftData }): JSX.Element => {
+  clubs: IClub[];
+}> = ({ goNext, goBack, shiftData, clubs }): JSX.Element => {
   const [updatedShift, setUpdatedShift] = useState<IShift | null>(shiftData);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
+
+  const selectedClub: IClub | undefined = clubs.find(
+    (club) => club._id === shiftData?.clubId
+  );
+  const { defaults } = selectedClub as IClub;
 
   const {
     value: milage,
@@ -23,9 +30,13 @@ const ShiftMilage: FC<{
     hasError: milageHasError,
     valueChangeHandler: milageChangeHandler,
     inputBlurHandler: milageBlurHandler,
-  } = useInput(
-    (v) => v !== '',
-    (shiftData?.milage && shiftData?.milage.toString()) || '0'
+  } = useInput<string>(
+    (v) => /^[0-9]+$/.test(v) || v === '',
+    shiftData?.shiftComplete && shiftData?.milage
+      ? shiftData?.milage.toString()
+      : defaults.useDefaults
+      ? defaults.distance.toString()
+      : '0'
   );
 
   useEffect(() => {
@@ -33,7 +44,7 @@ const ShiftMilage: FC<{
       if (!prevShift) return prevShift;
       return {
         ...prevShift,
-        milage: +milage,
+        milage: +milage || 0,
       };
     });
   }, [milage]);
@@ -59,7 +70,7 @@ const ShiftMilage: FC<{
               autoFocus={true}
               min={0}
               value={milage}
-              placeholder='Milage'
+              placeholder='0'
               hasError={milageHasError}
               errorMessage='Amount must be zero or greater.'
               handleChange={milageChangeHandler}

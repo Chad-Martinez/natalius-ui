@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import styles from '../../pages/PageWrapper.module.css';
 import formStyles from '../forms/FormComponents.module.css';
 import BottomNav from '../ui/BottomNav/BottomNav';
@@ -12,22 +12,20 @@ import FormGroup from '../forms/FormGroup';
 import Label from '../forms/Label';
 import TextArea from '../forms/TextArea';
 import { IShift } from '../../interfaces/IShift.interface';
-import { SelectOptions } from '../../types/SelectOptions';
 import { TIMEZONE_SELECT } from '../../helpers/date-time-helpers';
+import { IClub } from '../../interfaces/IClub.interface';
 
 const ShiftDetails: FC<{
   goNext: (shift: IShift) => void;
   shiftData: IShift | null;
-  clubOptions: SelectOptions[] | [];
-}> = ({ goNext, shiftData, clubOptions }): JSX.Element => {
+  clubs: IClub[] | [];
+}> = ({ goNext, shiftData, clubs }): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
-  const { value: clubId, valueChangeHandler: clubIdChangeHandler } = useInput(
-    (v) => v !== '',
-    shiftData?.clubId
-  );
+  const { value: clubId, valueChangeHandler: clubIdChangeHandler } =
+    useInput<string>((v) => v !== '', shiftData?.clubId || '');
 
   const {
     value: start,
@@ -35,7 +33,7 @@ const ShiftDetails: FC<{
     hasError: startHasError,
     valueChangeHandler: startChangeHandler,
     inputBlurHandler: startBlurHandler,
-  } = useInput(
+  } = useInput<string>(
     (v) => dayjs(v).isValid(),
     dayjs
       .utc(shiftData?.start)
@@ -49,7 +47,7 @@ const ShiftDetails: FC<{
     hasError: endHasError,
     valueChangeHandler: endChangeHandler,
     inputBlurHandler: endBlurHandler,
-  } = useInput(
+  } = useInput<string>(
     (v) => dayjs(v).isValid(),
     dayjs.utc(shiftData?.end).tz(shiftData?.timezone).format('YYYY-MM-DDTHH:mm')
   );
@@ -58,12 +56,10 @@ const ShiftDetails: FC<{
     value: timezone,
     inputBlurHandler: timezoneBlurHandler,
     valueChangeHandler: timezoneChangeHandler,
-  } = useInput((v) => v !== '', shiftData?.timezone);
+  } = useInput<string>((v) => v !== '', shiftData?.timezone || '');
 
-  const { value: notes, valueChangeHandler: notesChangeHandler } = useInput(
-    (v) => v !== '',
-    shiftData?.notes
-  );
+  const { value: notes, valueChangeHandler: notesChangeHandler } =
+    useInput<string>((v) => v !== '', shiftData?.notes || '');
 
   useEffect(() => {
     setIsFormValid(startIsValid && endIsValid);
@@ -86,6 +82,24 @@ const ShiftDetails: FC<{
     }
   };
 
+  const handleClubNameChange = (
+    event: ChangeEvent<HTMLSelectElement>
+  ): void => {
+    const selectedClub = clubs.find((club) => club._id === event.target.value);
+
+    if (selectedClub && selectedClub.defaults.useDefaults) {
+      const newEvent = {
+        ...event,
+        target: {
+          ...event.target,
+          value: selectedClub.defaults.timezone || '',
+        },
+      };
+      timezoneChangeHandler(newEvent);
+    }
+    clubIdChangeHandler(event);
+  };
+
   return (
     <>
       <div className={styles.mainContent}>
@@ -96,9 +110,9 @@ const ShiftDetails: FC<{
             <Select
               name='club'
               defaultOptionName='Club'
-              options={clubOptions}
+              options={clubs}
               value={clubId}
-              handleChange={clubIdChangeHandler}
+              handleChange={handleClubNameChange}
             />
           </FormGroup>
           <FormGroup>
