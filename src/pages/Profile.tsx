@@ -34,7 +34,7 @@ const Profile: FC = (): JSX.Element => {
     hasError: firstNameHasError,
     valueChangeHandler: firstNameChangeHandledr,
     inputBlurHandler: firstNameBlurHandler,
-  } = useInput((value) => value.trim() !== '', user?.firstName || '');
+  } = useInput<string>((value) => value.trim() !== '', user?.firstName || '');
 
   const {
     value: lastName,
@@ -42,7 +42,7 @@ const Profile: FC = (): JSX.Element => {
     hasError: lastNameHasError,
     valueChangeHandler: lastNameChangeHandledr,
     inputBlurHandler: lastNameBlurHandler,
-  } = useInput((value) => value.trim() !== '', user?.lastName || '');
+  } = useInput<string>((value) => value.trim() !== '', user?.lastName || '');
 
   const {
     value: email,
@@ -50,7 +50,7 @@ const Profile: FC = (): JSX.Element => {
     hasError: emailHasError,
     valueChangeHandler: emailChangeHandledr,
     inputBlurHandler: emailBlurHandler,
-  } = useInput((value) => validateEmail(value), user?.email || '');
+  } = useInput<string>((value) => validateEmail(value), user?.email || '');
 
   const {
     value: password,
@@ -58,7 +58,7 @@ const Profile: FC = (): JSX.Element => {
     hasError: passwordHasError,
     valueChangeHandler: passwordChangeHandledr,
     inputBlurHandler: passwordBlurHandler,
-  } = useInput((value) => validatePassword(value));
+  } = useInput<string>((value) => validatePassword(value), '');
 
   const {
     value: pwConfirm,
@@ -66,7 +66,7 @@ const Profile: FC = (): JSX.Element => {
     hasError: pwConfirmHasError,
     valueChangeHandler: pwConfirmChangeHandledr,
     inputBlurHandler: pwConfirmBlurHandler,
-  } = useInput((value) => password === value && value !== '');
+  } = useInput<string>((value) => password === value && value !== '', '');
 
   const handleUpdateProfile = async () => {
     try {

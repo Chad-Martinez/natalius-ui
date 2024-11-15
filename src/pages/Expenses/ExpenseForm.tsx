@@ -33,7 +33,7 @@ const ExpenseForm: FC = (): JSX.Element => {
     hasError: vendorIdHasError,
     valueChangeHandler: vendorIdChangeHandler,
     inputBlurHandler: vendorIdBlurHandler,
-  } = useInput(
+  } = useInput<string>(
     (v) => v !== '',
     vendor ? vendor.vendorId : expense ? expense.vendorId : ''
   );
@@ -44,7 +44,7 @@ const ExpenseForm: FC = (): JSX.Element => {
     hasError: dateHasError,
     valueChangeHandler: dateChangeHandler,
     inputBlurHandler: dateBlurHandler,
-  } = useInput(
+  } = useInput<string>(
     (v) => dayjs(v).isValid(),
     expense
       ? dayjs.utc(expense.date).local().format('YYYY-MM-DD')
@@ -57,7 +57,10 @@ const ExpenseForm: FC = (): JSX.Element => {
     hasError: amountHasError,
     valueChangeHandler: amountChangeHandler,
     inputBlurHandler: amountBlurHandler,
-  } = useInput((v) => v !== '', expense ? expense.amount.toString() : '');
+  } = useInput<string>(
+    (v) => /^\d+(\.\d{0,2})?$/.test(v) && v !== '',
+    expense ? expense.amount.toString() : ''
+  );
 
   const {
     value: type,
@@ -65,14 +68,13 @@ const ExpenseForm: FC = (): JSX.Element => {
     hasError: typeHasError,
     valueChangeHandler: typeChangeHandler,
     inputBlurHandler: typeBlurHandler,
-  } = useInput(
+  } = useInput<string>(
     (v) => v !== '',
     vendor ? vendor.defaultType : expense ? expense.type : ''
   );
 
-  const { value: notes, valueChangeHandler: notesChangeHandler } = useInput(
-    (v) => v !== ''
-  );
+  const { value: notes, valueChangeHandler: notesChangeHandler } =
+    useInput<string>((v) => v !== '', '');
 
   useEffect(() => {
     if (loaderData instanceof AxiosError) {

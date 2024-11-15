@@ -18,7 +18,7 @@ export const ForgotPassword: FC = (): JSX.Element => {
     hasError: emailHasError,
     valueChangeHandler: emailChangeHandledr,
     inputBlurHandler: emailBlurHandler,
-  } = useInput((value) => value !== '');
+  } = useInput<string>((value) => value !== '', '');
 
   const handleSubmit = async () => {
     try {

@@ -20,7 +20,7 @@ const Register: FC = (): JSX.Element => {
     valueChangeHandler: firstNameChangeHandledr,
     inputBlurHandler: firstNameBlurHandler,
     reset: firstNameReset,
-  } = useInput((value) => value.trim() !== '');
+  } = useInput<string>((value) => value.trim() !== '', '');
 
   const {
     value: lastName,
@@ -29,7 +29,7 @@ const Register: FC = (): JSX.Element => {
     valueChangeHandler: lastNameChangeHandledr,
     inputBlurHandler: lastNameBlurHandler,
     reset: lastNameReset,
-  } = useInput((value) => value.trim() !== '');
+  } = useInput<string>((value) => value.trim() !== '', '');
 
   const {
     value: email,
@@ -38,7 +38,7 @@ const Register: FC = (): JSX.Element => {
     valueChangeHandler: emailChangeHandledr,
     inputBlurHandler: emailBlurHandler,
     reset: emailReset,
-  } = useInput((value) => validateEmail(value));
+  } = useInput<string>((value) => validateEmail(value), '');
 
   const {
     value: password,
@@ -47,7 +47,7 @@ const Register: FC = (): JSX.Element => {
     valueChangeHandler: passwordChangeHandledr,
     inputBlurHandler: passwordBlurHandler,
     reset: passwordReset,
-  } = useInput((value) => validatePassword(value));
+  } = useInput<string>((value) => validatePassword(value), '');
 
   const {
     value: pwConfirm,
@@ -56,7 +56,7 @@ const Register: FC = (): JSX.Element => {
     valueChangeHandler: pwConfirmChangeHandledr,
     inputBlurHandler: pwConfirmBlurHandler,
     reset: pwConfirmReset,
-  } = useInput((value) => password === value && value !== '');
+  } = useInput<string>((value) => password === value && value !== '', '');
 
   const formReset = (): void => {
     firstNameReset();
