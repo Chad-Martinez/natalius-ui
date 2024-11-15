@@ -9,16 +9,21 @@ import useInput from '../../hooks/useInput';
 import FormGroup from '../forms/FormGroup';
 import Label from '../forms/Label';
 import { IShift } from '../../interfaces/IShift.interface';
+import { IClub } from '../../interfaces/IClub.interface';
 
 const ShiftExpenses: FC<{
   goNext: (shift: IShift | null) => void;
   goBack: (shift: IShift | null) => void;
   shiftData: IShift | null;
-}> = ({ goNext, goBack, shiftData }): JSX.Element => {
+  clubs: IClub[];
+}> = ({ goNext, goBack, shiftData, clubs }): JSX.Element => {
   const [updatedShift, setUpdatedShift] = useState<IShift | null>(shiftData);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [danceFeeTotal, setDanceFeeTotal] = useState<string>('0');
   const [totalShiftExpenses, setTotalShiftExpenses] = useState<number>(0);
+
+  const selectedClub = clubs.find((club) => club._id === shiftData?.clubId);
+  const { defaults } = selectedClub as IClub;
 
   const {
     value: floorFee,
@@ -26,9 +31,13 @@ const ShiftExpenses: FC<{
     hasError: floorFeeHasError,
     valueChangeHandler: floorFeeChangeHandler,
     inputBlurHandler: floorFeeBlurHandler,
-  } = useInput(
+  } = useInput<string>(
     (v) => v !== '',
-    shiftData?.expenses?.floorFee.toString() || '0'
+    shiftData?.shiftComplete && shiftData?.expenses?.floorFee
+      ? shiftData?.expenses?.floorFee.toString()
+      : defaults.useDefaults
+      ? defaults.floorFee.toString()
+      : '0'
   );
 
   const {
@@ -37,9 +46,11 @@ const ShiftExpenses: FC<{
     hasError: numOfDancesHasError,
     valueChangeHandler: numOfDancesChangeHandler,
     inputBlurHandler: numOfDancesBlurHandler,
-  } = useInput(
+  } = useInput<string>(
     (v) => v !== '',
-    shiftData?.expenses?.dances.numOfDances.toString() || '0'
+    (shiftData?.shiftComplete &&
+      shiftData?.expenses?.dances.numOfDances.toString()) ||
+      '0'
   );
 
   const {
@@ -48,9 +59,13 @@ const ShiftExpenses: FC<{
     hasError: pricePerDanceHasError,
     valueChangeHandler: pricePerDanceChangeHandler,
     inputBlurHandler: pricePerDanceBlurHandler,
-  } = useInput(
+  } = useInput<string>(
     (v) => v !== '',
-    shiftData?.expenses?.dances.pricePerDance.toString() || '0'
+    shiftData?.shiftComplete && shiftData?.expenses?.dances.pricePerDance
+      ? shiftData?.expenses?.dances.pricePerDance.toString()
+      : defaults.useDefaults
+      ? defaults.pricePerDance.toString()
+      : '0'
   );
 
   const {
@@ -59,7 +74,14 @@ const ShiftExpenses: FC<{
     hasError: tipsHasError,
     valueChangeHandler: tipsChangeHandler,
     inputBlurHandler: tipsBlurHandler,
-  } = useInput((v) => v !== '', shiftData?.expenses?.tips.toString() || '0');
+  } = useInput<string>(
+    (v) => v !== '',
+    shiftData?.shiftComplete && shiftData?.expenses?.tips
+      ? shiftData?.expenses?.tips.toString()
+      : defaults.useDefaults
+      ? defaults.tips.toString()
+      : '0'
+  );
 
   const {
     value: other,
@@ -67,7 +89,14 @@ const ShiftExpenses: FC<{
     hasError: otherHasError,
     valueChangeHandler: otherChangeHandler,
     inputBlurHandler: otherBlurHandler,
-  } = useInput((v) => v !== '', shiftData?.expenses?.other.toString() || '0');
+  } = useInput<string>(
+    (v) => v !== '',
+    shiftData?.shiftComplete && shiftData?.expenses?.other
+      ? shiftData?.expenses?.other.toString()
+      : defaults.useDefaults
+      ? defaults.other.toString()
+      : '0'
+  );
 
   useEffect(() => {
     setUpdatedShift((prevState) => {
@@ -84,7 +113,7 @@ const ShiftExpenses: FC<{
           tips: +tips,
           other: +other,
           totalShiftExpenses: +totalShiftExpenses,
-          type: 'SERVICE',
+          type: 'SHIFT',
         },
       };
     });

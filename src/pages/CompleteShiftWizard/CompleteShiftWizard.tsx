@@ -6,20 +6,20 @@ import ShiftMilage from '../../components/shift-wizard/ShiftMilage';
 import ShiftSummary from '../../components/shift-wizard/ShiftSummary';
 import { IShift } from '../../interfaces/IShift.interface';
 import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
-import { SelectOptions } from '../../types/SelectOptions';
 import { AxiosError } from 'axios';
 import { notify } from '../../utils/toastify';
 import { updateShift } from '../../services/shiftServices';
+import { IClub } from '../../interfaces/IClub.interface';
 
 type ShiftLoaderData = {
-  clubNames: SelectOptions[];
+  clubNames: IClub[];
   shift: IShift;
 };
 
 const CompleteShiftWizard: FC = (): JSX.Element => {
   const location = useLocation();
   const [shiftData, setShiftData] = useState<IShift | null>(null);
-  const [clubNames, setClubNames] = useState<SelectOptions[]>([]);
+  const [clubs, setClubs] = useState<IClub[]>([]);
   const [currentStepIndex, setCurrentStepIndex] = useState(
     location.state?.goToPage || 0
   );
@@ -46,7 +46,7 @@ const CompleteShiftWizard: FC = (): JSX.Element => {
         );
       else {
         setShiftData(shiftLoaderData.shift);
-        setClubNames(shiftLoaderData.clubNames);
+        setClubs(shiftLoaderData.clubNames);
       }
     }
   }, [shiftLoaderData]);
@@ -100,7 +100,7 @@ const CompleteShiftWizard: FC = (): JSX.Element => {
         onFinish={handleFinish}
         isTransmitting={isTransmitting}
         shiftData={shiftData}
-        clubOptions={clubNames}
+        clubs={clubs}
       />
     );
   });

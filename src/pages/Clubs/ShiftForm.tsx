@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import styles from '../PageWrapper.module.css';
 import formStyles from '../../components/forms/FormComponents.module.css';
 import BottomNav from '../../components/ui/BottomNav/BottomNav';
@@ -25,6 +25,7 @@ import {
   getUserTimezone,
   TIMEZONE_SELECT,
 } from '../../helpers/date-time-helpers';
+import { IClub } from '../../interfaces/IClub.interface';
 
 const ShiftForm: FC = (): JSX.Element => {
   const [clubOptions, setClubOptions] = useState<SelectOptions[]>([]);
@@ -32,7 +33,7 @@ const ShiftForm: FC = (): JSX.Element => {
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
 
   const { club } = useParams();
-  const loaderData = useLoaderData();
+  const loaderData = useLoaderData() as IClub[];
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -44,7 +45,7 @@ const ShiftForm: FC = (): JSX.Element => {
     hasError: clubIdHasError,
     inputBlurHandler: clubIdBlurHandler,
     valueChangeHandler: clubIdChangeHandler,
-  } = useInput((v) => v !== '', club ? club : '');
+  } = useInput<string>((v) => v !== '', club ? club : '');
 
   const {
     value: start,
@@ -52,7 +53,7 @@ const ShiftForm: FC = (): JSX.Element => {
     hasError: startHasError,
     valueChangeHandler: startChangeHandler,
     inputBlurHandler: startBlurHandler,
-  } = useInput(
+  } = useInput<string>(
     (v) => dayjs(v).isValid(),
     shift
       ? dayjs.utc(shift.start).tz(shift.timezone).format('YYYY-MM-DDTHH:mm')
@@ -65,7 +66,7 @@ const ShiftForm: FC = (): JSX.Element => {
     hasError: endHasError,
     valueChangeHandler: endChangeHandler,
     inputBlurHandler: endBlurHandler,
-  } = useInput(
+  } = useInput<string>(
     (v) => dayjs(v).isValid() && !dayjs(v).isSameOrBefore(dayjs(start)),
     shift
       ? dayjs.utc(shift.end).tz(shift.timezone).format('YYYY-MM-DDTHH:mm')
@@ -76,12 +77,13 @@ const ShiftForm: FC = (): JSX.Element => {
     value: timezone,
     inputBlurHandler: timezoneBlurHandler,
     valueChangeHandler: timezoneChangeHandler,
-  } = useInput((v) => v !== '', shift ? shift.timezone : getUserTimezone());
-
-  const { value: notes, valueChangeHandler: notesChangeHandler } = useInput(
+  } = useInput<string>(
     (v) => v !== '',
-    shift ? shift.notes : ''
+    shift ? shift.timezone : getUserTimezone()
   );
+
+  const { value: notes, valueChangeHandler: notesChangeHandler } =
+    useInput<string>((v) => v !== '', shift?.notes ? shift.notes : '');
 
   const handleCancel = (): void => navigate(-1);
 
@@ -121,6 +123,26 @@ const ShiftForm: FC = (): JSX.Element => {
     }
   };
 
+  const handleClubNameChange = (
+    event: ChangeEvent<HTMLSelectElement>
+  ): void => {
+    const selectedClub = loaderData.find(
+      (club) => club._id === event.target.value
+    );
+
+    if (selectedClub && selectedClub.defaults.useDefaults) {
+      const newEvent = {
+        ...event,
+        target: {
+          ...event.target,
+          value: selectedClub.defaults.timezone || '',
+        },
+      };
+      timezoneChangeHandler(newEvent);
+    }
+    clubIdChangeHandler(event);
+  };
+
   useEffect(() => {
     setIsFormValid(clubIdIsValid && startIsValid && endIsValid);
   }, [clubIdIsValid, startIsValid, endIsValid]);
@@ -149,7 +171,7 @@ const ShiftForm: FC = (): JSX.Element => {
             hasError={clubIdHasError}
             handleBlur={clubIdBlurHandler}
             errorMessage='Club required'
-            handleChange={clubIdChangeHandler}
+            handleChange={handleClubNameChange}
           />
           <FormGroup>
             <Label name='start' text='Shift Start' />
