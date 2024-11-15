@@ -4,7 +4,7 @@ import styles from './Logo.module.css';
 
 type Props = {
   addedStyles?: { [key: string]: string };
-  clickHandler: () => void;
+  clickHandler?: () => void;
 };
 
 const Logo: FC<Props> = ({ addedStyles, clickHandler }): JSX.Element => {
