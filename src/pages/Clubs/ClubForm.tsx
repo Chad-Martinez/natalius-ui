@@ -13,10 +13,18 @@ import { AxiosError } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IClub, IClubBase } from '../../interfaces/IClub.interface';
 import { validatePhone } from '../../utils/validators';
+import FormGroup from '../../components/forms/FormGroup';
+import Label from '../../components/forms/Label';
+import {
+  getUserTimezone,
+  TIMEZONE_SELECT,
+} from '../../helpers/date-time-helpers';
+import Switch from '../../components/ui/Switch/Switch';
 
 const ClubForm: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -28,22 +36,16 @@ const ClubForm: FC = (): JSX.Element => {
     hasError: nameHasError,
     valueChangeHandler: nameChangeHandler,
     inputBlurHandler: nameBlurHandler,
-  } = useInput((v) => v !== '', club ? club.name : '');
+  } = useInput<string>((v) => v !== '', club?.name || '');
 
-  const { value: street, valueChangeHandler: streetChangeHandler } = useInput(
-    (v) => v !== '',
-    club ? club.address?.street : ''
-  );
+  const { value: street, valueChangeHandler: streetChangeHandler } =
+    useInput<string>((v) => v !== '', club?.address?.street || '');
 
-  const { value: city, valueChangeHandler: cityChangeHandler } = useInput(
-    (v) => v !== '',
-    club ? club.address?.city : ''
-  );
+  const { value: city, valueChangeHandler: cityChangeHandler } =
+    useInput<string>((v) => v !== '', club?.address?.city || '');
 
-  const { value: state, valueChangeHandler: stateChangeHandler } = useInput(
-    (v) => v !== '',
-    club ? club.address?.state : ''
-  );
+  const { value: state, valueChangeHandler: stateChangeHandler } =
+    useInput<string>((v) => v !== '', club?.address?.state || '');
 
   const {
     value: zip,
@@ -51,13 +53,13 @@ const ClubForm: FC = (): JSX.Element => {
     hasError: zipHasError,
     valueChangeHandler: zipChangeHandler,
     inputBlurHandler: zipBlurHandler,
-  } = useInput(
-    (v) => v === '' || (!isNaN(+v) && v.length === 5),
-    club ? club.address?.zip?.toString() : ''
+  } = useInput<string>(
+    (v) => v === '' || /^\d{5}$/.test(v),
+    club?.address?.zip?.toString() || ''
   );
 
   const { value: contactName, valueChangeHandler: contactNameChangeHandler } =
-    useInput((v) => v !== '', club ? club.contact?.name : '');
+    useInput<string>((v) => v !== '', club?.contact?.name || '');
 
   const {
     value: contactPhone,
@@ -65,9 +67,56 @@ const ClubForm: FC = (): JSX.Element => {
     hasError: contactPhoneHasError,
     valueChangeHandler: contactPhoneChangeHandler,
     inputBlurHandler: contactPhoneBlurHandler,
-  } = useInput(
+  } = useInput<string>(
     (value) => value === '' || validatePhone(value),
-    club ? club.contact?.phone : ''
+    club?.contact?.phone || ''
+  );
+
+  const { value: useDefaults, valueChangeHandler: useDefaultsChangeHandler } =
+    useInput<boolean>((v) => v !== null, club?.defaults?.useDefaults || false);
+
+  const {
+    value: floorFee,
+    isValid: floorFeeIsValid,
+    hasError: floorFeeHasError,
+    valueChangeHandler: floorFeeChangeHandler,
+    inputBlurHandler: floorFeeBlurHandler,
+  } = useInput<string>(
+    (v) => /^[0-9]+$/.test(String(v)) || v === '',
+    club?.defaults?.floorFee?.toString() || ''
+  );
+
+  const {
+    value: pricePerDance,
+    isValid: pricePerDanceIsValid,
+    hasError: pricePerDanceHasError,
+    valueChangeHandler: pricePerDanceChangeHandler,
+    inputBlurHandler: pricePerDanceBlurHandler,
+  } = useInput<string>(
+    (v) => /^[0-9]+$/.test(String(v)) || v === '',
+    club?.defaults?.pricePerDance?.toString() || ''
+  );
+
+  const {
+    value: tips,
+    isValid: tipsIsValid,
+    hasError: tipsHasError,
+    valueChangeHandler: tipsChangeHandler,
+    inputBlurHandler: tipsBlurHandler,
+  } = useInput<string>(
+    (v) => /^[0-9]+$/.test(String(v)) || v === '',
+    club?.defaults?.tips?.toString() || ''
+  );
+
+  const {
+    value: other,
+    isValid: otherIsValid,
+    hasError: otherHasError,
+    valueChangeHandler: otherChangeHandler,
+    inputBlurHandler: otherBlurHandler,
+  } = useInput<string>(
+    (v) => /^[0-9]+$/.test(String(v)) || v === '',
+    club?.defaults?.other?.toString() || ''
   );
 
   const {
@@ -76,36 +125,54 @@ const ClubForm: FC = (): JSX.Element => {
     hasError: distanceHasError,
     valueChangeHandler: distanceChangeHandler,
     inputBlurHandler: distanceBlurHandler,
-  } = useInput(
-    (v) => +v >= 1 || v === '',
-    club ? club.distance?.toString() : ''
+  } = useInput<string>(
+    (v) => /^[0-9]+$/.test(String(v)) || v === '',
+    club?.defaults?.distance?.toString() || ''
   );
 
-  const handleCancel = () => {
-    navigate(-1);
-  };
-  const handleSubmit = async () => {
+  const {
+    value: timezone,
+    valueChangeHandler: timezoneChangeHandler,
+    inputBlurHandler: timezoneBlurHandler,
+  } = useInput<string>(
+    (v) => v === '',
+    club?.defaults?.timezone?.toString() || getUserTimezone()
+  );
+
+  const handleCancel = (): void => navigate(-1);
+
+  const handleSubmit = async (): Promise<void> => {
     setIsTransmitting(true);
     try {
-      const address: IClubBase['address'] = {};
-      if (street) address.street = street;
-      if (city) address.city = city;
-      if (state) address.state = state;
-      if (zip) address.zip = +zip;
+      const address: IClubBase['address'] = {
+        street: street ? street : null,
+        city: city ? city : null,
+        state: state ? state : null,
+        zip: zip ? +zip : null,
+      };
 
-      const contact: IClubBase['contact'] = {};
-      if (contactName) contact.name = contactName;
-      if (contactPhone) contact.phone = contactPhone;
+      const contact: IClubBase['contact'] = {
+        name: contactName ? contactName : null,
+        phone: contactPhone ? contactPhone : null,
+      };
+
+      const defaults: IClubBase['defaults'] = {
+        useDefaults: useDefaults,
+        floorFee: floorFee ? +floorFee : 0,
+        pricePerDance: pricePerDance ? +pricePerDance : 0,
+        tips: tips ? +tips : 0,
+        other: other ? +other : 0,
+        distance: distance ? +distance : 0,
+        timezone: timezone ? timezone : getUserTimezone(),
+      };
 
       const payload: IClubBase = {
         name,
+        address,
+        contact,
+        defaults,
         isArchived: false,
       };
-
-      if (street || city || state || zip) payload.address = address;
-      if (contactName || contactPhone) payload.contact = contact;
-      if (distance) payload.distance = +distance;
-
       if (club) {
         const updatedClub: IClub = {
           ...payload,
@@ -129,9 +196,25 @@ const ClubForm: FC = (): JSX.Element => {
 
   useEffect(() => {
     setIsFormValid(
-      nameIsValid && zipIsValid && contactPhoneIsValid && distanceIsValid
+      nameIsValid &&
+        zipIsValid &&
+        contactPhoneIsValid &&
+        floorFeeIsValid &&
+        pricePerDanceIsValid &&
+        tipsIsValid &&
+        otherIsValid &&
+        distanceIsValid
     );
-  }, [nameIsValid, zipIsValid, contactPhoneIsValid, distanceIsValid]);
+  }, [
+    nameIsValid,
+    zipIsValid,
+    contactPhoneIsValid,
+    floorFeeIsValid,
+    pricePerDanceIsValid,
+    tipsIsValid,
+    otherIsValid,
+    distanceIsValid,
+  ]);
 
   return (
     <>
@@ -188,7 +271,7 @@ const ClubForm: FC = (): JSX.Element => {
             handleChange={contactPhoneChangeHandler}
             handleBlur={contactPhoneBlurHandler}
           />
-          <Input
+          {/* <Input
             placeholder='Distance - Round Trip Miles'
             type='number'
             min={1}
@@ -198,7 +281,117 @@ const ClubForm: FC = (): JSX.Element => {
             errorMessage='Must be blank or at least 1 mile'
             handleChange={distanceChangeHandler}
             handleBlur={distanceBlurHandler}
-          />
+          /> */}
+        </form>
+        <form className={formStyles.form}>
+          <h3 className={formStyles.title}>Club Defaults (Optional)</h3>
+          <div
+            style={{
+              display: 'flex',
+              alignContent: 'end',
+              alignItems: 'center',
+              justifyContent: 'right',
+            }}
+          >
+            <span style={{ color: 'white', padding: '6px' }}>Use Defaults</span>
+            <Switch
+              isChecked={useDefaults}
+              handleChange={useDefaultsChangeHandler}
+            />
+          </div>
+          <div className={formStyles.sideBySideInputs}>
+            <FormGroup>
+              <Label name='floorFee' text='Floor Fee' />
+              <Input
+                name='floorFee'
+                type='number'
+                min={0}
+                step={1}
+                autoFocus={true}
+                value={floorFee}
+                placeholder='0'
+                hasError={floorFeeHasError}
+                errorMessage='Zero or greater - No decimals'
+                handleChange={floorFeeChangeHandler}
+                handleBlur={floorFeeBlurHandler}
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label name='pricePerDance' text='Fee Per Private Dance' />
+              <Input
+                name='pricePerDance'
+                type='number'
+                min={0}
+                step={1}
+                placeholder='0'
+                value={pricePerDance}
+                hasError={pricePerDanceHasError}
+                errorMessage='Zero or greater - No decimals'
+                handleChange={pricePerDanceChangeHandler}
+                handleBlur={pricePerDanceBlurHandler}
+              />
+            </FormGroup>
+          </div>
+          <div className={formStyles.sideBySideInputs}>
+            <FormGroup>
+              <Label name='tips' text='Tips' />
+              <Input
+                name='tips'
+                type='number'
+                min={0}
+                step={1}
+                placeholder='0'
+                value={tips}
+                hasError={tipsHasError}
+                errorMessage='Zero or greater - No decimals'
+                handleChange={tipsChangeHandler}
+                handleBlur={tipsBlurHandler}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label name='other' text='Other Expenses' />
+              <Input
+                name='other'
+                value={other}
+                placeholder='0'
+                min={0}
+                step={1}
+                type='number'
+                hasError={otherHasError}
+                errorMessage='Zero or greater - No decimals'
+                handleChange={otherChangeHandler}
+                handleBlur={otherBlurHandler}
+              />
+            </FormGroup>
+          </div>
+          <div className={formStyles.sideBySideInputs}>
+            <FormGroup>
+              <Label name='distance' text='Roundtrip Milage' />
+              <Input
+                placeholder='0'
+                type='number'
+                min={0}
+                step={1}
+                value={distance}
+                hasError={distanceHasError}
+                errorMessage='Zero or greater - No decimals'
+                handleChange={distanceChangeHandler}
+                handleBlur={distanceBlurHandler}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label name='timezone' text='Club Timezone' />
+              <Select
+                name='timezone'
+                defaultOptionName={'Timezone'}
+                options={TIMEZONE_SELECT}
+                value={timezone}
+                handleBlur={timezoneBlurHandler}
+                handleChange={timezoneChangeHandler}
+              />
+            </FormGroup>
+          </div>
         </form>
       </div>
       <BottomNav>
