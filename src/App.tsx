@@ -34,7 +34,6 @@ const CompleteShiftWizard = lazy(
 );
 const ShiftForm = lazy(() => import('./pages/Clubs/ShiftForm.tsx'));
 const Incomes = lazy(() => import('./pages/Incomes/Incomes.tsx'));
-const IncomeForm = lazy(() => import('./pages/Incomes/IncomeForm.tsx'));
 const Expenses = lazy(() => import('./pages/Expenses/Expenses.tsx'));
 const ExpenseForm = lazy(() => import('./pages/Expenses/ExpenseForm.tsx'));
 const Vendors = lazy(() => import('./pages/Vendors/Vendors.tsx'));
@@ -107,11 +106,6 @@ const App: FC = (): JSX.Element => {
           path: 'income',
           element: <Incomes />,
           loader: isAuth && incomeDashboardLoader,
-        },
-        {
-          path: 'income/income-form',
-          element: <IncomeForm />,
-          loader: isAuth && clubNamesLoader,
         },
         {
           path: 'income/view-income',
