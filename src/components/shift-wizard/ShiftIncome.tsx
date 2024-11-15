@@ -30,12 +30,13 @@ const ShiftIncome: FC<{
     hasError: amountHasError,
     valueChangeHandler: amountChangeHandler,
     inputBlurHandler: amountBlurHandler,
-  } = useInput((v) => +v >= 0.01, shiftData?.income?.amount.toString() || '0');
-
-  const { value: type, valueChangeHandler: typeChangeHandler } = useInput(
-    (v) => v !== '',
-    shiftData?.income?.type || 'CASH'
+  } = useInput<string>(
+    (v) => +v >= 1 && /^[0-9]+$/.test(v),
+    shiftData?.income?.amount.toString() || '0'
   );
+
+  const { value: type, valueChangeHandler: typeChangeHandler } =
+    useInput<string>((v) => v !== '', shiftData?.income?.type || 'CASH');
 
   useEffect(() => {
     setUpdatedShift((prevState) => {

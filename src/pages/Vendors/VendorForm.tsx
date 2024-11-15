@@ -25,7 +25,7 @@ const VendorForm: FC = (): JSX.Element => {
     hasError: nameHasError,
     valueChangeHandler: nameChangeHandler,
     inputBlurHandler: nameBlurHandler,
-  } = useInput((v) => v !== '');
+  } = useInput<string>((v) => v !== '', '');
 
   const {
     value: defaultType,
@@ -33,14 +33,13 @@ const VendorForm: FC = (): JSX.Element => {
     hasError: defaultTypeHasError,
     valueChangeHandler: defaultTypeChangeHandler,
     inputBlurHandler: defaultTypeBlurHandler,
-  } = useInput((v) => v !== '');
+  } = useInput<string>((v) => v !== '', '');
 
   const { value: distance, valueChangeHandler: distanceChangeHandler } =
-    useInput((v) => +v >= 1 || v === '');
+    useInput<string>((v) => (+v >= 0 && /^[0-9]+$/.test(v)) || v === '', '');
 
-  const { value: notes, valueChangeHandler: notesChangeHandler } = useInput(
-    (v) => v !== ''
-  );
+  const { value: notes, valueChangeHandler: notesChangeHandler } =
+    useInput<string>((v) => v !== '', '');
 
   const handleCancel = () => {
     navigate(-1);

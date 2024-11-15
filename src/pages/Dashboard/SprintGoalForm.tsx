@@ -27,7 +27,7 @@ const SprintGoalForm: FC = (): JSX.Element => {
     hasError: startHasError,
     valueChangeHandler: startChangeHandler,
     inputBlurHandler: startBlurHandler,
-  } = useInput(
+  } = useInput<string>(
     (v) => dayjs(v).isValid(),
     sprint
       ? dayjs.utc(sprint.start).local().format('YYYY-MM-DD')
@@ -40,7 +40,10 @@ const SprintGoalForm: FC = (): JSX.Element => {
     hasError: goalHasError,
     valueChangeHandler: goalChangeHandler,
     inputBlurHandler: goalBlurHandler,
-  } = useInput((v) => v !== '', sprint ? sprint.goal.toString() : '');
+  } = useInput<string>(
+    (v) => /^[0-9]+$/.test(v) && +v >= 0,
+    sprint ? sprint.goal.toString() : ''
+  );
 
   useEffect(() => {
     setIsFormValid(startIsValid && goalIsValid);

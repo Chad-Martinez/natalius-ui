@@ -24,7 +24,7 @@ export const Login: FC = (): JSX.Element => {
     hasError: emailHasError,
     valueChangeHandler: emailChangeHandledr,
     inputBlurHandler: emailBlurHandler,
-  } = useInput((value) => value !== '');
+  } = useInput<string>((value) => value !== '', '');
 
   const {
     value: password,
@@ -32,7 +32,7 @@ export const Login: FC = (): JSX.Element => {
     hasError: passwordHasError,
     valueChangeHandler: passwordChangeHandledr,
     inputBlurHandler: passwordBlurHandler,
-  } = useInput((value) => value !== '');
+  } = useInput<string>((value) => value !== '', '');
 
   const handleSubmit = async () => {
     try {

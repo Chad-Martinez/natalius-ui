@@ -82,7 +82,7 @@ const ClubForm: FC = (): JSX.Element => {
     valueChangeHandler: floorFeeChangeHandler,
     inputBlurHandler: floorFeeBlurHandler,
   } = useInput<string>(
-    (v) => /^[0-9]+$/.test(String(v)) || v === '',
+    (v) => /^[0-9]+$/.test(v) || v === '',
     club?.defaults?.floorFee?.toString() || ''
   );
 
@@ -93,7 +93,7 @@ const ClubForm: FC = (): JSX.Element => {
     valueChangeHandler: pricePerDanceChangeHandler,
     inputBlurHandler: pricePerDanceBlurHandler,
   } = useInput<string>(
-    (v) => /^[0-9]+$/.test(String(v)) || v === '',
+    (v) => /^[0-9]+$/.test(v) || v === '',
     club?.defaults?.pricePerDance?.toString() || ''
   );
 
@@ -104,7 +104,7 @@ const ClubForm: FC = (): JSX.Element => {
     valueChangeHandler: tipsChangeHandler,
     inputBlurHandler: tipsBlurHandler,
   } = useInput<string>(
-    (v) => /^[0-9]+$/.test(String(v)) || v === '',
+    (v) => /^[0-9]+$/.test(v) || v === '',
     club?.defaults?.tips?.toString() || ''
   );
 
@@ -115,7 +115,7 @@ const ClubForm: FC = (): JSX.Element => {
     valueChangeHandler: otherChangeHandler,
     inputBlurHandler: otherBlurHandler,
   } = useInput<string>(
-    (v) => /^[0-9]+$/.test(String(v)) || v === '',
+    (v) => /^[0-9]+$/.test(v) || v === '',
     club?.defaults?.other?.toString() || ''
   );
 
@@ -126,7 +126,7 @@ const ClubForm: FC = (): JSX.Element => {
     valueChangeHandler: distanceChangeHandler,
     inputBlurHandler: distanceBlurHandler,
   } = useInput<string>(
-    (v) => /^[0-9]+$/.test(String(v)) || v === '',
+    (v) => /^[0-9]+$/.test(v) || v === '',
     club?.defaults?.distance?.toString() || ''
   );
 

@@ -24,7 +24,7 @@ const PasswordReset: FC = (): JSX.Element => {
     hasError: passwordHasError,
     valueChangeHandler: passwordChangeHandledr,
     inputBlurHandler: passwordBlurHandler,
-  } = useInput((value) => validatePassword(value));
+  } = useInput<string>((value) => validatePassword(value), '');
 
   const {
     value: pwConfirm,
@@ -32,7 +32,7 @@ const PasswordReset: FC = (): JSX.Element => {
     hasError: pwConfirmHasError,
     valueChangeHandler: pwConfirmChangeHandledr,
     inputBlurHandler: pwConfirmBlurHandler,
-  } = useInput((value) => password === value && value !== '');
+  } = useInput<string>((value) => password === value && value !== '', '');
 
   const handleSubmit = async () => {
     try {
