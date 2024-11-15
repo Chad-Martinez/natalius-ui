@@ -42,7 +42,7 @@ const Select: FC<{
       >
         {defaultOptionName && (
           <option className={formStyles.option} disabled value=''>
-            Select a {defaultOptionName}
+            Select {defaultOptionName}
           </option>
         )}
         {options && options.length > 0

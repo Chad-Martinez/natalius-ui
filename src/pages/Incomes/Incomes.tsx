@@ -17,7 +17,10 @@ const Incomes: FC = (): JSX.Element => {
     sprint: ISprint;
     averages: IncomeAverages;
     graphData: GraphData;
-    shiftPrediction: { prediction: number; nextShift: Date } | null;
+    shiftPrediction: {
+      prediction: number;
+      nextShift: { start: Date; timezone: string };
+    } | null;
   };
 
   return (
