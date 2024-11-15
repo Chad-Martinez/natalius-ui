@@ -42,9 +42,8 @@ const ClubItem: FC<{ club: IClub; archiveClub: (payload: IClub) => void }> =
 
     const handleArchive = (): void => {
       const payload: IClub = {
-        _id: club._id,
+        ...club,
         isArchived: !club.isArchived,
-        name: club.name,
       };
       archiveClub(payload);
       dialogRef.current?.closeModal();
