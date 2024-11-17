@@ -49,13 +49,14 @@ const SprintGoalForm: FC = (): JSX.Element => {
     setIsFormValid(startIsValid && goalIsValid);
   }, [startIsValid, goalIsValid]);
 
-  const handleCancel = () => navigate(-1);
+  const handleCancel = (): void => navigate(-1);
 
   const handleSubmit = async (): Promise<void> => {
     setIsTransmitting(true);
     try {
+      const startToStartOfDay = dayjs(start).startOf('day').format();
       const payload: ISprintBase = {
-        start: dayjs(start).utc().format('YYYY-MM-DD'),
+        start: dayjs(startToStartOfDay).utc().format(),
         goal: +goal,
       };
       if (sprint) {
@@ -116,7 +117,7 @@ const SprintGoalForm: FC = (): JSX.Element => {
             min={1}
             step={1}
             type='number'
-            errorMessage='Income goal must be greater than $1'
+            errorMessage='Income goal must be greater than $0'
             handleChange={goalChangeHandler}
             handleBlur={goalBlurHandler}
           />
