@@ -10,7 +10,7 @@ import useInput from '../../hooks/useInput';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { ISprint, ISprintBase } from '../../interfaces/ISprint.interface';
 import { addSprint, updateSprint } from '../../services/sprintServices';
-import { notify } from '../../utils/toastify';
+import { notify } from '../../helpers/toast-helpers';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 

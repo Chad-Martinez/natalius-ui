@@ -18,7 +18,7 @@ import {
   paginatedExpenses,
 } from '../../services/expensesService';
 import { AxiosError } from 'axios';
-import { notify } from '../../utils/toastify';
+import { notify } from '../../helpers/toast-helpers';
 import styles from './ViewExpenses.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';

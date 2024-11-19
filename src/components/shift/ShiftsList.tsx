@@ -9,7 +9,7 @@ import {
 import ShiftListItem from './ShiftListItem';
 import styles from './ShiftsList.module.css';
 import { deleteShift } from '../../services/shiftServices';
-import { notify } from '../../utils/toastify';
+import { notify } from '../../helpers/toast-helpers';
 import { AxiosError } from 'axios';
 import { IShift } from '../../interfaces/IShift.interface';
 import { IHTMLDialogElement } from '../../interfaces/IHTMLDialog.interface';

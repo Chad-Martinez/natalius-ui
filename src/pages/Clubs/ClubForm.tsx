@@ -6,13 +6,13 @@ import Button from '../../components/ui/Button/Button';
 import Input from '../../components/forms/Input';
 import useInput from '../../hooks/useInput';
 import Select from '../../components/forms/Select';
-import { US_STATES } from '../../utils/states';
+import { US_STATES } from '../../helpers/state-helpers';
 import { addClub, updateClub } from '../../services/clubsServices';
-import { notify } from '../../utils/toastify';
+import { notify } from '../../helpers/toast-helpers';
 import { AxiosError } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IClub, IClubBase } from '../../interfaces/IClub.interface';
-import { validatePhone } from '../../utils/validators';
+import { validatePhone } from '../../helpers/validator-helpers';
 import FormGroup from '../../components/forms/FormGroup';
 import Label from '../../components/forms/Label';
 import {
@@ -271,17 +271,6 @@ const ClubForm: FC = (): JSX.Element => {
             handleChange={contactPhoneChangeHandler}
             handleBlur={contactPhoneBlurHandler}
           />
-          {/* <Input
-            placeholder='Distance - Round Trip Miles'
-            type='number'
-            min={1}
-            step={1}
-            value={distance}
-            hasError={distanceHasError}
-            errorMessage='Must be blank or at least 1 mile'
-            handleChange={distanceChangeHandler}
-            handleBlur={distanceBlurHandler}
-          /> */}
         </form>
         <form className={formStyles.form}>
           <h3 className={formStyles.title}>Club Defaults (Optional)</h3>

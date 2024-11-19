@@ -67,3 +67,5 @@ export const getUserTimezone = () => {
     }
   }
 };
+
+export const getStartOfDay = () => new Date(dayjs().startOf('day').format());

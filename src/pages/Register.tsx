@@ -5,9 +5,9 @@ import useInput from '../hooks/useInput';
 import Button from '../components/forms/SubmitButton';
 import { register } from '../services/authServices';
 import { AxiosError, AxiosResponse } from 'axios';
-import { notify } from '../utils/toastify';
+import { notify } from '../helpers/toast-helpers';
 import Logo from '../components/ui/Logo/Logo';
-import { validateEmail, validatePassword } from '../utils/validators';
+import { validateEmail, validatePassword } from '../helpers/validator-helpers';
 
 const Register: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
