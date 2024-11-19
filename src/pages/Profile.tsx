@@ -9,9 +9,9 @@ import Input from '../components/forms/Input';
 import useInput from '../hooks/useInput';
 import { useLoaderData } from 'react-router-dom';
 import { updatePassword, updateUserInfo } from '../services/profileServices';
-import { notify } from '../utils/toastify';
+import { notify } from '../helpers/toast-helpers';
 import { AxiosError } from 'axios';
-import { validateEmail, validatePassword } from '../utils/validators';
+import { validateEmail, validatePassword } from '../helpers/validator-helpers';
 
 const Profile: FC = (): JSX.Element => {
   const [isProfileFormValid, setIsProfileFormValid] = useState<boolean>(false);

@@ -5,7 +5,7 @@ import styles from './Login.module.css';
 import formStyles from '../components/forms/FormComponents.module.css';
 import { login } from '../services/authServices';
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { notify } from '../utils/toastify';
+import { notify } from '../helpers/toast-helpers';
 import Button from '../components/forms/SubmitButton';
 import Logo from '../components/ui/Logo/Logo';
 import { AuthContext } from '../store/AuthContext';

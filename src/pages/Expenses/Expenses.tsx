@@ -8,7 +8,7 @@ import PageHeader from '../../components/ui/PageHeader/PageHeader';
 import PieGraphWidget from '../../components/Widgets/PieGraphWidget';
 import { GraphData, DataSet, BarSeriesKey } from '../../types/GraphData';
 import BarGraphWidget from '../../components/Widgets/BarGraphWidget';
-import { valueFormatter } from '../../utils/formatters';
+import { valueFormatter } from '../../helpers/format-helpers';
 import {
   DAYS_OF_WEEK,
   MONTHS_OF_YEAR,

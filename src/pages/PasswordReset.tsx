@@ -4,9 +4,9 @@ import Input from '../components/forms/Input';
 import useInput from '../hooks/useInput';
 import Button from '../components/forms/SubmitButton';
 import { AxiosError, AxiosResponse } from 'axios';
-import { notify } from '../utils/toastify';
+import { notify } from '../helpers/toast-helpers';
 import Logo from '../components/ui/Logo/Logo';
-import { validatePassword } from '../utils/validators';
+import { validatePassword } from '../helpers/validator-helpers';
 import { resetPassword } from '../services/authServices';
 import { useNavigate, useParams } from 'react-router-dom';
 

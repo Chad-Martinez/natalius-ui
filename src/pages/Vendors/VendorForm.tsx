@@ -6,7 +6,7 @@ import Button from '../../components/ui/Button/Button';
 import Input from '../../components/forms/Input';
 import useInput from '../../hooks/useInput';
 import Select from '../../components/forms/Select';
-import { notify } from '../../utils/toastify';
+import { notify } from '../../helpers/toast-helpers';
 import { AxiosError } from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IVendorBase } from '../../interfaces/IVendor.interface';

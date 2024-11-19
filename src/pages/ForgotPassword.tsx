@@ -4,7 +4,7 @@ import useInput from '../hooks/useInput';
 import formStyles from '../components/forms/FormComponents.module.css';
 import { passwordResetEmail } from '../services/authServices';
 import { AxiosError, AxiosResponse } from 'axios';
-import { notify } from '../utils/toastify';
+import { notify } from '../helpers/toast-helpers';
 import Button from '../components/forms/SubmitButton';
 import Logo from '../components/ui/Logo/Logo';
 

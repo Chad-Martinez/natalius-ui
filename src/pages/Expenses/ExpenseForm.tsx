@@ -6,7 +6,7 @@ import BottomNav from '../../components/ui/BottomNav/BottomNav';
 import Button from '../../components/ui/Button/Button';
 import Select from '../../components/forms/Select';
 import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
-import { notify } from '../../utils/toastify';
+import { notify } from '../../helpers/toast-helpers';
 import { AxiosError } from 'axios';
 import useInput from '../../hooks/useInput';
 import dayjs from 'dayjs';

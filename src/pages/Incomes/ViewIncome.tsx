@@ -18,7 +18,7 @@ import PageHeader from '../../components/ui/PageHeader/PageHeader';
 import ViewIncomeList from './components/ViewIncomeList';
 import { paginatedIncome } from '../../services/incomeServices';
 import { AxiosError } from 'axios';
-import { notify } from '../../utils/toastify';
+import { notify } from '../../helpers/toast-helpers';
 import { IShift } from '../../interfaces/IShift.interface';
 import { deleteShift } from '../../services/shiftServices';
 

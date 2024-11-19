@@ -7,7 +7,7 @@ import styles from '../PageWrapper.module.css';
 import { IClub } from '../../interfaces/IClub.interface';
 import { AxiosError } from 'axios';
 import { updateClub } from '../../services/clubsServices';
-import { notify } from '../../utils/toastify';
+import { notify } from '../../helpers/toast-helpers';
 import PageHeader from '../../components/ui/PageHeader/PageHeader';
 
 const Clubs: FC = (): JSX.Element => {

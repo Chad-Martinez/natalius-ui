@@ -7,7 +7,7 @@ import ShiftSummary from '../../components/shift-wizard/ShiftSummary';
 import { IShift } from '../../interfaces/IShift.interface';
 import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import { notify } from '../../utils/toastify';
+import { notify } from '../../helpers/toast-helpers';
 import { updateShift } from '../../services/shiftServices';
 import { IClub } from '../../interfaces/IClub.interface';
 
