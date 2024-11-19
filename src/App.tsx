@@ -11,21 +11,21 @@ import {
   paginatedIncomeLoader,
 } from './routes/incomeLoaders.ts';
 import { dashboardLoader, sprintLoader } from './routes/dashboardLoaders.ts';
-import Profile from './pages/Profile.tsx';
+import Profile from './pages/Profile/Profile.tsx';
 import { profileLoader } from './routes/profileLoaders.ts';
-import ForgotPassword from './pages/ForgotPassword.tsx';
-import PasswordReset from './pages/PasswordReset.tsx';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword.tsx';
+import PasswordReset from './pages/PasswordReset/PasswordReset.tsx';
 import { getShiftDetails } from './routes/shiftLoaders.ts';
 import useAxios from './hooks/useAxios.tsx';
 import { AuthContext } from './store/AuthContext.tsx';
 
 const LandingLayout = lazy(() => import('./layouts/LandingLayout.tsx'));
 const ProtectedLayout = lazy(() => import('./layouts/ProtectedLayout.tsx'));
-const Landing = lazy(() => import('./pages/Landing.tsx'));
-const Login = lazy(() => import('./pages/Login.tsx'));
-const Register = lazy(() => import('./pages/Register.tsx'));
-const VerifyEmail = lazy(() => import('./pages/VerifyEmail.tsx'));
-const NotFound = lazy(() => import('./pages/NotFound.tsx'));
+const Landing = lazy(() => import('./pages/Landing/Landing.tsx'));
+const Login = lazy(() => import('./pages/Login/Login.tsx'));
+const Register = lazy(() => import('./pages/Register/Register.tsx'));
+const VerifyEmail = lazy(() => import('./pages/VerifyEmail/VerifyEmail.tsx'));
+const NotFound = lazy(() => import('./pages/NotFound/NotFound.tsx'));
 const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard.tsx'));
 const Clubs = lazy(() => import('./pages/Clubs/Clubs.tsx'));
 const ClubForm = lazy(() => import('./pages/Clubs/ClubForm.tsx'));

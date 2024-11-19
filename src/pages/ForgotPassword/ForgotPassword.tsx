@@ -1,12 +1,12 @@
 import { FC, useCallback, useEffect, useState } from 'react';
-import Input from '../components/forms/Input';
-import useInput from '../hooks/useInput';
-import formStyles from '../components/forms/FormComponents.module.css';
-import { passwordResetEmail } from '../services/authServices';
+import Input from '../../components/forms/Input';
+import useInput from '../../hooks/useInput';
+import formStyles from '../../components/forms/FormComponents.module.css';
+import { passwordResetEmail } from '../../services/authServices';
 import { AxiosError, AxiosResponse } from 'axios';
-import { notify } from '../helpers/toast-helpers';
-import Button from '../components/forms/SubmitButton';
-import Logo from '../components/ui/Logo/Logo';
+import { notify } from '../../helpers/toast-helpers';
+import Button from '../../components/forms/SubmitButton';
+import Logo from '../../components/ui/Logo/Logo';
 
 export const ForgotPassword: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);

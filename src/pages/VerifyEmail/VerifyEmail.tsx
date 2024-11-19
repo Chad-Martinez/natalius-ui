@@ -2,8 +2,8 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import verifyStyles from './VerifyEmail.module.css';
 import ConfettiExplosion from 'react-confetti-explosion';
 import { useParams, useNavigate } from 'react-router-dom';
-import { verifyEmail } from '../services/authServices';
-import Logo from '../components/ui/Logo/Logo';
+import { verifyEmail } from '../../services/authServices';
+import Logo from '../../components/ui/Logo/Logo';
 
 const VerifyEmail: FC = () => {
   const [failed, setFailed] = useState(false);

@@ -1,17 +1,20 @@
 import { FC, useCallback, useEffect, useState } from 'react';
 import styles from './Profile.module.css';
-import pageStyles from './PageWrapper.module.css';
-import formStyles from '../components/forms/FormComponents.module.css';
-import BottomNav from '../components/ui/BottomNav/BottomNav';
-import Button from '../components/ui/Button/Button';
+import pageStyles from '../PageWrapper.module.css';
+import formStyles from '../../components/forms/FormComponents.module.css';
+import BottomNav from '../../components/ui/BottomNav/BottomNav';
+import Button from '../../components/ui/Button/Button';
 import { useNavigate } from 'react-router-dom';
-import Input from '../components/forms/Input';
-import useInput from '../hooks/useInput';
+import Input from '../../components/forms/Input';
+import useInput from '../../hooks/useInput';
 import { useLoaderData } from 'react-router-dom';
-import { updatePassword, updateUserInfo } from '../services/profileServices';
-import { notify } from '../helpers/toast-helpers';
+import { updatePassword, updateUserInfo } from '../../services/profileServices';
+import { notify } from '../../helpers/toast-helpers';
 import { AxiosError } from 'axios';
-import { validateEmail, validatePassword } from '../helpers/validator-helpers';
+import {
+  validateEmail,
+  validatePassword,
+} from '../../helpers/validator-helpers';
 
 const Profile: FC = (): JSX.Element => {
   const [isProfileFormValid, setIsProfileFormValid] = useState<boolean>(false);
