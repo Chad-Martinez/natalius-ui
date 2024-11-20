@@ -46,7 +46,13 @@ export const ForgotPassword: FC = (): JSX.Element => {
 
   return (
     <form className={formStyles.form}>
-      <Logo addedStyles={{ width: '35%' }} />
+      <Logo
+        addedStyles={{
+          width: '35%',
+          alignSelf: 'center',
+          marginBottom: '15px',
+        }}
+      />
       <h2>Forgot Password?</h2>
       <p>Enter your email address to receive a link to reset your password.</p>
       <Input

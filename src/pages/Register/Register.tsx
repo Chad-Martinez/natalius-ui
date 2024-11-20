@@ -112,7 +112,13 @@ const Register: FC = (): JSX.Element => {
 
   return (
     <form className={formStyles.form}>
-      <Logo addedStyles={{ width: '35%' }} />
+      <Logo
+        addedStyles={{
+          width: '35%',
+          alignSelf: 'center',
+          marginBottom: '15px',
+        }}
+      />
       <h2>register</h2>
       <Input
         id='firstName'

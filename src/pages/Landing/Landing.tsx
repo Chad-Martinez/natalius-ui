@@ -5,7 +5,13 @@ import Logo from '../../components/ui/Logo/Logo';
 const Landing: FC = () => {
   return (
     <div>
-      <Logo addedStyles={{ width: '60%', maxWidth: '300px' }} />
+      <Logo
+        addedStyles={{
+          width: '60%',
+          maxWidth: '300px',
+          marginBottom: '15px',
+        }}
+      />
       <h1>Natalius</h1>
       <div className={styles.subtitle}>An app for independent contractors</div>
     </div>

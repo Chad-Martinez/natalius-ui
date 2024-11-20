@@ -31,7 +31,14 @@ const VerifyEmail: FC = () => {
 
   return (
     <div className={verifyStyles.confetti}>
-      <Logo addedStyles={{ width: '35%', maxWidth: '300px' }} />
+      <Logo
+        addedStyles={{
+          width: '35%',
+          maxWidth: '300px',
+          alignSelf: 'center',
+          marginBottom: '15px',
+        }}
+      />
       {failed ? '' : <ConfettiExplosion force={0.7} />}
       <h1>{failed ? 'Oh wait, our bad!' : 'Congratulations'}</h1>
       <h5>
