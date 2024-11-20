@@ -18,7 +18,12 @@ const NotFound: FC = (): JSX.Element => {
 
   return (
     <div id='error-page' className={styles.errorContainer}>
-      <Logo addedStyles={{ width: '25%' }} />
+      <Logo
+        addedStyles={{
+          width: '25%',
+          marginBottom: '15px',
+        }}
+      />
       <h1>Oops!</h1>
       <p className={styles.subtitle}>
         Sorry, the resource you're trying to access isn't responding or doesn't
