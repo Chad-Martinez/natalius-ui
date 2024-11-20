@@ -1,28 +1,32 @@
 import {
   FC,
-  SyntheticEvent,
-  useContext,
-  useEffect,
   useRef,
   useState,
+  useEffect,
+  ReactElement,
+  SyntheticEvent,
 } from 'react';
-import pageStyles from '../PageWrapper.module.css';
-import styles from './ViewIncome.module.css';
-import { useLoaderData, useNavigate } from 'react-router-dom';
-import Modal from '../../components/ui/Modal/Modal';
-import { IHTMLDialogElement } from '../../interfaces/IHTMLDialog.interface';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { MenuContext } from '../../layouts/ProtectedLayout';
-import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
-import PageHeader from '../../components/ui/PageHeader/PageHeader';
-import ViewIncomeList from './components/ViewIncomeList';
-import { paginatedIncome } from '../../services/incomeServices';
 import { AxiosError } from 'axios';
+import styles from './ViewIncome.module.css';
+import pageStyles from '../PageWrapper.module.css';
+import Modal from '../../components/ui/Modal/Modal';
 import { notify } from '../../helpers/toast-helpers';
 import { IShift } from '../../interfaces/IShift.interface';
 import { deleteShift } from '../../services/shiftServices';
+import { useLoaderData, useNavigate } from 'react-router-dom';
+import { paginatedIncome } from '../../services/incomeServices';
+import Paginator from '../../components/ui/Paginator/Paginator';
+import ViewIncomeListItem from './components/ViewIncomeListItem';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PageHeader from '../../components/ui/PageHeader/PageHeader';
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { IHTMLDialogElement } from '../../interfaces/IHTMLDialog.interface';
 
 type PaginatedIncome = { shiftIncome: IShift[]; count: number; pages: number };
+
+type MenuRefs = {
+  [key: string]: { closeMenu?: () => void } | null;
+};
 
 const ViewIncome: FC = (): JSX.Element => {
   const [shifts, setShifts] = useState<IShift[]>([]);
@@ -30,12 +34,17 @@ const ViewIncome: FC = (): JSX.Element => {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [count, setCount] = useState<number>();
   const [currPage, setCurrPage] = useState<number>(1);
-  const [top, setTop] = useState<number>(0);
-  const [left, setLeft] = useState<number>(0);
-  const { showPopup, setShowPopup } = useContext(MenuContext);
+
+  const menuRefs = useRef<MenuRefs>({});
   const dialogRef = useRef<IHTMLDialogElement | null>(null);
 
   const navigate = useNavigate();
+
+  const closeAllMenus = (): void => {
+    Object.values(menuRefs.current).forEach(
+      (ref) => ref?.closeMenu && ref?.closeMenu()
+    );
+  };
 
   const incomeData = useLoaderData() as PaginatedIncome;
 
@@ -47,13 +56,6 @@ const ViewIncome: FC = (): JSX.Element => {
       setCurrPage(1);
     }
   }, [incomeData]);
-
-  const handleMenu = (Y: number, X: number, shift: IShift): void => {
-    setShift(shift);
-    setTop(Y);
-    setLeft(X - 52);
-    setShowPopup(true);
-  };
 
   const handlePrev = async (): Promise<void> => {
     try {
@@ -84,17 +86,14 @@ const ViewIncome: FC = (): JSX.Element => {
     }
   };
 
-  const handleEdit = (event: SyntheticEvent): void => {
-    event.stopPropagation();
-    navigate(`/complete-shift/${shift?._id}`, { state: { goToPage: 1 } });
-    setShowPopup(false);
-  };
-
   const openModal = (event: SyntheticEvent): void => {
     event.stopPropagation();
     dialogRef.current?.openModal();
-    setShowPopup(false);
+    closeAllMenus();
   };
+
+  const handleEdit = (): void =>
+    navigate(`/complete-shift/${shift?._id}`, { state: { goToPage: 1 } });
 
   const handleDelete = async (): Promise<void> => {
     try {
@@ -116,6 +115,33 @@ const ViewIncome: FC = (): JSX.Element => {
     }
   };
 
+  const PopupMenuItems: ReactElement = (
+    <>
+      <li onClick={handleEdit}>
+        <FontAwesomeIcon icon={faPencil} />
+      </li>
+      <li onClick={openModal}>
+        <FontAwesomeIcon icon={faTrash} />
+      </li>
+    </>
+  );
+
+  const mappedIncomes = shifts.map((shift: IShift) => (
+    <ViewIncomeListItem
+      key={shift._id}
+      shift={shift}
+      menuItems={PopupMenuItems}
+      setShift={setShift}
+      ref={(el) => {
+        if (el) {
+          menuRefs.current[shift._id] = el;
+        } else {
+          delete menuRefs.current[shift._id];
+        }
+      }}
+    />
+  ));
+
   return (
     <>
       <Modal
@@ -125,34 +151,32 @@ const ViewIncome: FC = (): JSX.Element => {
         onConfirm={handleDelete}
       />
       <div className={pageStyles.mainContent}>
-        <ul
-          style={{ top: `${top}px`, left: `${left}px` }}
-          className={`${styles.ellipsisMenuContainer} ${
-            showPopup ? styles.open : ''
-          }`}
-        >
-          <li onClick={handleEdit}>
-            <FontAwesomeIcon icon={faPencil} />
-          </li>
-          <li onClick={openModal}>
-            <FontAwesomeIcon icon={faTrash} />
-          </li>
-        </ul>
         <PageHeader
           linkLeftText='Go back'
           linkLeftHandleClick={() => navigate(-1)}
         />
         {shifts ? (
-          <ViewIncomeList
-            shifts={shifts}
-            currPage={currPage}
-            totalPages={totalPages}
-            handlePrev={handlePrev}
-            handleNext={handleNext}
-            handleMenu={handleMenu}
-          />
+          <div className={styles.listContainer}>
+            <div className={styles.header}>
+              <div className={styles.date}>Date</div>
+              <div className={styles.club}>Club</div>
+              <div className={styles.amount}>Amount</div>
+              <div className={styles.actionsContainer}></div>
+            </div>
+            <div className={styles.listItemsContainer}>
+              {shifts.length > 0 ? mappedIncomes : ''}
+            </div>
+            <div className={styles.footer}>
+              <Paginator
+                currPage={currPage}
+                totalPages={totalPages}
+                handlePrev={handlePrev}
+                handleNext={handleNext}
+              />
+            </div>
+          </div>
         ) : (
-          ''
+          <></>
         )}
       </div>
     </>

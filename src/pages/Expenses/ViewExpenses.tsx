@@ -191,7 +191,7 @@ const ViewExpenses: FC = (): JSX.Element => {
             </div>
           </div>
         ) : (
-          ''
+          <></>
         )}
       </div>
       <BottomNav>
