@@ -28,5 +28,13 @@
   min-width: 375px;
   margin: 0 auto;
   text-align: center;
-  color: var(--color-light-grey)
+  color: var(--color-light-grey);
+}
+
+#popup-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  pointer-events: none;
 }
