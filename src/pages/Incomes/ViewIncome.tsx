@@ -126,7 +126,7 @@ const ViewIncome: FC = (): JSX.Element => {
     </>
   );
 
-  const mappedIncomes = shifts.map((shift: IShift) => (
+  const mappedIncomes: JSX.Element[] = shifts.map((shift: IShift) => (
     <ViewIncomeListItem
       key={shift._id}
       shift={shift}

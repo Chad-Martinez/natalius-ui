@@ -1,38 +1,48 @@
 import {
   FC,
-  SyntheticEvent,
-  useContext,
-  useEffect,
   useRef,
   useState,
+  useEffect,
+  ReactElement,
+  SyntheticEvent,
 } from 'react';
-import ShiftListItem from './ShiftListItem';
-import styles from './ShiftsList.module.css';
-import { deleteShift } from '../../services/shiftServices';
-import { notify } from '../../helpers/toast-helpers';
 import { AxiosError } from 'axios';
-import { IShift } from '../../interfaces/IShift.interface';
-import { IHTMLDialogElement } from '../../interfaces/IHTMLDialog.interface';
-import { MenuContext } from '../../layouts/ProtectedLayout';
 import Modal from '../ui/Modal/Modal';
 import {
-  faCircleCheck,
   faPencil,
   faTrashCan,
+  faCircleCheck,
 } from '@fortawesome/free-solid-svg-icons';
-import { faCircleCheck as farCircleCheck } from '@fortawesome/free-regular-svg-icons';
+import ShiftListItem from './ShiftListItem';
+import styles from './ShiftsList.module.css';
 import { useNavigate } from 'react-router-dom';
+import { notify } from '../../helpers/toast-helpers';
+import { deleteShift } from '../../services/shiftServices';
+import { IShift } from '../../interfaces/IShift.interface';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IHTMLDialogElement } from '../../interfaces/IHTMLDialog.interface';
+import { faCircleCheck as farCircleCheck } from '@fortawesome/free-regular-svg-icons';
 
-const ShiftsList: FC<{
+type ShiftListProps = {
   shiftData: IShift[];
-}> = ({ shiftData }): JSX.Element => {
+};
+
+type MenuRefs = {
+  [key: string]: { closeMenu?: () => void } | null;
+};
+
+const ShiftsList: FC<ShiftListProps> = ({ shiftData }): JSX.Element => {
   const [shifts, setShifts] = useState<IShift[]>([]);
-  const [shift, setShift] = useState<IShift>();
-  const [top, setTop] = useState<number>(0);
-  const [left, setLeft] = useState<number>(0);
-  const { showPopup, setShowPopup } = useContext(MenuContext);
+  const [shift, setShift] = useState<IShift | null>(null);
+
+  const menuRefs = useRef<MenuRefs>({});
   const dialogRef = useRef<IHTMLDialogElement | null>(null);
+
+  const closeAllMenus = (): void => {
+    Object.values(menuRefs.current).forEach(
+      (ref) => ref?.closeMenu && ref?.closeMenu()
+    );
+  };
 
   const navigate = useNavigate();
 
@@ -42,16 +52,10 @@ const ShiftsList: FC<{
     }
   }, [shiftData]);
 
-  const handleMenu = (Y: number, X: number, shift: IShift): void => {
-    setShift(shift);
-    setTop(Y);
-    setLeft(X - 52);
-    setShowPopup(true);
-  };
-
   const openModal = (event: SyntheticEvent): void => {
     event.stopPropagation();
     dialogRef.current?.openModal();
+    closeAllMenus();
   };
 
   const handleCompleteShift = (): void =>
@@ -60,10 +64,10 @@ const ShiftsList: FC<{
   const handleEdit = (event: SyntheticEvent): void => {
     event.stopPropagation();
     navigate(`/clubs/shift-form/${shift?.clubId}`, { state: { shift } });
-    setShowPopup(false);
+    // setShowPopup(false);
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (): Promise<void> => {
     if (shift) {
       try {
         const shiftId = shift._id;
@@ -82,6 +86,40 @@ const ShiftsList: FC<{
       }
     }
   };
+
+  const PopupMenuItems: ReactElement = (
+    <>
+      <li>
+        <FontAwesomeIcon
+          className={shift?.shiftComplete ? styles.faIconSuccess : ''}
+          icon={shift?.shiftComplete ? faCircleCheck : farCircleCheck}
+          onClick={handleCompleteShift}
+        />
+      </li>
+      <li onClick={handleEdit}>
+        <FontAwesomeIcon icon={faPencil} />
+      </li>
+      <li onClick={openModal}>
+        <FontAwesomeIcon icon={faTrashCan} />
+      </li>
+    </>
+  );
+
+  const mappedShifts: JSX.Element[] = shifts.map((shift) => (
+    <ShiftListItem
+      key={shift._id}
+      shift={shift}
+      menuItems={PopupMenuItems}
+      setShift={setShift}
+      ref={(el) => {
+        if (el) {
+          menuRefs.current[shift._id] = el;
+        } else {
+          delete menuRefs.current[shift._id];
+        }
+      }}
+    />
+  ));
   return (
     <>
       <Modal
@@ -90,37 +128,8 @@ const ShiftsList: FC<{
         subtitle='This action cannot be undone'
         onConfirm={handleDelete}
       />
-      <ul
-        style={{ top: `${top}px`, left: `${left}px` }}
-        className={`${styles.ellipsisMenuContainer} ${
-          showPopup ? styles.open : ''
-        }`}
-      >
-        <li>
-          <FontAwesomeIcon
-            className={shift?.shiftComplete ? styles.faIconSuccess : ''}
-            icon={shift?.shiftComplete ? faCircleCheck : farCircleCheck}
-            onClick={handleCompleteShift}
-          />
-        </li>
-        <li onClick={handleEdit}>
-          <FontAwesomeIcon icon={faPencil} />
-        </li>
-        <li onClick={openModal}>
-          <FontAwesomeIcon icon={faTrashCan} />
-        </li>
-      </ul>
       <div className={styles.shiftList}>
-        {shifts.length > 0
-          ? shifts.map((shift) => (
-              <ShiftListItem
-                key={shift._id}
-                shift={shift}
-                handleDelete={handleDelete}
-                handleMenu={handleMenu}
-              />
-            ))
-          : ''}
+        {shifts.length > 0 ? mappedShifts : ''}
       </div>
     </>
   );

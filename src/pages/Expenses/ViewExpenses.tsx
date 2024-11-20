@@ -137,21 +137,23 @@ const ViewExpenses: FC = (): JSX.Element => {
     </>
   );
 
-  const mappedExpenses = expenses.map((expense: IExpense | IShift) => (
-    <ViewExpensesListItem
-      key={expense._id}
-      expense={expense}
-      menuItems={PopupMenuItems}
-      setExpense={setExpense}
-      ref={(el) => {
-        if (el) {
-          menuRefs.current[expense._id] = el;
-        } else {
-          delete menuRefs.current[expense._id];
-        }
-      }}
-    />
-  ));
+  const mappedExpenses: JSX.Element[] = expenses.map(
+    (expense: IExpense | IShift) => (
+      <ViewExpensesListItem
+        key={expense._id}
+        expense={expense}
+        menuItems={PopupMenuItems}
+        setExpense={setExpense}
+        ref={(el) => {
+          if (el) {
+            menuRefs.current[expense._id] = el;
+          } else {
+            delete menuRefs.current[expense._id];
+          }
+        }}
+      />
+    )
+  );
 
   return (
     <>
