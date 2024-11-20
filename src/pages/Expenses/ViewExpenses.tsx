@@ -1,36 +1,40 @@
 import {
   FC,
-  SyntheticEvent,
-  useContext,
-  useEffect,
   useRef,
   useState,
+  useEffect,
+  ReactElement,
+  SyntheticEvent,
 } from 'react';
-import pageStyles from '../PageWrapper.module.css';
-import BottomNav from '../../components/ui/BottomNav/BottomNav';
-import Button from '../../components/ui/Button/Button';
-import { useLoaderData, useNavigate } from 'react-router-dom';
-import PageHeader from '../../components/ui/PageHeader/PageHeader';
-import ViewExpensesList from './components/ViewExpensesList';
-import { IExpense } from '../../interfaces/IExpense.interface';
+import { AxiosError } from 'axios';
 import {
   deleteExpense,
   paginatedExpenses,
 } from '../../services/expensesService';
-import { AxiosError } from 'axios';
-import { notify } from '../../helpers/toast-helpers';
 import styles from './ViewExpenses.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { MenuContext } from '../../layouts/ProtectedLayout';
+import pageStyles from '../PageWrapper.module.css';
 import Modal from '../../components/ui/Modal/Modal';
-import { IHTMLDialogElement } from '../../interfaces/IHTMLDialog.interface';
+import { notify } from '../../helpers/toast-helpers';
+import Button from '../../components/ui/Button/Button';
 import { IShift } from '../../interfaces/IShift.interface';
+import { useLoaderData, useNavigate } from 'react-router-dom';
+import { IExpense } from '../../interfaces/IExpense.interface';
+import Paginator from '../../components/ui/Paginator/Paginator';
+import BottomNav from '../../components/ui/BottomNav/BottomNav';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PageHeader from '../../components/ui/PageHeader/PageHeader';
+import ViewExpensesListItem from './components/ViewExpensesListItem';
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { IHTMLDialogElement } from '../../interfaces/IHTMLDialog.interface';
 
 type PaginatedExpenses = {
   expenses: Array<IExpense | IShift>;
   count: number;
   pages: number;
+};
+
+type MenuRefs = {
+  [key: string]: { closeMenu?: () => void } | null;
 };
 
 const ViewExpenses: FC = (): JSX.Element => {
@@ -39,12 +43,17 @@ const ViewExpenses: FC = (): JSX.Element => {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [count, setCount] = useState<number>();
   const [currPage, setCurrPage] = useState<number>(1);
-  const [top, setTop] = useState<number>(0);
-  const [left, setLeft] = useState<number>(0);
-  const { showPopup, setShowPopup } = useContext(MenuContext);
-  const dialogRef = useRef<IHTMLDialogElement | null>(null);
 
   const navigate = useNavigate();
+
+  const menuRefs = useRef<MenuRefs>({});
+  const dialogRef = useRef<IHTMLDialogElement | null>(null);
+
+  const closeAllMenus = (): void => {
+    Object.values(menuRefs.current).forEach(
+      (ref) => ref?.closeMenu && ref?.closeMenu()
+    );
+  };
 
   const expenseLoaderData = useLoaderData() as PaginatedExpenses;
 
@@ -57,22 +66,7 @@ const ViewExpenses: FC = (): JSX.Element => {
     }
   }, [expenseLoaderData]);
 
-  useEffect(() => {
-    if (!showPopup && expense) setExpense(null);
-  }, [showPopup, expense]);
-
   const handleAddExpense = (): void => navigate('/expenses/expense-form');
-
-  const handleMenu = (
-    Y: number,
-    X: number,
-    expense: IExpense | IShift
-  ): void => {
-    setExpense(expense);
-    setTop(Y);
-    setLeft(X - 52);
-    setShowPopup(true);
-  };
 
   const handlePrev = async (): Promise<void> => {
     try {
@@ -102,17 +96,20 @@ const ViewExpenses: FC = (): JSX.Element => {
     }
   };
 
-  const handleEdit = (event: SyntheticEvent) => {
-    event.stopPropagation();
-    navigate('/expenses/expense-form', { state: { expense } });
-  };
-
   const openModal = (event: SyntheticEvent): void => {
     event.stopPropagation();
     dialogRef.current?.openModal();
+    closeAllMenus();
   };
 
-  const handleDelete = async () => {
+  const handleEdit = (): void => {
+    if (expense && 'vendor' in expense)
+      navigate('/expenses/expense-form', { state: { expense } });
+    else if (expense && 'club' in expense)
+      navigate(`/complete-shift/${expense?._id}`, { state: { goToPage: 2 } });
+  };
+
+  const handleDelete = async (): Promise<void> => {
     try {
       if (expense?._id) {
         const { data } = await deleteExpense(expense._id);
@@ -129,6 +126,33 @@ const ViewExpenses: FC = (): JSX.Element => {
     }
   };
 
+  const PopupMenuItems: ReactElement = (
+    <>
+      <li onClick={handleEdit}>
+        <FontAwesomeIcon icon={faPencil} />
+      </li>
+      <li onClick={openModal}>
+        <FontAwesomeIcon icon={faTrash} />
+      </li>
+    </>
+  );
+
+  const mappedExpenses = expenses.map((expense: IExpense | IShift) => (
+    <ViewExpensesListItem
+      key={expense._id}
+      expense={expense}
+      menuItems={PopupMenuItems}
+      setExpense={setExpense}
+      ref={(el) => {
+        if (el) {
+          menuRefs.current[expense._id] = el;
+        } else {
+          delete menuRefs.current[expense._id];
+        }
+      }}
+    />
+  ));
+
   return (
     <>
       <Modal
@@ -138,19 +162,6 @@ const ViewExpenses: FC = (): JSX.Element => {
         onConfirm={handleDelete}
       />
       <div className={pageStyles.mainContent}>
-        <ul
-          style={{ top: `${top}px`, left: `${left}px` }}
-          className={`${styles.ellipsisMenuContainer} ${
-            showPopup ? styles.open : ''
-          }`}
-        >
-          <li onClick={handleEdit}>
-            <FontAwesomeIcon icon={faPencil} />
-          </li>
-          <li onClick={openModal}>
-            <FontAwesomeIcon icon={faTrash} />
-          </li>
-        </ul>
         <PageHeader
           linkLeftText='Go back'
           linkLeftHandleClick={() => navigate(-1)}
@@ -159,14 +170,26 @@ const ViewExpenses: FC = (): JSX.Element => {
           M: Misc | S: Service | E: Equipment | SH: Shift
         </div>
         {expenses ? (
-          <ViewExpensesList
-            expenses={expenses}
-            currPage={currPage}
-            totalPages={totalPages}
-            handlePrev={handlePrev}
-            handleNext={handleNext}
-            handleMenu={handleMenu}
-          />
+          <div className={styles.listContainer}>
+            <div className={styles.header}>
+              <div className={styles.date}>Date</div>
+              <div className={styles.vendor}>Vendor</div>
+              <div className={styles.amount}>Amount</div>
+              <div className={styles.type}>Type</div>
+              <div className={styles.actionsContainer}></div>
+            </div>
+            <div className={styles.listItemsContainer}>
+              {expenses.length > 0 ? mappedExpenses : ''}
+            </div>
+            <div className={styles.footer}>
+              <Paginator
+                currPage={currPage}
+                totalPages={totalPages}
+                handlePrev={handlePrev}
+                handleNext={handleNext}
+              />
+            </div>
+          </div>
         ) : (
           ''
         )}
