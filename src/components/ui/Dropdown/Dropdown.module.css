@@ -1,0 +1,46 @@
+ul.dropdownMenu {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  padding: 0;
+  border-radius: 8px;
+  background-color: var(--color-light-grey);
+  color: var(--color-dark-grey);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.55s ease;
+  letter-spacing: 0.07rem;
+}
+.dropdownMenu.visible {
+  max-height: 400px;
+}
+
+.dropdownHeader {
+  padding: 12px 0px 8px 0px;
+}
+
+.dropdownItem {
+  list-style: none;
+  font-size: 1rem;
+  padding: 8px 18px;
+  background-color: inherit;
+  transition: background-color 0.35s ease;
+}
+
+.dropdownItem:last-child {
+  padding-bottom: 10px;
+}
+
+a {
+  text-decoration: none;
+}
+
+li:hover {
+  cursor: pointer;
+}
+
+.dropdownItem:hover,
+.dropdownItem:active,
+.active {
+  background-color: var(--color-primary);
+}
