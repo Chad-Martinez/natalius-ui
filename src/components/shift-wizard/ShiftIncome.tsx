@@ -71,7 +71,7 @@ const ShiftIncome: FC<{
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
           <h3 className={formStyles.title}>
-            {location.state?.goToPage ? 'Update' : 'Add'} Shift Income
+            {shiftData?.shiftComplete ? 'Update' : 'Add'} Shift Income
           </h3>
           <FormGroup>
             <Label name='date' text='Shift Date' />
