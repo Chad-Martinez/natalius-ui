@@ -1,0 +1,15 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.menu:hover {
+  cursor: pointer;
+}
+
+.menuLine {
+  border: 2.5px solid var(--color-primary);
+  width: 30px;
+  border-radius: 5px;
+}
