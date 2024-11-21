@@ -1,23 +1,34 @@
-import { FC, useEffect, useState } from 'react';
-import ShiftDetails from '../../components/shift-wizard/ShiftDetails';
-import ShiftIncome from '../../components/shift-wizard/ShiftIncome';
-import ShiftExpenses from '../../components/shift-wizard/ShiftExpenses';
-import ShiftMilage from '../../components/shift-wizard/ShiftMilage';
-import ShiftSummary from '../../components/shift-wizard/ShiftSummary';
-import { IShift } from '../../interfaces/IShift.interface';
-import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
+import {
+  useParams,
+  useLocation,
+  useNavigate,
+  useLoaderData,
+} from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { notify } from '../../helpers/toast-helpers';
-import { updateShift } from '../../services/shiftServices';
 import { IClub } from '../../interfaces/IClub.interface';
+import { IShift } from '../../interfaces/IShift.interface';
+import { FC, useCallback, useEffect, useState } from 'react';
+import ShiftIncome from '../../components/shift-wizard/ShiftIncome';
+import ShiftMilage from '../../components/shift-wizard/ShiftMilage';
+import { updateShift, getShift } from '../../services/shiftServices';
+import ShiftDetails from '../../components/shift-wizard/ShiftDetails';
+import ShiftSummary from '../../components/shift-wizard/ShiftSummary';
+import ShiftExpenses from '../../components/shift-wizard/ShiftExpenses';
 
-type ShiftLoaderData = {
-  clubNames: IClub[];
-  shift: IShift;
-};
+const Elements = [
+  ShiftDetails,
+  ShiftIncome,
+  ShiftExpenses,
+  ShiftMilage,
+  ShiftSummary,
+];
 
 const CompleteShiftWizard: FC = (): JSX.Element => {
+  const params = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
+
   const [shiftData, setShiftData] = useState<IShift | null>(null);
   const [clubs, setClubs] = useState<IClub[]>([]);
   const [currentStepIndex, setCurrentStepIndex] = useState(
@@ -25,31 +36,33 @@ const CompleteShiftWizard: FC = (): JSX.Element => {
   );
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
 
-  const navigate = useNavigate();
-  const shiftLoaderData = useLoaderData() as ShiftLoaderData;
-
-  const Elements = [
-    ShiftDetails,
-    ShiftIncome,
-    ShiftExpenses,
-    ShiftMilage,
-    ShiftSummary,
-  ];
+  const getShiftData = useCallback(async (): Promise<void> => {
+    const { shiftId } = params;
+    if (shiftId) {
+      const { data } = await getShift(shiftId);
+      setShiftData(data);
+    }
+  }, [params]);
 
   useEffect(() => {
-    if (shiftLoaderData) {
-      if (shiftLoaderData instanceof AxiosError)
+    getShiftData();
+    if (!location.state?.goToPage) setCurrentStepIndex(0);
+  }, [getShiftData, location]);
+
+  const clubsLoaderData = useLoaderData() as IClub[];
+  useEffect(() => {
+    if (clubsLoaderData) {
+      if (clubsLoaderData instanceof AxiosError)
         notify(
-          'Error retrieving shift data. Try request again.',
+          'Error retrieving club data. Try request again.',
           'error',
           'shift-loader-error'
         );
       else {
-        setShiftData(shiftLoaderData.shift);
-        setClubs(shiftLoaderData.clubNames);
+        setClubs(clubsLoaderData);
       }
     }
-  }, [shiftLoaderData]);
+  }, [clubsLoaderData]);
 
   const goNext = (shiftDataFromStep: IShift | null): void => {
     if (shiftDataFromStep) {
@@ -94,7 +107,7 @@ const CompleteShiftWizard: FC = (): JSX.Element => {
   const mappedElements = Elements.map((Element, index) => {
     return (
       <Element
-        key={index}
+        key={`${index}-${shiftData?._id}`}
         goNext={goNext}
         goBack={goBack}
         onFinish={handleFinish}

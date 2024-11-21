@@ -159,7 +159,9 @@ const ShiftExpenses: FC<{
     <>
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
-          <h3 className={formStyles.title}>Add Shift Expenses</h3>
+          <h3 className={formStyles.title}>
+            {shiftData?.shiftComplete ? 'Update' : 'Add'} Shift Expenses
+          </h3>
           <FormGroup>
             <Label name='floorFee' text='Floor Fee' />
             <Input

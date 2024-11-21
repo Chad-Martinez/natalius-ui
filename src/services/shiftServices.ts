@@ -67,3 +67,11 @@ export const deleteShift = async (payload: {
   };
   return await axios(config);
 };
+
+export const getShiftsToComplete = async (): Promise<AxiosResponse> => {
+  const config: AxiosRequestConfig = {
+    url: `${endpoint}/shifts/shifts-to-complete`,
+    method: 'GET',
+  };
+  return await axios(config);
+};

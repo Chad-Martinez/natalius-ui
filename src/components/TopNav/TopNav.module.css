@@ -6,7 +6,7 @@
   z-index: 2;
 }
 
-.navContainer {
+.navCenterContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -14,4 +14,11 @@
   height: 100%;
   letter-spacing: 0.09rem;
   text-transform: capitalize;
+}
+
+.navSideContainer {
+  width: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

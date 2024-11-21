@@ -1,0 +1,25 @@
+.notifyWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.notifyContainer {
+  display: flex;
+}
+
+.notifyContainer:hover {
+  cursor: pointer;
+}
+
+.notifyIcon {
+  color: var(--color-primary);
+  font-size: 32px;
+}
+
+.notifyBadge {
+  transform: translate(-5px, -5px);
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  background-color: var(--color-danger);
+}

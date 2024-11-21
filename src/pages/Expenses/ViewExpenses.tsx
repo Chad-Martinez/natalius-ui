@@ -106,7 +106,9 @@ const ViewExpenses: FC = (): JSX.Element => {
     if (expense && 'vendor' in expense)
       navigate('/expenses/expense-form', { state: { expense } });
     else if (expense && 'club' in expense)
-      navigate(`/complete-shift/${expense?._id}`, { state: { goToPage: 2 } });
+      navigate(`/shift/complete-shift/${expense?._id}`, {
+        state: { goToPage: 2 },
+      });
   };
 
   const handleDelete = async (): Promise<void> => {
