@@ -8,7 +8,7 @@ import PageHeader from '../../components/ui/PageHeader/PageHeader';
 import PieGraphWidget from '../../components/Widgets/PieGraphWidget';
 import { GraphData, DataSet, BarSeriesKey } from '../../types/GraphData';
 import BarGraphWidget from '../../components/Widgets/BarGraphWidget';
-import { valueFormatter } from '../../helpers/format-helpers';
+import { moneyFormatter } from '../../helpers/format-helpers';
 import {
   DAYS_OF_WEEK,
   MONTHS_OF_YEAR,
@@ -119,20 +119,20 @@ const Expenses: FC = (): JSX.Element => {
     service: {
       dataKey: 'service',
       label: 'SERVICE',
-      valueFormatter,
+      moneyFormatter,
       type: 'bar',
     },
-    misc: { dataKey: 'misc', label: 'MISC', valueFormatter, type: 'bar' },
+    misc: { dataKey: 'misc', label: 'MISC', moneyFormatter, type: 'bar' },
     equipment: {
       dataKey: 'equipment',
       label: 'EQUIPMENT',
-      valueFormatter,
+      moneyFormatter,
       type: 'bar',
     },
     shift: {
       dataKey: 'shift',
       label: 'SHIFT',
-      valueFormatter,
+      moneyFormatter,
       type: 'bar',
     },
   };

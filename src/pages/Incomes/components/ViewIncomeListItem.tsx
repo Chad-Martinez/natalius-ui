@@ -16,6 +16,7 @@ import { IShift } from '../../../interfaces/IShift.interface';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PopupMenu from '../../../components/ui/PopupMenu/PopupMenu';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import { moneyFormatter } from '../../../helpers/format-helpers';
 
 type ViewIncomeListItemProps = {
   shift: IShift;
@@ -75,7 +76,7 @@ const ViewIncomeListItem = memo(
               <span>{shift?.club}</span>
             </div>
             <div className={styles.amount}>
-              ${shift.income?.amount.toFixed(2)}
+              {`$${moneyFormatter(shift.income?.amount)}`}
             </div>
             <div className={styles.actionsContainer}>
               <div className={styles.actions} onClick={handleMenu}>

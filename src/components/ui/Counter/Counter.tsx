@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './Counter.module.css';
+import { moneyFormatter } from '../../../helpers/format-helpers';
 
 const Counter: FC<{
   period: string;
@@ -26,7 +27,7 @@ const Counter: FC<{
   return (
     <>
       <div className={`${styles.amount} ${isFinished ? styles.slam : ''}`}>
-        ${count}
+        {`$${moneyFormatter(count)}`}
       </div>
       <div className={styles.counter}>{period}</div>
     </>

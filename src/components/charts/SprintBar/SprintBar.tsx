@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import styles from './SprintBar.module.css';
 import dayjs from 'dayjs';
+import { moneyFormatter } from '../../../helpers/format-helpers';
 
 const SprintBar: FC<{ progress: number; goal: number; end: string }> = ({
   progress,
@@ -32,7 +33,8 @@ const SprintBar: FC<{ progress: number; goal: number; end: string }> = ({
     <>
       <div className={styles.sprintHeader}>
         <span>
-          Goal: ${progress ? progress : 0} / ${goal}
+          Goal: {progress ? `$${moneyFormatter(progress)}` : 0} /{' '}
+          {`$${moneyFormatter(goal)}`}
         </span>
         <span>{timeLeft}</span>
       </div>

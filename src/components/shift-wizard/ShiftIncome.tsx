@@ -11,6 +11,10 @@ import { IShift } from '../../interfaces/IShift.interface';
 import FormGroup from '../forms/FormGroup';
 import Label from '../forms/Label';
 import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  moneyFormatter,
+  moneyStrToNumFormatter,
+} from '../../helpers/format-helpers';
 
 const ShiftIncome: FC<{
   goNext: (shift: IShift | null) => void;
@@ -31,7 +35,7 @@ const ShiftIncome: FC<{
     valueChangeHandler: amountChangeHandler,
     inputBlurHandler: amountBlurHandler,
   } = useInput<string>(
-    (v) => +v >= 1 && /^[0-9]+$/.test(v),
+    (v) => +v >= 1 && /^\$?[0-9]+$/.test(v),
     shiftData?.income?.amount.toString() || '0'
   );
 
@@ -64,6 +68,12 @@ const ShiftIncome: FC<{
     onFinish(updatedShift);
   };
 
+  const convertAmount = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const value = moneyStrToNumFormatter(event.target.value).toString();
+    event.target.value = value;
+    amountChangeHandler(event);
+  };
+
   const handleNext = (): void => goNext(updatedShift);
 
   return (
@@ -91,13 +101,12 @@ const ShiftIncome: FC<{
               id='amount'
               name='amount'
               autoFocus={true}
-              value={amount}
+              value={`$${moneyFormatter(+amount)}`}
               hasError={amountHasError}
               placeholder='Enter earnings'
-              min={0.01}
-              type='number'
-              errorMessage='Amount must be greater than $0.01'
-              handleChange={amountChangeHandler}
+              type='text'
+              errorMessage='Amount must be $1 or greater'
+              handleChange={convertAmount}
               handleBlur={amountBlurHandler}
             />
           </FormGroup>

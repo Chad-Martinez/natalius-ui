@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IExpense } from '../../../interfaces/IExpense.interface';
 import PopupMenu from '../../../components/ui/PopupMenu/PopupMenu';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import { moneyFormatter } from '../../../helpers/format-helpers';
 
 type ViewExpensesListItemProps = {
   expense: IExpense | IShift;
@@ -77,7 +78,9 @@ const ViewExpensesListItem = memo(
               <div className={styles.vendor}>
                 <span>{expense.vendor}</span>
               </div>
-              <div className={styles.amount}>${expense.amount.toFixed(2)}</div>
+              <div className={styles.amount}>{`$${moneyFormatter(
+                expense.amount
+              )}`}</div>
               <div className={styles.type}>{expense.type[0]}</div>
               <div className={styles.actionsContainer}>
                 <div className={styles.actions} onClick={handleMenu}>
@@ -97,7 +100,7 @@ const ViewExpensesListItem = memo(
                 <span>{shift.club}</span>
               </div>
               <div className={styles.amount}>
-                ${shift.expenses?.totalShiftExpenses}
+                {`$${moneyFormatter(shift.expenses?.totalShiftExpenses)}`}
               </div>
               <div className={styles.type}>
                 {shift.expenses?.type.slice(0, 2)}

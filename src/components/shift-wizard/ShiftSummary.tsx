@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
 import { IClub } from '../../interfaces/IClub.interface';
+import { moneyFormatter } from '../../helpers/format-helpers';
 
 const ShiftSummary: FC<{
   goNext: (shift: IShift | null) => void;
@@ -74,7 +75,7 @@ const ShiftSummary: FC<{
                 <div className={shiftSummaryStyles.detailsItemName}>
                   Earnings:
                 </div>
-                ${shiftData?.income?.amount}
+                {`$${moneyFormatter(shiftData?.income?.amount)}`}
               </div>
               <div className={shiftSummaryStyles.detailsItem}>
                 <div className={shiftSummaryStyles.detailsItemName}>Type: </div>
@@ -95,25 +96,27 @@ const ShiftSummary: FC<{
                 <div className={shiftSummaryStyles.detailsItemName}>
                   Floor Fee:
                 </div>
-                ${shiftData?.expenses?.floorFee}
+                {`$${moneyFormatter(shiftData?.expenses?.floorFee)}`}
               </div>
               <div className={shiftSummaryStyles.detailsItem}>
                 <div className={shiftSummaryStyles.detailsItemName}>
                   Pvt Fee:
                 </div>
-                ${shiftData?.expenses?.dances.danceFeeTotal}
+                {`$${moneyFormatter(
+                  shiftData?.expenses?.dances.danceFeeTotal
+                )}`}
               </div>
               <div className={shiftSummaryStyles.detailsItem}>
                 <div className={shiftSummaryStyles.detailsItemName}>Tips: </div>
-                ${shiftData?.expenses?.tips}
+                {`$${moneyFormatter(shiftData?.expenses?.tips)}`}
               </div>
               <div className={shiftSummaryStyles.detailsItem}>
                 <div className={shiftSummaryStyles.detailsItemName}>Other:</div>
-                ${shiftData?.expenses?.other}
+                {`$${moneyFormatter(shiftData?.expenses?.other)}`}
               </div>
               <div className={shiftSummaryStyles.detailsItem}>
                 <div className={shiftSummaryStyles.detailsItemName}>Total:</div>
-                ${shiftData?.expenses?.totalShiftExpenses}
+                {`$${moneyFormatter(shiftData?.expenses?.totalShiftExpenses)}`}
               </div>
             </div>
           </div>
