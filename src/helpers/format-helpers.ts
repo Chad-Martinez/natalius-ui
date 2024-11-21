@@ -1,7 +1,6 @@
 export const valueFormatter = (value: number | null) => `$${value}`;
 
 export const moneyFormatter = (value: number | undefined): string => {
-  console.log('formatting', value);
   if (value === undefined || isNaN(value)) return '0';
   const str = value.toString();
   const [integerPart, decimalPart] = str.split('.');
