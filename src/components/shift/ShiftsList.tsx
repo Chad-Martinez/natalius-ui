@@ -59,12 +59,11 @@ const ShiftsList: FC<ShiftListProps> = ({ shiftData }): JSX.Element => {
   };
 
   const handleCompleteShift = (): void =>
-    navigate(`/complete-shift/${shift?._id}`);
+    navigate(`/shift/complete-shift/${shift?._id}`);
 
   const handleEdit = (event: SyntheticEvent): void => {
     event.stopPropagation();
     navigate(`/clubs/shift-form/${shift?.clubId}`, { state: { shift } });
-    // setShowPopup(false);
   };
 
   const handleDelete = async (): Promise<void> => {

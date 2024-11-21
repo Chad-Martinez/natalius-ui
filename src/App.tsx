@@ -15,7 +15,6 @@ import Profile from './pages/Profile/Profile.tsx';
 import { profileLoader } from './routes/profileLoaders.ts';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword.tsx';
 import PasswordReset from './pages/PasswordReset/PasswordReset.tsx';
-import { getShiftDetails } from './routes/shiftLoaders.ts';
 import useAxios from './hooks/useAxios.tsx';
 import { AuthContext } from './store/AuthContext.tsx';
 
@@ -98,9 +97,9 @@ const App: FC = (): JSX.Element => {
           loader: isAuth && clubNamesLoader,
         },
         {
-          path: 'complete-shift/:shiftId',
+          path: 'shift/complete-shift/:shiftId',
           element: <CompleteShiftWizard />,
-          loader: isAuth && getShiftDetails,
+          loader: isAuth && clubNamesLoader,
         },
         {
           path: 'income',
