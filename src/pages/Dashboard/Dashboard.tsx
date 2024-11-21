@@ -26,7 +26,7 @@ const Dashboard: FC = (): JSX.Element => {
   const navigate = useNavigate();
 
   const handleAddShift = (): void => {
-    navigate('/clubs/shift-form');
+    navigate('/shifts/shift-form');
   };
 
   const handleAddExpense = (): void => {

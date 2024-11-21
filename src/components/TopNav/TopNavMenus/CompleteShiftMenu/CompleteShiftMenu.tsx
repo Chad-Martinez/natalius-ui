@@ -40,7 +40,7 @@ const CompleteShiftMenu: FC<DropdownProps> = ({
 
   const completeShift = (shiftIndex: number) => {
     handleDropdown();
-    navigate(`/shift/complete-shift/${shifts[shiftIndex]?._id}`);
+    navigate(`/shifts/complete-shift/${shifts[shiftIndex]?._id}`);
   };
 
   return (

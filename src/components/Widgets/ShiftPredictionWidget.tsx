@@ -21,7 +21,7 @@ const ShiftPredictionWidget: FC<{
         maxWidth: '607.5px',
       }}
     >
-      <CardHeader text={shiftPrediction ? 'Next Shift Prediction' : ''}>
+      <CardHeader text='Shift Prediction'>
         <FontAwesomeIcon
           className={widgetStyles.faIcon}
           icon={faGripVertical}
@@ -39,11 +39,11 @@ const ShiftPredictionWidget: FC<{
             >{`$${shiftPrediction.prediction}`}</span>
           </span>
         ) : (
-          <CardContentVacant title='No Scheduled Shifts' />
+          <CardContentVacant title='No Scheduled Shift to Perdict' />
         )}
       </CardContent>
       {!shiftPrediction && (
-        <CardFooter linkRight='/clubs/shift-form' linkRightText='Add Shift' />
+        <CardFooter linkRight='/shifts/shift-form' linkRightText='Add Shift' />
       )}
     </Card>
   );

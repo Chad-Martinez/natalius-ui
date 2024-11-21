@@ -32,7 +32,7 @@ const UpcomingShiftsWidget: FC<{ shifts: IShift[] }> = ({
           <CardContentVacant title='No Scheduled Shifts' />
         )}
       </CardContent>
-      <CardFooter linkRight='/clubs/shift-form' linkRightText='Add Shift' />
+      <CardFooter linkRight='/shifts/shift-form' linkRightText='Add Shift' />
     </Card>
   );
 };

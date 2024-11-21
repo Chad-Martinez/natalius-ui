@@ -68,4 +68,10 @@ export const getUserTimezone = () => {
   }
 };
 
-export const getStartOfDay = () => new Date(dayjs().startOf('day').format());
+export const roundToNearestQuarter = (): dayjs.Dayjs =>
+  dayjs()
+    .minute(Math.round(dayjs().minute() / 15) * 15)
+    .second(0)
+    .millisecond(0);
+
+export const getStartOfDay = () => dayjs().startOf('day').format();

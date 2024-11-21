@@ -93,7 +93,9 @@ const ViewIncome: FC = (): JSX.Element => {
   };
 
   const handleEdit = (): void =>
-    navigate(`/shift/complete-shift/${shift?._id}`, { state: { goToPage: 1 } });
+    navigate(`/shifts/complete-shift/${shift?._id}`, {
+      state: { goToPage: 1 },
+    });
 
   const handleDelete = async (): Promise<void> => {
     try {

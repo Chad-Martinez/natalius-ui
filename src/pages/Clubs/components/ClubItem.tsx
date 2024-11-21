@@ -120,7 +120,7 @@ const ClubItem: FC<{ club: IClub; archiveClub: (payload: IClub) => void }> =
                   : 'Show Active Shifts'
               }
               linkLeftHandleClick={handleShowShifts}
-              linkRight={`shift-form/${club._id}`}
+              linkRight={`/shifts/shift-form/${club._id}`}
               linkRightText='Add Shift'
             />
           ) : (

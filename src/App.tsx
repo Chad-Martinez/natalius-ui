@@ -31,7 +31,7 @@ const ClubForm = lazy(() => import('./pages/Clubs/ClubForm.tsx'));
 const CompleteShiftWizard = lazy(
   () => import('./pages/CompleteShiftWizard/CompleteShiftWizard.tsx')
 );
-const ShiftForm = lazy(() => import('./pages/Clubs/ShiftForm.tsx'));
+const ShiftForm = lazy(() => import('./pages/Shifts/ShiftForm.tsx'));
 const Incomes = lazy(() => import('./pages/Incomes/Incomes.tsx'));
 const Expenses = lazy(() => import('./pages/Expenses/Expenses.tsx'));
 const ExpenseForm = lazy(() => import('./pages/Expenses/ExpenseForm.tsx'));
@@ -87,17 +87,17 @@ const App: FC = (): JSX.Element => {
         { path: 'clubs', element: <Clubs />, loader: isAuth && clubsLoader },
         { path: 'clubs/club-form', element: <ClubForm /> },
         {
-          path: 'clubs/shift-form/:club',
+          path: 'shifts/shift-form',
           element: <ShiftForm />,
           loader: isAuth && clubNamesLoader,
         },
         {
-          path: 'clubs/shift-form',
+          path: 'shifts/shift-form/:clubId',
           element: <ShiftForm />,
           loader: isAuth && clubNamesLoader,
         },
         {
-          path: 'shift/complete-shift/:shiftId',
+          path: 'shifts/complete-shift/:shiftId',
           element: <CompleteShiftWizard />,
           loader: isAuth && clubNamesLoader,
         },

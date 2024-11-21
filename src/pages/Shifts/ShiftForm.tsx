@@ -23,6 +23,7 @@ import { IShift, IShiftBase } from '../../interfaces/IShift.interface';
 import { SelectOptions } from '../../types/SelectOptions';
 import {
   getUserTimezone,
+  roundToNearestQuarter,
   TIMEZONE_SELECT,
 } from '../../helpers/date-time-helpers';
 import { IClub } from '../../interfaces/IClub.interface';
@@ -32,7 +33,7 @@ const ShiftForm: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
 
-  const { club } = useParams();
+  const { clubId: club } = useParams();
   const loaderData = useLoaderData() as IClub[];
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,7 +46,10 @@ const ShiftForm: FC = (): JSX.Element => {
     hasError: clubIdHasError,
     inputBlurHandler: clubIdBlurHandler,
     valueChangeHandler: clubIdChangeHandler,
-  } = useInput<string>((v) => v !== '', club ? club : '');
+  } = useInput<string>(
+    (v) => v !== '',
+    shift ? shift.clubId : club ? club : ''
+  );
 
   const {
     value: start,
@@ -57,7 +61,7 @@ const ShiftForm: FC = (): JSX.Element => {
     (v) => dayjs(v).isValid(),
     shift
       ? dayjs.utc(shift.start).tz(shift.timezone).format('YYYY-MM-DDTHH:mm')
-      : dayjs().format('YYYY-MM-DDTHH:mm')
+      : roundToNearestQuarter().add(2, 'hour').format('YYYY-MM-DDTHH:mm')
   );
 
   const {
@@ -70,7 +74,7 @@ const ShiftForm: FC = (): JSX.Element => {
     (v) => dayjs(v).isValid() && !dayjs(v).isSameOrBefore(dayjs(start)),
     shift
       ? dayjs.utc(shift.end).tz(shift.timezone).format('YYYY-MM-DDTHH:mm')
-      : dayjs().add(4, 'hour').format('YYYY-MM-DDTHH:mm')
+      : roundToNearestQuarter().add(4, 'hour').format('YYYY-MM-DDTHH:mm')
   );
 
   const {
