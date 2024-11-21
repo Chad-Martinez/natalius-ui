@@ -1,33 +1,11 @@
-import {
-  Dispatch,
-  FC,
-  SetStateAction,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { AuthContext } from '../store/AuthContext';
-import TopNav from '../components/ui/TopNav/TopNav';
+import { FC, useState, useEffect, useContext } from 'react';
 import styles from './ProtectedLayout.module.css';
-
-export const MenuContext = createContext<{
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>> | ((value: boolean) => void);
-  showPopup: boolean;
-  setShowPopup: Dispatch<SetStateAction<boolean>> | ((value: boolean) => void);
-}>({
-  isOpen: false,
-  setIsOpen: () => {},
-  showPopup: false,
-  setShowPopup: () => {},
-});
+import { AuthContext } from '../store/AuthContext';
+import TopNav from '../components/TopNav/TopNav';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 const ProtectedLayout: FC = (): JSX.Element => {
   const [title, setTitle] = useState<string>('');
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [showPopup, setShowPopup] = useState<boolean>(false);
   const { isAuth, isLoading } = useContext(AuthContext);
   const { pathname } = useLocation();
 
@@ -40,22 +18,13 @@ const ProtectedLayout: FC = (): JSX.Element => {
     }
   }, [pathname]);
 
-  const handleToggle = () => {
-    if (isOpen) setIsOpen(false);
-    if (showPopup) setShowPopup(false);
-  };
-
   return isAuth ? (
-    <div onClick={handleToggle}>
-      <MenuContext.Provider
-        value={{ isOpen, setIsOpen, showPopup, setShowPopup }}
-      >
-        <TopNav title={title} />
-        <div className={styles.container}>
-          <Outlet />
-        </div>
-      </MenuContext.Provider>
-    </div>
+    <>
+      <TopNav title={title} />
+      <div className={styles.container}>
+        <Outlet />
+      </div>
+    </>
   ) : isLoading ? (
     <p>Loading...</p>
   ) : (
