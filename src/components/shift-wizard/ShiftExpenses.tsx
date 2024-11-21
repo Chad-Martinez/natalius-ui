@@ -10,13 +10,19 @@ import FormGroup from '../forms/FormGroup';
 import Label from '../forms/Label';
 import { IShift } from '../../interfaces/IShift.interface';
 import { IClub } from '../../interfaces/IClub.interface';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  moneyFormatter,
+  moneyStrToNumFormatter,
+} from '../../helpers/format-helpers';
 
 const ShiftExpenses: FC<{
   goNext: (shift: IShift | null) => void;
   goBack: (shift: IShift | null) => void;
   shiftData: IShift | null;
   clubs: IClub[];
-}> = ({ goNext, goBack, shiftData, clubs }): JSX.Element => {
+  onFinish: (shift: IShift) => void;
+}> = ({ goNext, goBack, shiftData, clubs, onFinish }): JSX.Element => {
   const [updatedShift, setUpdatedShift] = useState<IShift | null>(shiftData);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [danceFeeTotal, setDanceFeeTotal] = useState<string>('0');
@@ -24,6 +30,9 @@ const ShiftExpenses: FC<{
 
   const selectedClub = clubs.find((club) => club._id === shiftData?.clubId);
   const { defaults } = selectedClub as IClub;
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const {
     value: floorFee,
@@ -128,7 +137,7 @@ const ShiftExpenses: FC<{
   ]);
 
   useEffect(() => {
-    setDanceFeeTotal((+numOfDances * +pricePerDance).toString());
+    setDanceFeeTotal(moneyFormatter(+numOfDances * +pricePerDance));
   }, [numOfDances, pricePerDance]);
 
   useEffect(() => {
@@ -151,9 +160,38 @@ const ShiftExpenses: FC<{
     otherIsValid,
   ]);
 
+  const handleCancel = (): void => navigate(-1);
+
   const handlePrev = (): void => goBack(updatedShift);
 
+  const handleUpdate = (): void => {
+    if (!updatedShift) return;
+    onFinish(updatedShift);
+  };
+
   const handleNext = (): void => goNext(updatedShift);
+
+  const convertAmount = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const value = moneyStrToNumFormatter(event.target.value).toString();
+    event.target.value = value;
+    const inputName = event.target.name;
+    switch (inputName) {
+      case 'floorFee':
+        floorFeeChangeHandler(event);
+        break;
+      case 'pricePerDance':
+        pricePerDanceChangeHandler(event);
+        break;
+      case 'tips':
+        tipsChangeHandler(event);
+        break;
+      case 'other':
+        otherChangeHandler(event);
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <>
@@ -166,14 +204,13 @@ const ShiftExpenses: FC<{
             <Label name='floorFee' text='Floor Fee' />
             <Input
               name='floorFee'
-              type='number'
-              min={0}
+              type='text'
               autoFocus={true}
-              value={floorFee}
+              value={`$${moneyFormatter(+floorFee)}`}
               placeholder='Floor Fee'
               hasError={floorFeeHasError}
               errorMessage='Amount must be zero or greater.'
-              handleChange={floorFeeChangeHandler}
+              handleChange={convertAmount}
               handleBlur={floorFeeBlurHandler}
             />
           </FormGroup>
@@ -182,9 +219,8 @@ const ShiftExpenses: FC<{
               <Label name='numOfDances' text='# Pvt Dances' />
               <Input
                 name='numOfDances'
-                type='number'
-                min={0}
-                value={numOfDances}
+                type='text'
+                value={moneyFormatter(+numOfDances)}
                 placeholder='# Pvt Dances'
                 hasError={numOfDancesHasError}
                 errorMessage='Number must be zero or greater.'
@@ -196,13 +232,12 @@ const ShiftExpenses: FC<{
               <Label name='pricePerDance' text='$ per Pvt' />
               <Input
                 name='pricePerDance'
-                type='number'
-                min={1}
+                type='text'
                 placeholder='$ per Pvt'
-                value={pricePerDance}
+                value={`$${moneyFormatter(+pricePerDance)}`}
                 hasError={pricePerDanceHasError}
-                errorMessage='Amount must be $1.00 or greater.'
-                handleChange={pricePerDanceChangeHandler}
+                errorMessage='Amount must be $1 or greater.'
+                handleChange={convertAmount}
                 handleBlur={pricePerDanceBlurHandler}
               />
             </FormGroup>
@@ -210,9 +245,9 @@ const ShiftExpenses: FC<{
               <Label name='danceFeeTotal' text='Pvt Fee Total' />
               <Input
                 name='danceFeeTotal'
-                type='number'
+                type='text'
                 disabled={true}
-                value={danceFeeTotal}
+                value={`$${danceFeeTotal}`}
               />
             </FormGroup>
           </div>
@@ -221,13 +256,12 @@ const ShiftExpenses: FC<{
               <Label name='tips' text='Tips' />
               <Input
                 name='tips'
-                type='number'
-                min={0}
+                type='text'
                 placeholder='Tips'
-                value={tips}
+                value={`$${moneyFormatter(+tips)}`}
                 hasError={tipsHasError}
                 errorMessage='Amount must be zero or greater.'
-                handleChange={tipsChangeHandler}
+                handleChange={convertAmount}
                 handleBlur={tipsBlurHandler}
               />
             </FormGroup>
@@ -235,29 +269,31 @@ const ShiftExpenses: FC<{
               <Label name='other' text='Other Expenses' />
               <Input
                 name='other'
-                value={other}
+                value={`$${moneyFormatter(+other)}`}
                 placeholder='Other Expenses'
                 hasError={otherHasError}
-                min={0}
-                type='number'
+                type='text'
                 errorMessage='Amount must be zero or greater.'
-                handleChange={otherChangeHandler}
+                handleChange={convertAmount}
                 handleBlur={otherBlurHandler}
               />
             </FormGroup>
           </div>
           <div className={shiftExpensesStyles.totalExpenses}>
-            Total Shift Expenses: ${totalShiftExpenses}
+            Total Shift Expenses: {`$${moneyFormatter(totalShiftExpenses)}`}
           </div>
         </form>
       </div>
       <BottomNav>
-        <Button text='Prev' onClick={handlePrev} />
         <Button
-          text='Next'
+          text={location.state?.goToPage ? 'Cancel' : 'Prev'}
+          onClick={location.state?.goToPage ? handleCancel : handlePrev}
+        />
+        <Button
+          text={location.state?.goToPage ? 'Update' : 'Next'}
           solid={true}
           disabled={!isFormValid}
-          onClick={handleNext}
+          onClick={location.state?.goToPage ? handleUpdate : handleNext}
         />
       </BottomNav>
     </>
