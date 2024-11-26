@@ -14,6 +14,10 @@ import { IExpense, IExpenseBase } from '../../interfaces/IExpense.interface';
 import { addExpense, updateExpense } from '../../services/expensesService';
 import { SelectOptions } from '../../types/SelectOptions';
 import TextArea from '../../components/forms/TextArea';
+import {
+  formatToDollarsAutoDecimal,
+  moneyStrToNumFormatter,
+} from '../../helpers/format-helpers';
 
 const ExpenseForm: FC = (): JSX.Element => {
   const [vendorOptions, setVendorOptions] = useState<SelectOptions[] | []>();
@@ -58,8 +62,8 @@ const ExpenseForm: FC = (): JSX.Element => {
     valueChangeHandler: amountChangeHandler,
     inputBlurHandler: amountBlurHandler,
   } = useInput<string>(
-    (v) => /^\d+(\.\d{0,2})?$/.test(v) && v !== '',
-    expense ? expense.amount.toString() : ''
+    (v) => moneyStrToNumFormatter(v) >= 0,
+    expense ? expense.amount.toString() : '0'
   );
 
   const {
@@ -84,6 +88,12 @@ const ExpenseForm: FC = (): JSX.Element => {
     }
   }, [loaderData]);
 
+  const convertAmount = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const value = formatToDollarsAutoDecimal(event.target.value);
+    event.target.value = value;
+    amountChangeHandler(event);
+  };
+
   const handleCancel = (): void => navigate(-1);
 
   const handleSubmit = async (): Promise<void> => {
@@ -92,7 +102,7 @@ const ExpenseForm: FC = (): JSX.Element => {
       const payload: IExpenseBase = {
         vendorId,
         date: dayjs(date).utc().format('YYYY-MM-DD'),
-        amount: +amount,
+        amount: +amount.replace(',', ''),
         type,
         notes,
       };
@@ -162,13 +172,12 @@ const ExpenseForm: FC = (): JSX.Element => {
           <Input
             id='amount'
             name='amount'
-            value={amount}
+            value={`$${amount}`}
             hasError={amountHasError}
             placeholder='Enter expense amount'
-            min={0.01}
-            type='number'
+            type='text'
             errorMessage='Amount must be greater than $0.01'
-            handleChange={amountChangeHandler}
+            handleChange={convertAmount}
             handleBlur={amountBlurHandler}
           />
           <Select
