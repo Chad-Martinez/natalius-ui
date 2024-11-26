@@ -29,7 +29,7 @@ const AveragesWidget: FC<{ averages: IncomeAverages }> = ({
         <div className={styles.avgsContainer}>
           <div className={styles.avgItem}>
             <Counter
-              period='Shift'
+              title='Shift'
               amount={averages?.perShift}
               interval={2}
               skip={5}
@@ -37,7 +37,7 @@ const AveragesWidget: FC<{ averages: IncomeAverages }> = ({
           </div>
           <div className={styles.avgItem}>
             <Counter
-              period='Weekly'
+              title='Weekly'
               amount={averages?.perWeek}
               interval={2}
               skip={5}
@@ -45,7 +45,7 @@ const AveragesWidget: FC<{ averages: IncomeAverages }> = ({
           </div>
           <div className={styles.avgItem}>
             <Counter
-              period='Monthly'
+              title='Monthly'
               amount={averages?.perMonth}
               interval={1}
               skip={10}
@@ -53,7 +53,7 @@ const AveragesWidget: FC<{ averages: IncomeAverages }> = ({
           </div>
           <div className={styles.avgItem}>
             <Counter
-              period='Yearly'
+              title='Yearly'
               amount={averages?.perYear}
               interval={1}
               skip={25}
