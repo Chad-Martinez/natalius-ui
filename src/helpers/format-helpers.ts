@@ -26,5 +26,24 @@ export const moneyFormatter = (value: number | undefined): string => {
   return result;
 };
 
+export const formatToDollarsAutoDecimal = (
+  input: string | undefined
+): string => {
+  if (!input) return '0';
+
+  const sanitizedInput = input.replace(/[^0-9]/g, '');
+
+  if (!sanitizedInput) return '';
+
+  const numericValue = parseInt(sanitizedInput, 10);
+
+  const dollars = (numericValue / 100).toFixed(2);
+
+  const [integerPart, decimalPart] = dollars.split('.');
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  return `${formattedInteger}.${decimalPart}`;
+};
+
 export const moneyStrToNumFormatter = (value: string): number =>
   +value.replace(/[$,]/g, '');
