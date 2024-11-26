@@ -10,6 +10,7 @@ import SprintGoalWidget from '../../components/Widgets/SprintGoalWidget';
 import UpcomingShiftsWidget from '../../components/Widgets/UpcomingShiftsWidget';
 import GaugeWidget from '../../components/Widgets/GaugeWidget';
 import ShiftPredictionWidget from '../../components/Widgets/ShiftPredictionWidget';
+import MilageDeductionWidget from '../../components/Widgets/MilageDeducationWidget';
 
 const Dashboard: FC = (): JSX.Element => {
   const dashboardData = useLoaderData() as {
@@ -21,6 +22,7 @@ const Dashboard: FC = (): JSX.Element => {
     } | null;
     ytdExpenses: number;
     ytdIncome: number;
+    ytdMilage: number;
   };
 
   const navigate = useNavigate();
@@ -46,6 +48,7 @@ const Dashboard: FC = (): JSX.Element => {
             ytdIncome={dashboardData?.ytdIncome}
             ytdExpenses={dashboardData?.ytdExpenses}
           />
+          <MilageDeductionWidget milage={dashboardData?.ytdMilage} />
         </div>
       </div>
       <BottomNav>
