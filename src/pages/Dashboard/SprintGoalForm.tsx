@@ -13,6 +13,10 @@ import { addSprint, updateSprint } from '../../services/sprintServices';
 import { notify } from '../../helpers/toast-helpers';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
+import {
+  moneyFormatter,
+  moneyStrToNumFormatter,
+} from '../../helpers/format-helpers';
 
 const SprintGoalForm: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -41,8 +45,8 @@ const SprintGoalForm: FC = (): JSX.Element => {
     valueChangeHandler: goalChangeHandler,
     inputBlurHandler: goalBlurHandler,
   } = useInput<string>(
-    (v) => /^[0-9]+$/.test(v) && +v >= 0,
-    sprint ? sprint.goal.toString() : ''
+    (v) => moneyStrToNumFormatter(v) >= 1,
+    sprint ? sprint.goal.toString() : '0'
   );
 
   useEffect(() => {
@@ -83,6 +87,12 @@ const SprintGoalForm: FC = (): JSX.Element => {
     }
   };
 
+  const convertAmount = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const value = moneyStrToNumFormatter(event.target.value).toString();
+    event.target.value = value;
+    goalChangeHandler(event);
+  };
+
   return (
     <>
       <div className={pageStyles.mainContent}>
@@ -111,14 +121,12 @@ const SprintGoalForm: FC = (): JSX.Element => {
           <Input
             id='goal'
             name='goal'
-            value={Math.round(+goal).toString()}
+            value={`$${moneyFormatter(+goal)}`}
             hasError={goalHasError}
             placeholder='Enter a two week earnings goal'
-            min={1}
-            step={1}
-            type='number'
+            type='text'
             errorMessage='Income goal must be greater than $0'
-            handleChange={goalChangeHandler}
+            handleChange={convertAmount}
             handleBlur={goalBlurHandler}
           />
         </div>
