@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react';
-import Notifications from './CompleteShiftMenu/CompleteShiftMenu';
+import CompleteShiftMenu from './CompleteShiftMenu/CompleteShiftMenu';
 import Menu from './NavMenu/NavMenu';
 
 export type DropdownProps = {
@@ -12,7 +12,7 @@ const TopNavMenus: FC = () => {
 
   return (
     <>
-      <Notifications
+      <CompleteShiftMenu
         openDropdowns={openDropdowns}
         setOpenDropdowns={setOpenDropdowns}
       />
