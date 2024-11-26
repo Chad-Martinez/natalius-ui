@@ -1,10 +1,12 @@
-.counter {
+.title {
   font-size: 1rem;
+  text-align: center;
 }
 
 .amount {
   font-size: 1.6rem;
   padding-bottom: 6px;
+  text-align: center;
 }
 
 @-webkit-keyframes slam-animation {
@@ -17,6 +19,18 @@
   100% {
     opacity: 1;
     -webkit-transform: scale(1);
+    transform: scale(1) rotateZ(0deg);
+  }
+}
+
+@keyframes slam-animation {
+  0% {
+    opacity: 0;
+    transform: scale(3) rotateZ(30deg);
+  }
+
+  100% {
+    opacity: 1;
     transform: scale(1) rotateZ(0deg);
   }
 }
