@@ -21,6 +21,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PageHeader from '../../components/ui/PageHeader/PageHeader';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IHTMLDialogElement } from '../../interfaces/IHTMLDialog.interface';
+import ConfirmDialog from '../../components/ConfirmDialog/ConfirmDialog';
 
 type PaginatedIncome = { shiftIncome: IShift[]; count: number; pages: number };
 
@@ -150,7 +151,7 @@ const ViewIncome: FC = (): JSX.Element => {
         ref={dialogRef}
         title='Delete Shift'
         subtitle='This action will delete the shift and all its data. It cannot be undone'
-        onConfirm={handleDelete}
+        children={<ConfirmDialog onConfirm={handleDelete} />}
       />
       <div className={pageStyles.mainContent}>
         <PageHeader

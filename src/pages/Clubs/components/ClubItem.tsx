@@ -22,6 +22,7 @@ import { IHTMLDialogElement } from '../../../interfaces/IHTMLDialog.interface';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CardFooter from '../../../components/ui/Card/CardFooter';
 import { IShift } from '../../../interfaces/IShift.interface';
+import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 
 const ClubItem: FC<{ club: IClub; archiveClub: (payload: IClub) => void }> =
   memo(({ club, archiveClub }): JSX.Element => {
@@ -72,7 +73,7 @@ const ClubItem: FC<{ club: IClub; archiveClub: (payload: IClub) => void }> =
         <Modal
           ref={dialogRef}
           title={club.isArchived ? 'Activate Club?' : 'Archive Club?'}
-          onConfirm={handleArchive}
+          children={<ConfirmDialog onConfirm={handleArchive} />}
         />
         <Card addedStyles={{ maxWidth: '607.5px' }}>
           <CardHeader text={name}>

@@ -1,0 +1,27 @@
+.dialogBtnGroup {
+  display: flex;
+  margin: 30px 0px 20px 0px;
+  justify-content: space-around;
+}
+
+.dialogBtnGroup button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  font-size: 2.5rem;
+}
+
+.dialogBtnGroup button:hover,
+.dialogBtnGroup button:active,
+.dialogBtnGroup button:focus-visible {
+  outline: none;
+}
+
+.cancelIcon {
+  color: var(--color-danger);
+}
+
+.confirmIcon {
+  color: var(--color-success);
+}

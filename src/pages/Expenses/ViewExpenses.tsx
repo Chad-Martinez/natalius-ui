@@ -26,6 +26,7 @@ import PageHeader from '../../components/ui/PageHeader/PageHeader';
 import ViewExpensesListItem from './components/ViewExpensesListItem';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IHTMLDialogElement } from '../../interfaces/IHTMLDialog.interface';
+import ConfirmDialog from '../../components/ConfirmDialog/ConfirmDialog';
 
 type PaginatedExpenses = {
   expenses: Array<IExpense | IShift>;
@@ -163,7 +164,7 @@ const ViewExpenses: FC = (): JSX.Element => {
         ref={dialogRef}
         title='Delete Expense?'
         subtitle='This action cannot be undone'
-        onConfirm={handleDelete}
+        children={<ConfirmDialog onConfirm={handleDelete} />}
       />
       <div className={pageStyles.mainContent}>
         <PageHeader

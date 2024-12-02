@@ -18,6 +18,7 @@ import dayjs from 'dayjs';
 import ConfettiExplosion from 'react-confetti-explosion';
 import Modal from '../ui/Modal/Modal';
 import { useNavigate } from 'react-router-dom';
+import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
 
 const SprintGoalWidget: FC<{ sprintData: ISprint | undefined }> = ({
   sprintData,
@@ -68,13 +69,15 @@ const SprintGoalWidget: FC<{ sprintData: ISprint | undefined }> = ({
         ref={dialogRef}
         title={sprintGoalMet ? 'Sprint Goal Successful' : 'Sprint Goal Failed'}
         subtitle='Do you want to set another sprint goal now?'
-        onConfirm={() => navigate('/dashboard/sprint-form')}
+        children={
+          <ConfirmDialog onConfirm={() => navigate('/dashboard/sprint-form')} />
+        }
       />
       <Modal
         ref={deleteSprintRef}
         title='Delete Sprint?'
         subtitle='This action cannot be undone'
-        onConfirm={handleDeleteSprint}
+        children={<ConfirmDialog onConfirm={handleDeleteSprint} />}
       />
       <Card
         addedStyles={{
