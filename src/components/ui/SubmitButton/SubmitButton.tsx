@@ -12,7 +12,7 @@ type Props = {
 
 const SubmitButton: FC<Props> = ({
   text,
-  type = 'button',
+  type = 'submit',
   enabled = true,
   loading = false,
   addedStyles,
