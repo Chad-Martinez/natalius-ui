@@ -22,6 +22,7 @@ import { IShift } from '../../interfaces/IShift.interface';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IHTMLDialogElement } from '../../interfaces/IHTMLDialog.interface';
 import { faCircleCheck as farCircleCheck } from '@fortawesome/free-regular-svg-icons';
+import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
 
 type ShiftListProps = {
   shiftData: IShift[];
@@ -125,7 +126,7 @@ const ShiftsList: FC<ShiftListProps> = ({ shiftData }): JSX.Element => {
         ref={dialogRef}
         title='Delete Shift'
         subtitle='This action cannot be undone'
-        onConfirm={handleDelete}
+        children={<ConfirmDialog onConfirm={handleDelete} />}
       />
       <div className={styles.shiftList}>
         {shifts.length > 0 ? mappedShifts : ''}

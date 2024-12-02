@@ -28,7 +28,9 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
   return (
     <button
       type={type}
-      className={enabled ? btnStyles[btnStyle] : btnStyles.disabled}
+      className={`${btnStyles.btn} ${
+        enabled ? btnStyles[btnStyle] : btnStyles.disabled
+      }`}
       disabled={!enabled || loading}
       style={addedStyles}
       onClick={handleClick}
