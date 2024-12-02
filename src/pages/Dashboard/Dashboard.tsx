@@ -52,8 +52,16 @@ const Dashboard: FC = (): JSX.Element => {
         </div>
       </div>
       <BottomNav>
-        <Button text='Add Shift' onClick={handleAddShift} />
-        <Button text='Add Expense' onClick={handleAddExpense} />
+        <Button
+          text='Add Shift'
+          btnStyle='primarySolid'
+          onClick={handleAddShift}
+        />
+        <Button
+          text='Add Expense'
+          btnStyle='primarySolid'
+          onClick={handleAddExpense}
+        />
       </BottomNav>
     </>
   );

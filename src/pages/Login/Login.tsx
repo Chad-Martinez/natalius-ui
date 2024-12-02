@@ -6,7 +6,7 @@ import formStyles from '../../components/forms/FormComponents.module.css';
 import { login } from '../../services/authServices';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { notify } from '../../helpers/toast-helpers';
-import Button from '../../components/forms/SubmitButton';
+import SubmitButton from '../../components/ui/SubmitButton/SubmitButton';
 import Logo from '../../components/ui/Logo/Logo';
 import { AuthContext } from '../../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -98,7 +98,7 @@ export const Login: FC = (): JSX.Element => {
         handleChange={passwordChangeHandledr}
         handleBlur={passwordBlurHandler}
       />
-      <Button
+      <SubmitButton
         text='submit'
         handleClick={handleSubmit}
         enabled={isFormValid}

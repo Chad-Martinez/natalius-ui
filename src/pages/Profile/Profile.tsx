@@ -161,11 +161,10 @@ const Profile: FC = (): JSX.Element => {
             />
             <Button
               text='Update Profile'
-              type='button'
-              solid={true}
-              disabled={!isProfileFormValid}
-              loading={isProfileTransmitting}
+              btnStyle='primarySolid'
               onClick={handleUpdateProfile}
+              enabled={isProfileFormValid}
+              loading={isProfileTransmitting}
             />
           </form>
           <form className={formStyles.form}>
@@ -194,17 +193,20 @@ const Profile: FC = (): JSX.Element => {
             />
             <Button
               text='Update Password'
-              type='button'
-              solid={true}
-              disabled={!isPasswordFormValid}
-              loading={isPasswordTransmitting}
+              btnStyle='primarySolid'
               onClick={handleUpdatePassword}
+              enabled={isPasswordFormValid}
+              loading={isPasswordTransmitting}
             />
           </form>
         </div>
       </div>
       <BottomNav>
-        <Button text='Cancel' onClick={handleCancel} />
+        <Button
+          text='Cancel'
+          btnStyle='primaryOutlined'
+          onClick={handleCancel}
+        />
       </BottomNav>
     </>
   );

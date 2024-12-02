@@ -1,4 +1,4 @@
-.btn {
+button {
   text-align: center;
   width: 100%;
   border-radius: 4px;
@@ -8,27 +8,87 @@
   transition: all 0.25s ease-in;
 }
 
-.btnSolid {
+.disabled {
+  background-color: #a4a4a4;
+}
+
+.primarySolid {
   background-color: var(--color-light-grey);
+  color: var(--color-dark-grey);
+  outline: 0.2px solid var(--color-dark-grey);
+  box-shadow: 2px 2px 6px var(--color-dark-grey);
+}
+
+.primarySolid:hover,
+.primarySolid:active {
+  letter-spacing: 0.23rem;
+  color: var(--color-primary);
+  background-color: var(--color-dark-grey);
+  box-shadow: none;
+}
+
+.primaryOutlined {
+  background-color: var(--color-light-grey);
+  color: var(--color-dark-grey);
+  outline: 0.2px solid var(--color-dark-grey);
+  box-shadow: 2px 2px 6px var(--color-dark-grey);
+}
+
+.primaryOutlined:hover,
+.primaryOutlined:active {
+  letter-spacing: 0.23rem;
+  outline: 1.5px solid var(--color-dark-grey);
+  box-shadow: none;
+}
+
+.successSolid {
+  background-color: var(--color-dark-success);
   color: var(--color-dark-grey);
 }
 
-.btnHallow {
-  background-color: var(--color-dark-grey);
-  color: var(--color-light-grey);
+.successSolid:hover,
+.successSolid:active {
+  letter-spacing: 0.2rem;
+  background-color: var(--color-light-success);
 }
 
-.btnHallow:hover,
-.btnHallow:active {
-  letter-spacing: 0.2rem;
-  color: var(--color-primary);
+.successOutlined {
+  background-color: var(--color-dark-grey);
+  outline: 2px solid var(--color-success);
+  color: var(--color-success);
 }
 
-.btnSolid:hover,
-.btnSolid:active {
+.successOutlined:hover,
+.successOutlined:active {
   letter-spacing: 0.2rem;
-  color: var(--color-primary);
+  color: var(--color-dark-grey);
+  outline: 2px solid var(--color-success);
+  background-color: var(--color-success);
+}
+
+.dangerSolid {
+  background-color: var(--color-danger);
+  color: var(--color-dark-grey);
+}
+
+.dangerSolid:hover,
+.dangerSolid:active {
+  letter-spacing: 0.2rem;
+  background-color: var(--color-danger);
+}
+
+.dangerOutlined {
   background-color: var(--color-dark-grey);
+  outline: 2px solid var(--color-danger);
+  color: var(--color-danger);
+}
+
+.dangerOutlined:hover,
+.dangerOutlined:active {
+  letter-spacing: 0.2rem;
+  color: var(--color-dark-grey);
+  outline: 2px solid var(--color-danger);
+  background-color: var(--color-danger);
 }
 
 .btnLoading {

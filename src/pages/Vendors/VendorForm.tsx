@@ -122,13 +122,17 @@ const VendorForm: FC = (): JSX.Element => {
         </form>
       </div>
       <BottomNav>
-        <Button text='Cancel' onClick={handleCancel} />
+        <Button
+          text='Cancel'
+          btnStyle='primaryOutlined'
+          onClick={handleCancel}
+        />
         <Button
           text='Submit'
-          solid={true}
-          disabled={!isFormValid}
-          loading={isTransmitting}
           onClick={handleSubmit}
+          btnStyle='primarySolid'
+          enabled={isFormValid}
+          loading={isTransmitting}
         />
       </BottomNav>
     </>

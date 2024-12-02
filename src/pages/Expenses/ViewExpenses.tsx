@@ -199,7 +199,11 @@ const ViewExpenses: FC = (): JSX.Element => {
         )}
       </div>
       <BottomNav>
-        <Button text='Add Expense' onClick={handleAddExpense} />
+        <Button
+          text='Add Expense'
+          btnStyle='primarySolid'
+          onClick={handleAddExpense}
+        />
       </BottomNav>
     </>
   );

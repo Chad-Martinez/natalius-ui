@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import formStyles from '../../components/forms/FormComponents.module.css';
 import Input from '../../components/forms/Input';
 import useInput from '../../hooks/useInput';
-import Button from '../../components/forms/SubmitButton';
+import SubmitButton from '../../components/ui/SubmitButton/SubmitButton';
 import { register } from '../../services/authServices';
 import { AxiosError, AxiosResponse } from 'axios';
 import { notify } from '../../helpers/toast-helpers';
@@ -175,7 +175,7 @@ const Register: FC = (): JSX.Element => {
         handleChange={pwConfirmChangeHandledr}
         handleBlur={pwConfirmBlurHandler}
       />
-      <Button
+      <SubmitButton
         text='submit'
         handleClick={handleSubmit}
         enabled={isFormValid}

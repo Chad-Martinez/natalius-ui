@@ -62,7 +62,7 @@ const ExpenseForm: FC = (): JSX.Element => {
     valueChangeHandler: amountChangeHandler,
     inputBlurHandler: amountBlurHandler,
   } = useInput<string>(
-    (v) => moneyStrToNumFormatter(v) >= 0,
+    (v) => moneyStrToNumFormatter(v) > 0,
     expense ? expense.amount.toString() : '0'
   );
 
@@ -206,13 +206,17 @@ const ExpenseForm: FC = (): JSX.Element => {
         </form>
       </div>
       <BottomNav>
-        <Button text='Cancel' onClick={handleCancel} />
+        <Button
+          text='Cancel'
+          btnStyle='primaryOutlined'
+          onClick={handleCancel}
+        />
         <Button
           text='Submit'
-          solid={true}
-          disabled={!isFormValid}
-          loading={isTransmitting}
           onClick={handleSubmit}
+          btnStyle='primarySolid'
+          enabled={isFormValid}
+          loading={isTransmitting}
         />
       </BottomNav>
     </>

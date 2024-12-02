@@ -23,16 +23,13 @@ ul.dropdownMenu {
   list-style: none;
   font-size: 1rem;
   padding: 8px 18px;
+  color: var(--color-dark-grey);
   background-color: inherit;
   transition: background-color 0.35s ease;
 }
 
 .dropdownItem:last-child {
   padding-bottom: 10px;
-}
-
-a {
-  text-decoration: none;
 }
 
 li:hover {

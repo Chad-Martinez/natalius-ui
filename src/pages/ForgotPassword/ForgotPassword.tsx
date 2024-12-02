@@ -5,7 +5,7 @@ import formStyles from '../../components/forms/FormComponents.module.css';
 import { passwordResetEmail } from '../../services/authServices';
 import { AxiosError, AxiosResponse } from 'axios';
 import { notify } from '../../helpers/toast-helpers';
-import Button from '../../components/forms/SubmitButton';
+import SubmitButton from '../../components/ui/SubmitButton/SubmitButton';
 import Logo from '../../components/ui/Logo/Logo';
 
 export const ForgotPassword: FC = (): JSX.Element => {
@@ -66,7 +66,7 @@ export const ForgotPassword: FC = (): JSX.Element => {
         handleChange={emailChangeHandledr}
         handleBlur={emailBlurHandler}
       />
-      <Button
+      <SubmitButton
         text='submit'
         handleClick={handleSubmit}
         enabled={isFormValid}
