@@ -1,24 +1,25 @@
-import { FC, SyntheticEvent } from 'react';
+import { FC, PropsWithChildren, SyntheticEvent } from 'react';
 import btnStyles from './Button.module.css';
 
-type Props = {
-  text: string;
+type ButtonProps = {
+  text?: string;
   type?: 'submit' | 'reset' | 'button' | undefined;
   addedStyles?: { [key: string]: string };
-  solid?: boolean;
-  disabled?: boolean;
+  enabled?: boolean;
   loading?: boolean;
+  btnStyle: 'primarySolid' | 'primaryOutlined';
   onClick: () => void;
 };
 
-const Button: FC<Props> = ({
+const Button: FC<PropsWithChildren<ButtonProps>> = ({
   text,
-  type = 'submit',
+  type = 'button',
   addedStyles,
-  solid = false,
-  disabled = false,
+  enabled = true,
   loading = false,
+  btnStyle,
   onClick,
+  children,
 }): JSX.Element => {
   const handleClick = (event: SyntheticEvent) => {
     event.stopPropagation();
@@ -27,14 +28,16 @@ const Button: FC<Props> = ({
   return (
     <button
       type={type}
-      className={`${btnStyles.btn} ${
-        solid ? btnStyles.btnSolid : btnStyles.btnHallow
-      }`}
-      disabled={disabled}
+      className={enabled ? btnStyles[btnStyle] : btnStyles.disabled}
+      disabled={!enabled || loading}
       style={addedStyles}
       onClick={handleClick}
     >
-      {loading ? <span className={btnStyles.btnLoading}></span> : text}
+      {loading ? (
+        <span className={btnStyles.btnLoading}></span>
+      ) : (
+        text || children
+      )}
     </button>
   );
 };

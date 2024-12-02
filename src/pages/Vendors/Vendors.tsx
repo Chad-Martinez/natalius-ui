@@ -14,7 +14,11 @@ const Vendors: FC = (): JSX.Element => {
     <>
       <div className={styles.mainContent}>Vendors</div>
       <BottomNav>
-        <Button text='Add Vendor' onClick={handleAddVendor} />
+        <Button
+          text='Add Vendor'
+          btnStyle='primarySolid'
+          onClick={handleAddVendor}
+        />
       </BottomNav>
     </>
   );

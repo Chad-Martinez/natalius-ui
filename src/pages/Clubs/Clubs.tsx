@@ -78,7 +78,11 @@ const Clubs: FC = (): JSX.Element => {
         )}
       </div>
       <BottomNav>
-        <Button text='Add Club' onClick={handleAddClub} />
+        <Button
+          text='Add Club'
+          btnStyle='primarySolid'
+          onClick={handleAddClub}
+        />
       </BottomNav>
     </>
   );

@@ -80,12 +80,12 @@ const ShiftMilage: FC<{
         </form>
       </div>
       <BottomNav>
-        <Button text='Prev' onClick={handlePrev} />
+        <Button text='Prev' btnStyle='primaryOutlined' onClick={handlePrev} />
         <Button
           text='Next'
-          solid={true}
-          disabled={!isFormValid}
           onClick={handleNext}
+          btnStyle='primarySolid'
+          enabled={isFormValid}
         />
       </BottomNav>
     </>

@@ -154,10 +154,10 @@ const ShiftSummary: FC<{
         </div>
       </div>
       <BottomNav>
-        <Button text='Prev' onClick={handlePrev} />
+        <Button text='Prev' btnStyle='primaryOutlined' onClick={handlePrev} />
         <Button
           text='Finish'
-          solid={true}
+          btnStyle='primarySolid'
           loading={isTransmitting}
           onClick={handleCompleteShift}
         />

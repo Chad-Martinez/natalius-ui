@@ -286,13 +286,14 @@ const ShiftExpenses: FC<{
       </div>
       <BottomNav>
         <Button
+          btnStyle='primaryOutlined'
           text={location.state?.goToPage ? 'Cancel' : 'Prev'}
           onClick={location.state?.goToPage ? handleCancel : handlePrev}
         />
         <Button
+          btnStyle='primarySolid'
+          enabled={isFormValid}
           text={location.state?.goToPage ? 'Update' : 'Next'}
-          solid={true}
-          disabled={!isFormValid}
           onClick={location.state?.goToPage ? handleUpdate : handleNext}
         />
       </BottomNav>
