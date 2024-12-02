@@ -48,7 +48,7 @@ const ShiftDetails: FC<{
     valueChangeHandler: endChangeHandler,
     inputBlurHandler: endBlurHandler,
   } = useInput<string>(
-    (v) => dayjs(v).isValid(),
+    (v) => dayjs(v).isValid() && !dayjs(v).isSameOrBefore(dayjs(start)),
     dayjs.utc(shiftData?.end).tz(shiftData?.timezone).format('YYYY-MM-DDTHH:mm')
   );
 
@@ -132,7 +132,7 @@ const ShiftDetails: FC<{
               type='datetime-local'
               value={end}
               hasError={endHasError}
-              errorMessage='End date and time required'
+              errorMessage='End date and time must be after Start'
               handleChange={endChangeHandler}
               handleBlur={endBlurHandler}
             />
@@ -157,12 +157,16 @@ const ShiftDetails: FC<{
         </form>
       </div>
       <BottomNav>
-        <Button text='Cancel' onClick={handleCancel} />
+        <Button
+          text='Cancel'
+          btnStyle='primaryOutlined'
+          onClick={handleCancel}
+        />
         <Button
           text='Next'
-          solid={true}
-          disabled={!isFormValid}
           onClick={handleNext}
+          btnStyle='primarySolid'
+          enabled={isFormValid}
         />
       </BottomNav>
     </>
