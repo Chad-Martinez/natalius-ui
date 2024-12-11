@@ -10,7 +10,7 @@ import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import InputUpload from '../forms/InputUpload';
 import Modal from '../ui/Modal/Modal';
 import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
-import { IHTMLDialogElement } from '../../pages/Expenses/IHTMLDialog.interface';
+import { IHTMLDialogElement } from '../../interfaces/IHTMLDialog.interface';
 import { deleteImage } from '../../services/imageService';
 import { notify } from '../../helpers/toast-helpers';
 
