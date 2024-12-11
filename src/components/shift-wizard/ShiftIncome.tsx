@@ -7,7 +7,6 @@ import Button from '../ui/Button/Button';
 import Select from '../forms/Select';
 import useInput from '../../hooks/useInput';
 import dayjs from 'dayjs';
-import { IShift } from '../../interfaces/IShift.interface';
 import FormGroup from '../forms/FormGroup';
 import Label from '../forms/Label';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -15,14 +14,15 @@ import {
   moneyFormatter,
   moneyStrToNumFormatter,
 } from '../../helpers/format-helpers';
+import { ShiftData } from '../../pages/CompleteShiftWizard/CompleteShiftWizard';
 
 const ShiftIncome: FC<{
-  goNext: (shift: IShift | null) => void;
-  goBack: (shift: IShift | null) => void;
-  onFinish: (shift: IShift) => void;
-  shiftData: IShift | null;
+  goNext: (shiftData: ShiftData | null) => void;
+  goBack: (shiftData: ShiftData | null) => void;
+  onFinish: (shiftData: ShiftData) => Promise<void>;
+  shiftData: ShiftData | null;
 }> = ({ goNext, goBack, onFinish, shiftData }): JSX.Element => {
-  const [updatedShift, setUpdatedShift] = useState<IShift | null>(shiftData);
+  const [updatedShift, setUpdatedShift] = useState<ShiftData | null>(shiftData);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
   const location = useLocation();
@@ -36,20 +36,26 @@ const ShiftIncome: FC<{
     inputBlurHandler: amountBlurHandler,
   } = useInput<string>(
     (v) => +v >= 1 && /^\$?[0-9]+$/.test(v),
-    shiftData?.income?.amount.toString() || '0'
+    shiftData?.shiftInfo.income?.amount.toString() || '0'
   );
 
   const { value: type, valueChangeHandler: typeChangeHandler } =
-    useInput<string>((v) => v !== '', shiftData?.income?.type || 'CASH');
+    useInput<string>(
+      (v) => v !== '',
+      shiftData?.shiftInfo.income?.type || 'CASH'
+    );
 
   useEffect(() => {
     setUpdatedShift((prevState) => {
       if (!prevState) return prevState;
       return {
         ...prevState,
-        income: {
-          amount: +amount,
-          type,
+        shiftInfo: {
+          ...prevState.shiftInfo,
+          income: {
+            amount: +amount,
+            type,
+          },
         },
       };
     });
@@ -81,7 +87,7 @@ const ShiftIncome: FC<{
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
           <h3 className={formStyles.title}>
-            {shiftData?.shiftComplete ? 'Update' : 'Add'} Shift Income
+            {shiftData?.shiftInfo.shiftComplete ? 'Update' : 'Add'} Shift Income
           </h3>
           <FormGroup>
             <Label name='date' text='Shift Date' />
@@ -89,8 +95,8 @@ const ShiftIncome: FC<{
               name='date'
               type='text'
               value={dayjs
-                .utc(shiftData?.start)
-                .tz(shiftData?.timezone)
+                .utc(shiftData?.shiftInfo.start)
+                .tz(shiftData?.shiftInfo.timezone)
                 .format('dddd: MMMM D, YYYY')}
               disabled={true}
             />

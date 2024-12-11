@@ -15,21 +15,29 @@ import { updateShift, getShift } from '../../services/shiftServices';
 import ShiftDetails from '../../components/shift-wizard/ShiftDetails';
 import ShiftSummary from '../../components/shift-wizard/ShiftSummary';
 import ShiftExpenses from '../../components/shift-wizard/ShiftExpenses';
+import ShiftFileUpload from '../../components/shift-wizard/ShiftFileUpload';
+import { addImage } from '../../services/imageService';
 
 const Elements = [
   ShiftDetails,
   ShiftIncome,
   ShiftExpenses,
+  ShiftFileUpload,
   ShiftMilage,
   ShiftSummary,
 ];
+
+export type ShiftData = {
+  shiftInfo: IShift;
+  image: File | null;
+};
 
 const CompleteShiftWizard: FC = (): JSX.Element => {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [shiftData, setShiftData] = useState<IShift | null>(null);
+  const [shiftData, setShiftData] = useState<ShiftData | null>(null);
   const [clubs, setClubs] = useState<IClub[]>([]);
   const [currentStepIndex, setCurrentStepIndex] = useState(
     location.state?.goToPage || 0
@@ -40,7 +48,7 @@ const CompleteShiftWizard: FC = (): JSX.Element => {
     const { shiftId } = params;
     if (shiftId) {
       const { data } = await getShift(shiftId);
-      setShiftData(data);
+      setShiftData({ shiftInfo: data, image: null });
     }
   }, [params]);
 
@@ -64,19 +72,19 @@ const CompleteShiftWizard: FC = (): JSX.Element => {
     }
   }, [clubsLoaderData]);
 
-  const goNext = (shiftDataFromStep: IShift | null): void => {
+  const goNext = (shiftDataFromStep: ShiftData | null): void => {
     if (shiftDataFromStep) {
-      setShiftData({ ...shiftData, ...shiftDataFromStep });
+      setShiftData({ ...shiftDataFromStep });
       setCurrentStepIndex(currentStepIndex + 1);
     }
   };
 
   const goBack = (
-    shiftDataFromStep: IShift | null,
+    shiftDataFromStep: ShiftData | null,
     jumpToStep?: number
   ): void => {
     if (shiftDataFromStep) {
-      setShiftData({ ...shiftData, ...shiftDataFromStep });
+      setShiftData({ ...shiftDataFromStep });
       jumpToStep === undefined
         ? setCurrentStepIndex(currentStepIndex - 1)
         : setCurrentStepIndex(jumpToStep);
@@ -84,30 +92,35 @@ const CompleteShiftWizard: FC = (): JSX.Element => {
   };
 
   const handleFinish = async (shift?: IShift): Promise<void> => {
-    if (shiftData || shift) {
-      try {
-        setIsTransmitting(true);
-        const shiftToUpdate = shift ? shift : shiftData;
-        if (!shiftToUpdate) return;
-        await updateShift({ ...shiftToUpdate, shiftComplete: true });
-        notify('Shift Completed!', 'success', 'complete-shift-success');
-        navigate(-1);
-      } catch (error) {
-        notify(
-          'Error completing shift. Try again',
-          'error',
-          'complete-shift-error'
-        );
-      } finally {
-        setIsTransmitting(false);
+    try {
+      setIsTransmitting(true);
+      const shiftToUpdate = shift ? shift : shiftData?.shiftInfo;
+      if (!shiftToUpdate) return;
+      await updateShift({ ...shiftToUpdate, shiftComplete: true });
+
+      if (shiftData?.image) {
+        const formData = new FormData();
+        formData.append('image', shiftData.image);
+        formData.append('shiftId', shiftToUpdate._id);
+        await addImage(formData);
       }
+      notify('Shift Completed!', 'success', 'complete-shift-success');
+      navigate(-1);
+    } catch (error) {
+      notify(
+        'Error completing shift. Try again',
+        'error',
+        'complete-shift-error'
+      );
+    } finally {
+      setIsTransmitting(false);
     }
   };
 
   const mappedElements = Elements.map((Element, index) => {
     return (
       <Element
-        key={`${index}-${shiftData?._id}`}
+        key={`${index}-${shiftData?.shiftInfo._id}`}
         goNext={goNext}
         goBack={goBack}
         onFinish={handleFinish}

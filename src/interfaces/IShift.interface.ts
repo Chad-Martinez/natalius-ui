@@ -16,6 +16,13 @@ export interface IShiftIncome {
   type: string;
 }
 
+export interface IShiftImage {
+  display_name: string;
+  format: string;
+  public_id: string;
+  url: string;
+}
+
 export interface IShiftBase {
   clubId: string;
   start: string;
@@ -25,6 +32,7 @@ export interface IShiftBase {
   shiftComplete?: boolean;
   expenses?: IShiftExpenses;
   income?: IShiftIncome;
+  image?: IShiftImage | undefined;
   milage?: number;
 }
 

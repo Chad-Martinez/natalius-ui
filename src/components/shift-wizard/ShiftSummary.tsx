@@ -1,39 +1,82 @@
 import { FC } from 'react';
 import pageStyles from '../../pages/PageWrapper.module.css';
-import shiftSummaryStyles from './ShiftSummary.module.css';
+import shiftWizardStyles from './ShiftWizard.module.css';
 import BottomNav from '../ui/BottomNav/BottomNav';
 import Button from '../ui/Button/Button';
-import { IShift } from '../../interfaces/IShift.interface';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
 import { IClub } from '../../interfaces/IClub.interface';
 import { moneyFormatter } from '../../helpers/format-helpers';
+import { ShiftData } from '../../pages/CompleteShiftWizard/CompleteShiftWizard';
 
 const ShiftSummary: FC<{
-  goNext: (shift: IShift | null) => void;
-  goBack: (shift: IShift | null, jumpToStep?: number) => void;
-  onFinish: () => void;
+  goNext: (shiftData: ShiftData | null) => void;
+  goBack: (shiftData: ShiftData | null, jumpToStep?: number) => void;
+  onFinish: () => Promise<void>;
   isTransmitting: boolean;
-  shiftData: IShift | null;
+  shiftData: ShiftData | null;
   clubs: IClub[] | [];
 }> = ({ goBack, shiftData, clubs, onFinish, isTransmitting }): JSX.Element => {
   const handlePrev = (): void => goBack(shiftData);
 
-  const handleCompleteShift = (): void => onFinish();
+  const handleCompleteShift = (): Promise<void> => onFinish();
 
   const club: IClub | undefined = clubs.find(
-    (club) => club._id === shiftData?.clubId
+    (club) => club._id === shiftData?.shiftInfo.clubId
   );
+
+  const clubName = club ? club.name : '';
+
+  const shiftStart = dayjs
+    .utc(shiftData?.shiftInfo.start)
+    .tz(shiftData?.shiftInfo.timezone)
+    .format('llll');
+
+  const shiftEnd = dayjs
+    .utc(shiftData?.shiftInfo.end)
+    .tz(shiftData?.shiftInfo.timezone)
+    .format('llll');
+
+  const shiftIncome = `$${moneyFormatter(shiftData?.shiftInfo.income?.amount)}`;
+
+  const shiftIncomeType = shiftData?.shiftInfo.income?.type.toLowerCase();
+
+  const floorFee = `$${moneyFormatter(
+    shiftData?.shiftInfo.expenses?.floorFee
+  )}`;
+
+  const pvtFee = `$${moneyFormatter(
+    shiftData?.shiftInfo.expenses?.dances.danceFeeTotal
+  )}`;
+
+  const tips = `$${moneyFormatter(shiftData?.shiftInfo.expenses?.tips)}`;
+
+  const other = `$${moneyFormatter(shiftData?.shiftInfo.expenses?.other)}`;
+
+  const total = `$${moneyFormatter(
+    shiftData?.shiftInfo.expenses?.totalShiftExpenses
+  )}`;
+
+  const netIncome =
+    shiftData?.shiftInfo.income?.amount &&
+    shiftData?.shiftInfo.expenses?.totalShiftExpenses
+      ? shiftData?.shiftInfo.income?.amount -
+        shiftData?.shiftInfo.expenses?.totalShiftExpenses
+      : 0;
+
+  const imageName = shiftData?.image?.name || 'No Image';
+
+  const milage = shiftData?.shiftInfo.milage;
 
   return (
     <>
       <div className={pageStyles.mainContent}>
-        <div className={shiftSummaryStyles.summaryContainer}>
+        <div className={shiftWizardStyles.summaryContainer}>
           <h2>Shift Summary</h2>
-          <div className={shiftSummaryStyles.detailsCard}>
-            <div className={shiftSummaryStyles.detailsHeader}>
-              <div className={shiftSummaryStyles.detailsTitle}>
+          <div className={shiftWizardStyles.detailsCard}>
+            <div className={shiftWizardStyles.detailsHeader}>
+              <div className={shiftWizardStyles.detailsTitle}>
                 Shift Details
               </div>
               <FontAwesomeIcon
@@ -41,113 +84,117 @@ const ShiftSummary: FC<{
                 onClick={() => goBack(shiftData, 0)}
               />
             </div>
-            <div className={shiftSummaryStyles.detailsItemContainer}>
-              <div className={shiftSummaryStyles.detailsItem}>
-                <div className={shiftSummaryStyles.detailsItemName}>Club: </div>
-                {club ? club.name : ''}
+            <div className={shiftWizardStyles.detailsItemContainer}>
+              <div className={shiftWizardStyles.detailsItem}>
+                <div className={shiftWizardStyles.detailsItemName}>Club: </div>
+                {clubName}
               </div>
-              <div className={shiftSummaryStyles.detailsItem}>
-                <div className={shiftSummaryStyles.detailsItemName}>Start:</div>
-                {dayjs
-                  .utc(shiftData?.start)
-                  .tz(shiftData?.timezone)
-                  .format('llll')}
+              <div className={shiftWizardStyles.detailsItem}>
+                <div className={shiftWizardStyles.detailsItemName}>Start:</div>
+                {shiftStart}
               </div>
-              <div className={shiftSummaryStyles.detailsItem}>
-                <div className={shiftSummaryStyles.detailsItemName}>End:</div>
-                {dayjs
-                  .utc(shiftData?.end)
-                  .tz(shiftData?.timezone)
-                  .format('llll')}
+              <div className={shiftWizardStyles.detailsItem}>
+                <div className={shiftWizardStyles.detailsItemName}>End:</div>
+                {shiftEnd}
               </div>
             </div>
           </div>
-          <div className={shiftSummaryStyles.detailsCard}>
-            <div className={shiftSummaryStyles.detailsHeader}>
-              <div className={shiftSummaryStyles.detailsTitle}>Income</div>
+          <div className={shiftWizardStyles.detailsCard}>
+            <div className={shiftWizardStyles.detailsHeader}>
+              <div className={shiftWizardStyles.detailsTitle}>Income</div>
               <FontAwesomeIcon
                 icon={faPencil}
                 onClick={() => goBack(shiftData, 1)}
               />
             </div>
-            <div className={shiftSummaryStyles.detailsItemContainer}>
-              <div className={shiftSummaryStyles.detailsItem}>
-                <div className={shiftSummaryStyles.detailsItemName}>
+            <div className={shiftWizardStyles.detailsItemContainer}>
+              <div className={shiftWizardStyles.detailsItem}>
+                <div className={shiftWizardStyles.detailsItemName}>
                   Earnings:
                 </div>
-                {`$${moneyFormatter(shiftData?.income?.amount)}`}
+                {shiftIncome}
               </div>
-              <div className={shiftSummaryStyles.detailsItem}>
-                <div className={shiftSummaryStyles.detailsItemName}>Type: </div>
-                {shiftData?.income?.type.toLowerCase()}
+              <div className={shiftWizardStyles.detailsItem}>
+                <div className={shiftWizardStyles.detailsItemName}>Type: </div>
+                {shiftIncomeType}
               </div>
             </div>
           </div>
-          <div className={shiftSummaryStyles.detailsCard}>
-            <div className={shiftSummaryStyles.detailsHeader}>
-              <div className={shiftSummaryStyles.detailsTitle}>Expenses</div>
+          <div className={shiftWizardStyles.detailsCard}>
+            <div className={shiftWizardStyles.detailsHeader}>
+              <div className={shiftWizardStyles.detailsTitle}>Expenses</div>
               <FontAwesomeIcon
                 icon={faPencil}
                 onClick={() => goBack(shiftData, 2)}
               />
             </div>
-            <div className={shiftSummaryStyles.detailsItemContainer}>
-              <div className={shiftSummaryStyles.detailsItem}>
-                <div className={shiftSummaryStyles.detailsItemName}>
+            <div className={shiftWizardStyles.detailsItemContainer}>
+              <div className={shiftWizardStyles.detailsItem}>
+                <div className={shiftWizardStyles.detailsItemName}>
                   Floor Fee:
                 </div>
-                {`$${moneyFormatter(shiftData?.expenses?.floorFee)}`}
+                {floorFee}
               </div>
-              <div className={shiftSummaryStyles.detailsItem}>
-                <div className={shiftSummaryStyles.detailsItemName}>
+              <div className={shiftWizardStyles.detailsItem}>
+                <div className={shiftWizardStyles.detailsItemName}>
                   Pvt Fee:
                 </div>
-                {`$${moneyFormatter(
-                  shiftData?.expenses?.dances.danceFeeTotal
-                )}`}
+                {pvtFee}
               </div>
-              <div className={shiftSummaryStyles.detailsItem}>
-                <div className={shiftSummaryStyles.detailsItemName}>Tips: </div>
-                {`$${moneyFormatter(shiftData?.expenses?.tips)}`}
+              <div className={shiftWizardStyles.detailsItem}>
+                <div className={shiftWizardStyles.detailsItemName}>Tips: </div>
+                {tips}
               </div>
-              <div className={shiftSummaryStyles.detailsItem}>
-                <div className={shiftSummaryStyles.detailsItemName}>Other:</div>
-                {`$${moneyFormatter(shiftData?.expenses?.other)}`}
+              <div className={shiftWizardStyles.detailsItem}>
+                <div className={shiftWizardStyles.detailsItemName}>Other:</div>
+                {other}
               </div>
-              <div className={shiftSummaryStyles.detailsItem}>
-                <div className={shiftSummaryStyles.detailsItemName}>Total:</div>
-                {`$${moneyFormatter(shiftData?.expenses?.totalShiftExpenses)}`}
+              <div className={shiftWizardStyles.detailsItem}>
+                <div className={shiftWizardStyles.detailsItemName}>Total:</div>
+                {total}
               </div>
             </div>
           </div>
-          <div className={shiftSummaryStyles.detailsCard}>
+          <div className={shiftWizardStyles.detailsCard}>
             <div
-              className={`${shiftSummaryStyles.detailsHeader} ${shiftSummaryStyles.netIncome}`}
+              className={`${shiftWizardStyles.detailsHeader} ${shiftWizardStyles.netIncome}`}
             >
-              <div className={shiftSummaryStyles.detailsTitle}>
-                Net Income: $
-                {shiftData?.income?.amount &&
-                shiftData?.expenses?.totalShiftExpenses
-                  ? shiftData?.income?.amount -
-                    shiftData?.expenses?.totalShiftExpenses
-                  : 0}
+              <div className={shiftWizardStyles.detailsTitle}>
+                Net Income: ${netIncome}
               </div>
             </div>
           </div>
-          <div className={shiftSummaryStyles.detailsCard}>
-            <div className={shiftSummaryStyles.detailsHeader}>
-              <div className={shiftSummaryStyles.detailsTitle}>Milage</div>
+          <div className={shiftWizardStyles.detailsCard}>
+            <div className={shiftWizardStyles.detailsHeader}>
+              <div className={shiftWizardStyles.detailsTitle}>
+                Receipt Image
+              </div>
               <FontAwesomeIcon
                 icon={faPencil}
                 onClick={() => goBack(shiftData, 3)}
               />
             </div>
-            <div className={shiftSummaryStyles.detailsItemContainer}>
-              <div className={shiftSummaryStyles.detailsItem}>
-                <div className={shiftSummaryStyles.detailsItemName}>
+            <div className={shiftWizardStyles.detailsItemContainer}>
+              <div className={shiftWizardStyles.detailsItem}>
+                <div className={shiftWizardStyles.detailsItemName}>Image:</div>
+                {imageName}
+              </div>
+            </div>
+          </div>
+          <div className={shiftWizardStyles.detailsCard}>
+            <div className={shiftWizardStyles.detailsHeader}>
+              <div className={shiftWizardStyles.detailsTitle}>Milage</div>
+              <FontAwesomeIcon
+                icon={faPencil}
+                onClick={() => goBack(shiftData, 4)}
+              />
+            </div>
+            <div className={shiftWizardStyles.detailsItemContainer}>
+              <div className={shiftWizardStyles.detailsItem}>
+                <div className={shiftWizardStyles.detailsItemName}>
                   Round Trip:
                 </div>
-                {shiftData?.milage}
+                {milage}
               </div>
             </div>
           </div>

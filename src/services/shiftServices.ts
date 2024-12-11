@@ -41,7 +41,7 @@ export const addShift = async (payload: IShiftBase): Promise<AxiosResponse> => {
   return await axios(config);
 };
 
-export const updateShift = async (payload: IShift) => {
+export const updateShift = async (payload: IShift): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
     url: `${endpoint}/shifts`,
     method: 'PUT',

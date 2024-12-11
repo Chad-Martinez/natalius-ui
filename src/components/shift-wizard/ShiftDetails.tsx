@@ -11,13 +11,13 @@ import Input from '../forms/Input';
 import FormGroup from '../forms/FormGroup';
 import Label from '../forms/Label';
 import TextArea from '../forms/TextArea';
-import { IShift } from '../../interfaces/IShift.interface';
 import { TIMEZONE_SELECT } from '../../helpers/date-time-helpers';
 import { IClub } from '../../interfaces/IClub.interface';
+import { ShiftData } from '../../pages/CompleteShiftWizard/CompleteShiftWizard';
 
 const ShiftDetails: FC<{
-  goNext: (shift: IShift) => void;
-  shiftData: IShift | null;
+  goNext: (shiftData: ShiftData) => void;
+  shiftData: ShiftData | null;
   clubs: IClub[] | [];
 }> = ({ goNext, shiftData, clubs }): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -25,7 +25,7 @@ const ShiftDetails: FC<{
   const navigate = useNavigate();
 
   const { value: clubId, valueChangeHandler: clubIdChangeHandler } =
-    useInput<string>((v) => v !== '', shiftData?.clubId || '');
+    useInput<string>((v) => v !== '', shiftData?.shiftInfo.clubId || '');
 
   const {
     value: start,
@@ -36,8 +36,8 @@ const ShiftDetails: FC<{
   } = useInput<string>(
     (v) => dayjs(v).isValid(),
     dayjs
-      .utc(shiftData?.start)
-      .tz(shiftData?.timezone)
+      .utc(shiftData?.shiftInfo.start)
+      .tz(shiftData?.shiftInfo.timezone)
       .format('YYYY-MM-DDTHH:mm')
   );
 
@@ -49,17 +49,20 @@ const ShiftDetails: FC<{
     inputBlurHandler: endBlurHandler,
   } = useInput<string>(
     (v) => dayjs(v).isValid() && !dayjs(v).isSameOrBefore(dayjs(start)),
-    dayjs.utc(shiftData?.end).tz(shiftData?.timezone).format('YYYY-MM-DDTHH:mm')
+    dayjs
+      .utc(shiftData?.shiftInfo.end)
+      .tz(shiftData?.shiftInfo.timezone)
+      .format('YYYY-MM-DDTHH:mm')
   );
 
   const {
     value: timezone,
     inputBlurHandler: timezoneBlurHandler,
     valueChangeHandler: timezoneChangeHandler,
-  } = useInput<string>((v) => v !== '', shiftData?.timezone || '');
+  } = useInput<string>((v) => v !== '', shiftData?.shiftInfo.timezone || '');
 
   const { value: notes, valueChangeHandler: notesChangeHandler } =
-    useInput<string>((v) => v !== '', shiftData?.notes || '');
+    useInput<string>((v) => v !== '', shiftData?.shiftInfo.notes || '');
 
   useEffect(() => {
     setIsFormValid(startIsValid && endIsValid);
@@ -71,12 +74,15 @@ const ShiftDetails: FC<{
     if (shiftData) {
       const startWithTZ = dayjs.tz(start, timezone);
       const endWithTZ = dayjs.tz(end, timezone);
-      const updatedShift: IShift = {
+      const updatedShift: ShiftData = {
         ...shiftData,
-        clubId,
-        start: dayjs(startWithTZ).utc().format(),
-        end: dayjs(endWithTZ).utc().format(),
-        notes,
+        shiftInfo: {
+          ...shiftData.shiftInfo,
+          clubId,
+          start: dayjs(startWithTZ).utc().format(),
+          end: dayjs(endWithTZ).utc().format(),
+          notes,
+        },
       };
       goNext(updatedShift);
     }
