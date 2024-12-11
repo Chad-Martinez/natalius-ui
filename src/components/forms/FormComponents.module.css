@@ -146,3 +146,21 @@ input.radio:checked + label {
   color: var(--color-light-grey);
   font-weight: 400;
 }
+
+input[type='file'].upload {
+  display: none;
+}
+
+.fileLabel {
+  display: inline-block;
+  padding: 12px 0px;
+  background-color: var(--color-dark-primary);
+  text-align: center;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.fileInputDisabled {
+  background-color: #b7b6b6;
+}
