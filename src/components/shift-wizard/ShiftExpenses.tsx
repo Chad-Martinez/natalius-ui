@@ -1,34 +1,36 @@
 import { FC, useEffect, useState } from 'react';
 import styles from '../../pages/PageWrapper.module.css';
 import formStyles from '../forms/FormComponents.module.css';
-import shiftExpensesStyles from './ShiftExpenses.module.css';
+import shiftWizardStyles from './ShiftWizard.module.css';
 import Input from '../forms/Input';
 import BottomNav from '../ui/BottomNav/BottomNav';
 import Button from '../ui/Button/Button';
 import useInput from '../../hooks/useInput';
 import FormGroup from '../forms/FormGroup';
 import Label from '../forms/Label';
-import { IShift } from '../../interfaces/IShift.interface';
 import { IClub } from '../../interfaces/IClub.interface';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   moneyFormatter,
   moneyStrToNumFormatter,
 } from '../../helpers/format-helpers';
+import { ShiftData } from '../../pages/CompleteShiftWizard/CompleteShiftWizard';
 
 const ShiftExpenses: FC<{
-  goNext: (shift: IShift | null) => void;
-  goBack: (shift: IShift | null) => void;
-  shiftData: IShift | null;
+  goNext: (shiftData: ShiftData | null) => void;
+  goBack: (shiftData: ShiftData | null) => void;
+  shiftData: ShiftData | null;
   clubs: IClub[];
-  onFinish: (shift: IShift) => void;
+  onFinish: (shiftData: ShiftData) => Promise<void>;
 }> = ({ goNext, goBack, shiftData, clubs, onFinish }): JSX.Element => {
-  const [updatedShift, setUpdatedShift] = useState<IShift | null>(shiftData);
+  const [updatedShift, setUpdatedShift] = useState<ShiftData | null>(shiftData);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [danceFeeTotal, setDanceFeeTotal] = useState<string>('0');
   const [totalShiftExpenses, setTotalShiftExpenses] = useState<number>(0);
 
-  const selectedClub = clubs.find((club) => club._id === shiftData?.clubId);
+  const selectedClub = clubs.find(
+    (club) => club._id === shiftData?.shiftInfo.clubId
+  );
   const { defaults } = selectedClub as IClub;
 
   const location = useLocation();
@@ -42,8 +44,8 @@ const ShiftExpenses: FC<{
     inputBlurHandler: floorFeeBlurHandler,
   } = useInput<string>(
     (v) => v !== '',
-    shiftData?.shiftComplete && shiftData?.expenses?.floorFee
-      ? shiftData?.expenses?.floorFee.toString()
+    shiftData?.shiftInfo.expenses?.floorFee !== undefined
+      ? shiftData?.shiftInfo.expenses?.floorFee.toString()
       : defaults.useDefaults
       ? defaults.floorFee.toString()
       : '0'
@@ -57,9 +59,7 @@ const ShiftExpenses: FC<{
     inputBlurHandler: numOfDancesBlurHandler,
   } = useInput<string>(
     (v) => v !== '',
-    (shiftData?.shiftComplete &&
-      shiftData?.expenses?.dances.numOfDances.toString()) ||
-      '0'
+    shiftData?.shiftInfo.expenses?.dances.numOfDances.toString() || '0'
   );
 
   const {
@@ -70,8 +70,8 @@ const ShiftExpenses: FC<{
     inputBlurHandler: pricePerDanceBlurHandler,
   } = useInput<string>(
     (v) => v !== '',
-    shiftData?.shiftComplete && shiftData?.expenses?.dances.pricePerDance
-      ? shiftData?.expenses?.dances.pricePerDance.toString()
+    shiftData?.shiftInfo.expenses?.dances.pricePerDance
+      ? shiftData?.shiftInfo.expenses?.dances.pricePerDance.toString()
       : defaults.useDefaults
       ? defaults.pricePerDance.toString()
       : '0'
@@ -85,8 +85,8 @@ const ShiftExpenses: FC<{
     inputBlurHandler: tipsBlurHandler,
   } = useInput<string>(
     (v) => v !== '',
-    shiftData?.shiftComplete && shiftData?.expenses?.tips
-      ? shiftData?.expenses?.tips.toString()
+    shiftData?.shiftInfo.shiftComplete && shiftData?.shiftInfo.expenses?.tips
+      ? shiftData?.shiftInfo.expenses?.tips.toString()
       : defaults.useDefaults
       ? defaults.tips.toString()
       : '0'
@@ -100,8 +100,8 @@ const ShiftExpenses: FC<{
     inputBlurHandler: otherBlurHandler,
   } = useInput<string>(
     (v) => v !== '',
-    shiftData?.shiftComplete && shiftData?.expenses?.other
-      ? shiftData?.expenses?.other.toString()
+    shiftData?.shiftInfo.shiftComplete && shiftData?.shiftInfo.expenses?.other
+      ? shiftData?.shiftInfo.expenses?.other.toString()
       : defaults.useDefaults
       ? defaults.other.toString()
       : '0'
@@ -112,17 +112,20 @@ const ShiftExpenses: FC<{
       if (!prevState) return prevState;
       return {
         ...prevState,
-        expenses: {
-          floorFee: +floorFee,
-          dances: {
-            numOfDances: +numOfDances,
-            pricePerDance: +pricePerDance,
-            danceFeeTotal: +danceFeeTotal,
+        shiftInfo: {
+          ...prevState.shiftInfo,
+          expenses: {
+            floorFee: +floorFee,
+            dances: {
+              numOfDances: +numOfDances,
+              pricePerDance: +pricePerDance,
+              danceFeeTotal: +danceFeeTotal,
+            },
+            tips: +tips,
+            other: +other,
+            totalShiftExpenses: +totalShiftExpenses,
+            type: 'SHIFT',
           },
-          tips: +tips,
-          other: +other,
-          totalShiftExpenses: +totalShiftExpenses,
-          type: 'SHIFT',
         },
       };
     });
@@ -198,7 +201,8 @@ const ShiftExpenses: FC<{
       <div className={styles.mainContent}>
         <form className={formStyles.form}>
           <h3 className={formStyles.title}>
-            {shiftData?.shiftComplete ? 'Update' : 'Add'} Shift Expenses
+            {shiftData?.shiftInfo.shiftComplete ? 'Update' : 'Add'} Shift
+            Expenses
           </h3>
           <FormGroup>
             <Label name='floorFee' text='Floor Fee' />
@@ -214,7 +218,7 @@ const ShiftExpenses: FC<{
               handleBlur={floorFeeBlurHandler}
             />
           </FormGroup>
-          <div className={shiftExpensesStyles.feeContainer}>
+          <div className={shiftWizardStyles.feeContainer}>
             <FormGroup>
               <Label name='numOfDances' text='# Pvt Dances' />
               <Input
@@ -251,7 +255,7 @@ const ShiftExpenses: FC<{
               />
             </FormGroup>
           </div>
-          <div className={shiftExpensesStyles.feeContainer}>
+          <div className={shiftWizardStyles.feeContainer}>
             <FormGroup>
               <Label name='tips' text='Tips' />
               <Input
@@ -279,7 +283,7 @@ const ShiftExpenses: FC<{
               />
             </FormGroup>
           </div>
-          <div className={shiftExpensesStyles.totalExpenses}>
+          <div className={shiftWizardStyles.totalExpenses}>
             Total Shift Expenses: {`$${moneyFormatter(totalShiftExpenses)}`}
           </div>
         </form>

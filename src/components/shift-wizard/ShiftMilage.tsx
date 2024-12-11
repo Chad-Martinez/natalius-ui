@@ -7,20 +7,20 @@ import Button from '../ui/Button/Button';
 import useInput from '../../hooks/useInput';
 import FormGroup from '../forms/FormGroup';
 import Label from '../forms/Label';
-import { IShift } from '../../interfaces/IShift.interface';
 import { IClub } from '../../interfaces/IClub.interface';
+import { ShiftData } from '../../pages/CompleteShiftWizard/CompleteShiftWizard';
 
 const ShiftMilage: FC<{
-  goNext: (shift: IShift | null) => void;
-  goBack: (shift: IShift | null) => void;
-  shiftData: IShift | null;
+  goNext: (shiftData: ShiftData | null) => void;
+  goBack: (shiftData: ShiftData | null) => void;
+  shiftData: ShiftData | null;
   clubs: IClub[];
 }> = ({ goNext, goBack, shiftData, clubs }): JSX.Element => {
-  const [updatedShift, setUpdatedShift] = useState<IShift | null>(shiftData);
+  const [updatedShift, setUpdatedShift] = useState<ShiftData | null>(shiftData);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
   const selectedClub: IClub | undefined = clubs.find(
-    (club) => club._id === shiftData?.clubId
+    (club) => club._id === shiftData?.shiftInfo.clubId
   );
   const { defaults } = selectedClub as IClub;
 
@@ -32,19 +32,22 @@ const ShiftMilage: FC<{
     inputBlurHandler: milageBlurHandler,
   } = useInput<string>(
     (v) => /^[0-9]+$/.test(v) || v === '',
-    shiftData?.shiftComplete && shiftData?.milage
-      ? shiftData?.milage.toString()
+    shiftData?.shiftInfo.shiftComplete && shiftData?.shiftInfo.milage
+      ? shiftData?.shiftInfo.milage.toString()
       : defaults.useDefaults
       ? defaults.distance.toString()
       : '0'
   );
 
   useEffect(() => {
-    setUpdatedShift((prevShift) => {
-      if (!prevShift) return prevShift;
+    setUpdatedShift((prevState) => {
+      if (!prevState) return prevState;
       return {
-        ...prevShift,
-        milage: +milage || 0,
+        ...prevState,
+        shiftInfo: {
+          ...prevState.shiftInfo,
+          milage: +milage || 0,
+        },
       };
     });
   }, [milage]);
