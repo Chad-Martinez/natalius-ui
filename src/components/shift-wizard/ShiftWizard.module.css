@@ -1,3 +1,44 @@
+/* ShiftExpenses */
+
+.feeContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+}
+
+.totalExpenses {
+  text-align: left;
+}
+
+/* ShiftFileUpload */
+
+.imageList {
+  font-size: 1.3rem;
+  padding: 0px;
+}
+
+.imageListItem {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  margin: 10px;
+  font-size: 1.3rem;
+}
+
+.icon {
+  margin: 0px 5px;
+}
+
+.icon.danger {
+  color: var(--color-danger);
+}
+
+img {
+  border-radius: 8px;
+}
+
+/* ShiftSummary */
+
 .summaryContainer {
   display: flex;
   flex-direction: column;

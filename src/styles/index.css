@@ -16,8 +16,11 @@
   --color-primary: #34c6fe;
   --color-primary-trans: hsla(197, 99%, 60%, 0.639);
   --color-dark-primary: #2ca3cc;
+  --color-dark-primary-alt: #007bff;
   --color-light-primary: #a1cedd;
-  --color-success: #34fe66;
+  --color-success: #29d153;
+  --color-light-success: #29e357;
+  --color-dark-success: #13a738;
   --color-light-success: #c9f8d5;
   --color-danger: #fe343d;
   --color-warning: #feaf34;
