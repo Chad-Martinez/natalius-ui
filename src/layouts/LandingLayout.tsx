@@ -5,11 +5,9 @@ import Nav from '../components/ui/Nav/Nav';
 import { AuthContext } from '../store/AuthContext';
 
 const LandingLayout: FC = (): JSX.Element => {
-  const { isAuth, isLoading } = useContext(AuthContext);
+  const { isAuth } = useContext(AuthContext);
   return isAuth ? (
     <Navigate to='/dashboard' replace />
-  ) : isLoading ? (
-    <p>Loading...</p>
   ) : (
     <>
       <Nav />
