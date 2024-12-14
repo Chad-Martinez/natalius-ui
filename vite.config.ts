@@ -18,5 +18,8 @@ export default defineConfig(({ mode }) => {
       'process.env.API_ENDPOINT': JSON.stringify(env.API_ENDPOINT),
     },
     plugins: [react()],
+    build: {
+      copyPublicDir: true,
+    },
   };
 });
