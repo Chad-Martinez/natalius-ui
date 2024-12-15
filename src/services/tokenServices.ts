@@ -12,5 +12,6 @@ export const refresh = async (
       'Content-Type': 'application/json',
     },
   };
+  console.log('axios tokenServices config ', config);
   return await axiosInstance(config);
 };
