@@ -2,15 +2,17 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import Input from '../../components/forms/Input';
 import useInput from '../../hooks/useInput';
 import formStyles from '../../components/forms/FormComponents.module.css';
-import { passwordResetEmail } from '../../services/authServices';
+// import { passwordResetEmail } from '../../services/authServices';
 import { AxiosError, AxiosResponse } from 'axios';
 import { notify } from '../../helpers/toast-helpers';
 import SubmitButton from '../../components/ui/SubmitButton/SubmitButton';
 import Logo from '../../components/ui/Logo/Logo';
+import useAxios from '../../hooks/useAxios';
 
 export const ForgotPassword: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
+  const { axiosInstance, boundAuthServices } = useAxios();
 
   const {
     value: email,
@@ -23,8 +25,11 @@ export const ForgotPassword: FC = (): JSX.Element => {
   const handleSubmit = async () => {
     try {
       setIsTransmitting(true);
-      const { data } = (await passwordResetEmail({
-        email,
+      const { data } = (await boundAuthServices.passwordResetEmail({
+        axiosInstance,
+        payload: {
+          email,
+        },
       })) as AxiosResponse;
       notify(data.message, 'success', 'password-email-success');
     } catch (error) {
