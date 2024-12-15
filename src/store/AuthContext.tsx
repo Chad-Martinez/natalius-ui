@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react';
 import useRefreshToken from '../hooks/useRefreshToken';
+import useAxios from '../hooks/useAxios';
 
 export const AuthContext = createContext<{
   isAuth: boolean;
@@ -23,13 +24,14 @@ export const AuthContext = createContext<{
 export const AuthProvider: FC<PropsWithChildren> = (props) => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { axiosInstance } = useAxios();
   const { verifyRefreshToken } = useRefreshToken();
 
   useEffect(() => {
     setIsLoading(true);
     (async () => {
       try {
-        await verifyRefreshToken();
+        await verifyRefreshToken(axiosInstance);
         setIsAuth(true);
       } catch (error) {
         console.error('Token Error ', error);
@@ -37,7 +39,7 @@ export const AuthProvider: FC<PropsWithChildren> = (props) => {
         setIsLoading(false);
       }
     })();
-  }, [verifyRefreshToken]);
+  }, [verifyRefreshToken, axiosInstance]);
 
   const store = useMemo(() => {
     return {

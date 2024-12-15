@@ -1,8 +1,10 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const endpoint = process.env.API_ENDPOINT;
 
-export const refresh = async (): Promise<AxiosResponse> => {
+export const refresh = async (
+  axiosInstance: AxiosInstance
+): Promise<AxiosResponse> => {
   const config: AxiosRequestConfig = {
     url: `${endpoint}/tokens`,
     method: 'GET',
@@ -10,5 +12,5 @@ export const refresh = async (): Promise<AxiosResponse> => {
       'Content-Type': 'application/json',
     },
   };
-  return await axios(config);
+  return await axiosInstance(config);
 };

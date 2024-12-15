@@ -3,7 +3,6 @@ import formStyles from '../../components/forms/FormComponents.module.css';
 import Input from '../../components/forms/Input';
 import useInput from '../../hooks/useInput';
 import SubmitButton from '../../components/ui/SubmitButton/SubmitButton';
-import { register } from '../../services/authServices';
 import { AxiosError, AxiosResponse } from 'axios';
 import { notify } from '../../helpers/toast-helpers';
 import Logo from '../../components/ui/Logo/Logo';
@@ -11,10 +10,12 @@ import {
   validateEmail,
   validatePassword,
 } from '../../helpers/validator-helpers';
+import useAxios from '../../hooks/useAxios';
 
 const Register: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
+  const { axiosInstance, boundAuthServices } = useAxios();
 
   const {
     value: firstName,
@@ -72,11 +73,14 @@ const Register: FC = (): JSX.Element => {
   const handleSubmit = async () => {
     try {
       setIsTransmitting(true);
-      const { data } = (await register({
-        firstName,
-        lastName,
-        email,
-        password,
+      const { data } = (await boundAuthServices.register({
+        axiosInstance,
+        payload: {
+          firstName,
+          lastName,
+          email,
+          password,
+        },
       })) as AxiosResponse;
 
       notify(data.message, 'success', 'register-success');
