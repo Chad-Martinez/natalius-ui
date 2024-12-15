@@ -16,9 +16,6 @@ export const register = async ({
   const config: AxiosRequestConfig = {
     url: `${endpoint}/auth/register`,
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
     data: payload,
   };
   console.log('axios authServices config ', config);
