@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { refresh } from '../services/tokenServices';
-import axios, { AxiosInstance } from 'axios';
+import { AxiosInstance } from 'axios';
 
 // axios.defaults.withCredentials = true;
 
