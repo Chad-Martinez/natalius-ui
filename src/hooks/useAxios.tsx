@@ -22,6 +22,8 @@ const useAxios = () => {
     });
   }, []);
 
+  console.log('api endpoint ', process.env.API_ENDPOINT);
+
   const setupAxiosInterceptors = useCallback(() => {
     const requestInterceptor = axiosInstance.interceptors.request.use(
       (config) => {

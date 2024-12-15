@@ -21,6 +21,7 @@ export const register = async ({
     },
     data: payload,
   };
+  console.log('axios authServices config ', config);
   return await axiosInstance(config);
 };
 
