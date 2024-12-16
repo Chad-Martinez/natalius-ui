@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, useEffect, useRef } from 'react';
 import formStyles from '../forms/FormComponents.module.css';
+import CalendarButton from './CalendarButton';
 
 type Props = {
   id?: string;
@@ -54,24 +55,31 @@ const Input: FC<Props> = ({
 
   return (
     <div className={formStyles.inputContainer}>
-      <input
-        className={formStyles.input}
-        id={id}
-        name={name}
-        ref={inputRef}
-        type={type}
-        min={min}
-        max={max}
-        step={step}
-        disabled={disabled}
-        minLength={minLength}
-        maxLength={maxLength}
-        value={value}
-        placeholder={placeholder}
-        onFocus={handleFocus}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
+      <div className={formStyles.dateWrapper}>
+        <input
+          className={`${formStyles.input} ${
+            type === 'date' ? formStyles.dateInput : ''
+          }`}
+          id={id}
+          name={name}
+          ref={inputRef}
+          type={type}
+          min={min}
+          max={max}
+          step={step}
+          disabled={disabled}
+          minLength={minLength}
+          maxLength={maxLength}
+          value={value}
+          placeholder={placeholder}
+          onFocus={handleFocus}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        {type === 'date' && !disabled && (
+          <CalendarButton showPicker={inputRef.current?.showPicker} />
+        )}
+      </div>
       <div className={formStyles.inputError}>{hasError && errorMessage}</div>
     </div>
   );
