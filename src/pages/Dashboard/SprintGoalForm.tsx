@@ -46,7 +46,7 @@ const SprintGoalForm: FC = (): JSX.Element => {
     inputBlurHandler: goalBlurHandler,
   } = useInput<string>(
     (v) => moneyStrToNumFormatter(v) >= 1,
-    sprint ? sprint.goal.toString() : '0'
+    sprint?.goal ? sprint.goal.toString() : '0'
   );
 
   useEffect(() => {
@@ -98,26 +98,28 @@ const SprintGoalForm: FC = (): JSX.Element => {
       <div className={pageStyles.mainContent}>
         <div className={formStyles.form}>
           <h3 className={formStyles.title}>Sprint Goal Form</h3>
-          <span>A sprint goal is a two week earnings goal</span>
-          <FormGroup>
-            <Label name='start' text='Goal Start Date' />
-            <Input
-              type='date'
-              value={start}
-              hasError={startHasError}
-              errorMessage='Goal start date required'
-              handleChange={startChangeHandler}
-              handleBlur={startBlurHandler}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label name='end' text='Goal End Date' />
-            <Input
-              type='date'
-              value={dayjs(start).add(2, 'week').format('YYYY-MM-DD')}
-              disabled={true}
-            />
-          </FormGroup>
+
+          <div className={formStyles.sideBySideInputs}>
+            <FormGroup>
+              <Label name='start' text='Goal Start Date' />
+              <Input
+                type='date'
+                value={start}
+                hasError={startHasError}
+                errorMessage='Goal start date required'
+                handleChange={startChangeHandler}
+                handleBlur={startBlurHandler}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label name='end' text='Goal End Date' />
+              <Input
+                type='date'
+                value={dayjs(start).add(2, 'week').format('YYYY-MM-DD')}
+                disabled={true}
+              />
+            </FormGroup>
+          </div>
           <Input
             id='goal'
             name='goal'
@@ -129,6 +131,9 @@ const SprintGoalForm: FC = (): JSX.Element => {
             handleChange={convertAmount}
             handleBlur={goalBlurHandler}
           />
+          <span className={formStyles.subtitle}>
+            A sprint is a two week earnings goal
+          </span>
         </div>
       </div>
       <BottomNav>
