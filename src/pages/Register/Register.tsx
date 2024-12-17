@@ -17,21 +17,12 @@ const Register: FC = (): JSX.Element => {
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
 
   const {
-    value: firstName,
-    isValid: firstNameIsValid,
-    hasError: firstNameHasError,
-    valueChangeHandler: firstNameChangeHandledr,
-    inputBlurHandler: firstNameBlurHandler,
-    reset: firstNameReset,
-  } = useInput<string>((value) => value.trim() !== '', '');
-
-  const {
-    value: lastName,
-    isValid: lastNameIsValid,
-    hasError: lastNameHasError,
-    valueChangeHandler: lastNameChangeHandledr,
-    inputBlurHandler: lastNameBlurHandler,
-    reset: lastNameReset,
+    value: stageName,
+    isValid: stageNameIsValid,
+    hasError: stageNameHasError,
+    valueChangeHandler: stageNameChangeHandledr,
+    inputBlurHandler: stageNameBlurHandler,
+    reset: stageNameReset,
   } = useInput<string>((value) => value.trim() !== '', '');
 
   const {
@@ -62,8 +53,7 @@ const Register: FC = (): JSX.Element => {
   } = useInput<string>((value) => password === value && value !== '', '');
 
   const formReset = (): void => {
-    firstNameReset();
-    lastNameReset();
+    stageNameReset();
     emailReset();
     passwordReset();
     pwConfirmReset();
@@ -73,8 +63,7 @@ const Register: FC = (): JSX.Element => {
     try {
       setIsTransmitting(true);
       const { data } = await register({
-        firstName,
-        lastName,
+        stageName,
         email,
         password,
       });
@@ -93,20 +82,13 @@ const Register: FC = (): JSX.Element => {
   };
 
   const checkFormValidity = useCallback(() => {
-    return firstNameIsValid &&
-      lastNameIsValid &&
+    return stageNameIsValid &&
       emailIsValid &&
       passwordIsValid &&
       pwConfirmIsValid
       ? setIsFormValid(true)
       : setIsFormValid(false);
-  }, [
-    firstNameIsValid,
-    lastNameIsValid,
-    emailIsValid,
-    passwordIsValid,
-    pwConfirmIsValid,
-  ]);
+  }, [stageNameIsValid, emailIsValid, passwordIsValid, pwConfirmIsValid]);
 
   useEffect(() => checkFormValidity(), [checkFormValidity]);
 
@@ -121,26 +103,15 @@ const Register: FC = (): JSX.Element => {
       />
       <h2>register</h2>
       <Input
-        id='firstName'
-        name='firstName'
-        value={firstName}
-        hasError={firstNameHasError}
-        placeholder='First Name'
+        id='stageName'
+        name='stageName'
+        value={stageName}
+        hasError={stageNameHasError}
+        placeholder='Stage Name'
         type='text'
-        errorMessage='First name required'
-        handleChange={firstNameChangeHandledr}
-        handleBlur={firstNameBlurHandler}
-      />
-      <Input
-        id='lastName'
-        name='lastName'
-        value={lastName}
-        hasError={lastNameHasError}
-        placeholder='Last Name'
-        type='text'
-        errorMessage='Last name required'
-        handleChange={lastNameChangeHandledr}
-        handleBlur={lastNameBlurHandler}
+        errorMessage='Stage name required'
+        handleChange={stageNameChangeHandledr}
+        handleBlur={stageNameBlurHandler}
       />
       <Input
         id='email'

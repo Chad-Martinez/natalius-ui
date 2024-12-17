@@ -27,25 +27,17 @@ const Profile: FC = (): JSX.Element => {
   const navigate = useNavigate();
 
   const profileLoaderData = useLoaderData() as {
-    user: { firstName: string; lastName: string; email: string };
+    user: { stageName: string; email: string };
   };
   const user = profileLoaderData?.user;
 
   const {
-    value: firstName,
-    isValid: firstNameIsValid,
-    hasError: firstNameHasError,
-    valueChangeHandler: firstNameChangeHandledr,
-    inputBlurHandler: firstNameBlurHandler,
-  } = useInput<string>((value) => value.trim() !== '', user?.firstName || '');
-
-  const {
-    value: lastName,
-    isValid: lastNameIsValid,
-    hasError: lastNameHasError,
-    valueChangeHandler: lastNameChangeHandledr,
-    inputBlurHandler: lastNameBlurHandler,
-  } = useInput<string>((value) => value.trim() !== '', user?.lastName || '');
+    value: stageName,
+    isValid: stageNameIsValid,
+    hasError: stageNameHasError,
+    valueChangeHandler: stageNameChangeHandledr,
+    inputBlurHandler: stageNameBlurHandler,
+  } = useInput<string>((value) => value.trim() !== '', user?.stageName || '');
 
   const {
     value: email,
@@ -74,7 +66,7 @@ const Profile: FC = (): JSX.Element => {
   const handleUpdateProfile = async () => {
     try {
       setIsProfileTransmitting(true);
-      const { data } = await updateUserInfo({ firstName, lastName, email });
+      const { data } = await updateUserInfo({ stageName, email });
       notify(data.message, 'success', 'update-profile-success');
     } catch (error) {
       console.error('Update Profile Error: ', error);
@@ -104,10 +96,10 @@ const Profile: FC = (): JSX.Element => {
   };
 
   const checkProfileFormValidity = useCallback(() => {
-    return firstNameIsValid && lastNameIsValid && emailIsValid
+    return stageNameIsValid && emailIsValid
       ? setIsProfileFormValid(true)
       : setIsProfileFormValid(false);
-  }, [firstNameIsValid, lastNameIsValid, emailIsValid]);
+  }, [stageNameIsValid, emailIsValid]);
 
   const checkPasswordFormValidity = useCallback(() => {
     return passwordIsValid && pwConfirmIsValid
@@ -127,26 +119,15 @@ const Profile: FC = (): JSX.Element => {
         <div className={styles.profileContainer}>
           <form className={formStyles.form}>
             <Input
-              id='firstName'
-              name='firstName'
-              value={firstName}
-              hasError={firstNameHasError}
-              placeholder='First Name'
+              id='stageName'
+              name='stageName'
+              value={stageName}
+              hasError={stageNameHasError}
+              placeholder='Stage Name'
               type='text'
-              errorMessage='First name required'
-              handleChange={firstNameChangeHandledr}
-              handleBlur={firstNameBlurHandler}
-            />
-            <Input
-              id='lastName'
-              name='lastName'
-              value={lastName}
-              hasError={lastNameHasError}
-              placeholder='Last Name'
-              type='text'
-              errorMessage='Last name required'
-              handleChange={lastNameChangeHandledr}
-              handleBlur={lastNameBlurHandler}
+              errorMessage='Stage name required'
+              handleChange={stageNameChangeHandledr}
+              handleBlur={stageNameBlurHandler}
             />
             <Input
               id='email'

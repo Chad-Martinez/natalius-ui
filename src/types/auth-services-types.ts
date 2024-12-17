@@ -1,6 +1,5 @@
 export type Register = {
-  firstName: string;
-  lastName: string;
+  stageName: string;
   email: string;
   password: string;
 };
