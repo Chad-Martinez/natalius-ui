@@ -3,7 +3,7 @@ import Input from '../../components/forms/Input';
 import useInput from '../../hooks/useInput';
 import styles from './Login.module.css';
 import formStyles from '../../components/forms/FormComponents.module.css';
-// import { login } from '../../services/authServices';
+import { login } from '../../services/authServices';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { notify } from '../../helpers/toast-helpers';
 import SubmitButton from '../../components/ui/SubmitButton/SubmitButton';
@@ -11,12 +11,10 @@ import Logo from '../../components/ui/Logo/Logo';
 import { AuthContext } from '../../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import useAxios from '../../hooks/useAxios';
 
 export const Login: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
-  const { axiosInstance, boundAuthServices } = useAxios();
   const { setIsAuth } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -39,12 +37,9 @@ export const Login: FC = (): JSX.Element => {
   const handleSubmit = async () => {
     try {
       setIsTransmitting(true);
-      const { data } = (await boundAuthServices.login({
-        axiosInstance,
-        payload: {
-          email,
-          password,
-        },
+      const { data } = (await login({
+        email,
+        password,
       })) as AxiosResponse;
 
       const { accessToken } = data;
