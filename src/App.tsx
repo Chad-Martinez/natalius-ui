@@ -1,5 +1,11 @@
 import { FC, useEffect, lazy, Suspense, useContext } from 'react';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import {
+  RouterProvider,
+  createBrowserRouter,
+  isRouteErrorResponse,
+  redirect,
+  useRouteError,
+} from 'react-router-dom';
 import { clubsLoader, clubNamesLoader } from './routes/clubLoaders.ts';
 import { vendorsLoader } from './routes/vendorLoaders.ts';
 import {
@@ -45,17 +51,40 @@ const SprintGoalForm = lazy(
 
 const App: FC = (): JSX.Element => {
   const { setupAxiosInterceptors } = useAxios();
-  const { isAuth } = useContext(AuthContext);
+  const { isAuth, isLoading } = useContext(AuthContext);
 
   useEffect(() => {
     const cleanup = setupAxiosInterceptors();
     return cleanup;
   }, [setupAxiosInterceptors]);
 
+  const ErrorBoundary: React.FC = () => {
+    const error = useRouteError();
+
+    if (isRouteErrorResponse(error)) {
+      console.error('Error boundary ', error);
+      return (
+        <div>
+          <h1>
+            Error {error.status}: {error.statusText}
+          </h1>
+          <p>{error.data || 'An unexpected error occurred.'}</p>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <h1>An unexpected error occurred</h1>
+        <p>{(error as Error).message || 'Something went wrong.'}</p>
+      </div>
+    );
+  };
+
   const router = createBrowserRouter([
     {
       path: '/',
       element: <LandingLayout />,
+      errorElement: <ErrorBoundary />,
       children: [
         { index: true, element: <Landing /> },
         { path: 'register', element: <Register /> },
@@ -68,6 +97,13 @@ const App: FC = (): JSX.Element => {
     {
       path: '/',
       element: <ProtectedLayout />,
+      errorElement: <ErrorBoundary />,
+      loader: () => {
+        if (!isAuth && !isLoading) {
+          throw redirect('/login');
+        }
+        return null;
+      },
       children: [
         {
           path: 'dashboard',
