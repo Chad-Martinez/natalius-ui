@@ -168,10 +168,12 @@ const ShiftForm: FC = (): JSX.Element => {
           </h3>
           <Select
             name='club'
-            defaultOptionName='Club'
-            autoFocus={true}
-            options={clubOptions}
             value={clubId}
+            autoFocus={true}
+            linkText='Add Club'
+            options={clubOptions}
+            link='/clubs/club-form'
+            defaultOptionName='Club'
             hasError={clubIdHasError}
             handleBlur={clubIdBlurHandler}
             errorMessage='Club required'

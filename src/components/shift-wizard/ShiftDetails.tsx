@@ -115,9 +115,12 @@ const ShiftDetails: FC<{
             <Label name='club' text='Club' />
             <Select
               name='club'
-              defaultOptionName='Club'
-              options={clubs}
               value={clubId}
+              autoFocus={true}
+              linkText='Add Club'
+              options={clubs}
+              link='/clubs/club-form'
+              defaultOptionName='Club'
               handleChange={handleClubNameChange}
             />
           </FormGroup>
