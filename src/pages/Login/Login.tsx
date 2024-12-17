@@ -4,13 +4,14 @@ import useInput from '../../hooks/useInput';
 import styles from './Login.module.css';
 import formStyles from '../../components/forms/FormComponents.module.css';
 import { login } from '../../services/authServices';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { notify } from '../../helpers/toast-helpers';
 import SubmitButton from '../../components/ui/SubmitButton/SubmitButton';
 import Logo from '../../components/ui/Logo/Logo';
 import { AuthContext } from '../../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import axiosInstance from '../../services/axiosConfig';
 
 export const Login: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -44,7 +45,9 @@ export const Login: FC = (): JSX.Element => {
 
       const { accessToken } = data;
       sessionStorage.setItem('at', accessToken);
-      axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+      axiosInstance.defaults.headers.common[
+        'Authorization'
+      ] = `Bearer ${accessToken}`;
       setIsAuth(true);
       navigate('/dashboard');
     } catch (error) {
