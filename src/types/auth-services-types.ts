@@ -9,9 +9,7 @@ export type Login = {
   password: string;
 };
 
-export type VerifyEmail = {
-  token: string;
-};
+export type VerifyEmail = string;
 
 export type PasswordResetEmail = {
   email: string;
