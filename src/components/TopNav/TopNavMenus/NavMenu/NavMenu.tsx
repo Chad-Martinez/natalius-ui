@@ -3,24 +3,22 @@ import styles from './NavMenu.module.css';
 import Dropdown from '../../../ui/Dropdown/Dropdown';
 import useDropdown from '../../../../hooks/useDropdown';
 import { NavLink, useNavigate } from 'react-router-dom';
-// import { logout } from '../../../../services/authServices';
 import { AuthContext } from '../../../../store/AuthContext';
 import { LINKS } from '../../../../helpers/nav-menu-helpers';
 import { DropdownProps } from '../TopNavMenus';
-import useAxios from '../../../../hooks/useAxios';
+import { logout } from '../../../../services/authServices';
 
 const NavMenu: FC<DropdownProps> = ({
   openDropdowns,
   setOpenDropdowns,
 }): JSX.Element => {
   const { isOpen, dropdownRef, buttonRef, toggleDropdown } = useDropdown();
-  const { axiosInstance, boundAuthServices } = useAxios();
   const { setIsAuth } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = async (): Promise<void> => {
     try {
-      await boundAuthServices.logout(axiosInstance);
+      await logout();
     } catch (error) {
       console.error('Logout Error: ', error);
     } finally {

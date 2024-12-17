@@ -2,13 +2,11 @@ import { FC, useCallback, useEffect, useState } from 'react';
 import verifyStyles from './VerifyEmail.module.css';
 import ConfettiExplosion from 'react-confetti-explosion';
 import { useParams, useNavigate } from 'react-router-dom';
-// import { verifyEmail } from '../../services/authServices';
 import Logo from '../../components/ui/Logo/Logo';
-import useAxios from '../../hooks/useAxios';
+import { verifyEmail } from '../../services/authServices';
 
 const VerifyEmail: FC = () => {
   const [failed, setFailed] = useState(false);
-  const { axiosInstance, boundAuthServices } = useAxios();
   const params = useParams();
   const navigate = useNavigate();
   const { id } = params;
@@ -16,7 +14,7 @@ const VerifyEmail: FC = () => {
   const confirmEmail = useCallback(async () => {
     try {
       if (id) {
-        await boundAuthServices.verifyEmail({ axiosInstance, token: id });
+        await verifyEmail({ token: id });
         setTimeout(() => {
           navigate('/login');
         }, 2500);
@@ -25,7 +23,7 @@ const VerifyEmail: FC = () => {
       console.error('Confirm Email Error: ', error);
       setFailed(true);
     }
-  }, [id, navigate, axiosInstance, boundAuthServices]);
+  }, [id, navigate]);
 
   useEffect(() => {
     confirmEmail();
