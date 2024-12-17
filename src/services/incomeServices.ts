@@ -1,28 +1,11 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-
-const endpoint = process.env.API_ENDPOINT;
+import { AxiosResponse } from 'axios';
+import axiosInstance from './axiosConfig';
 
 export const paginatedIncome = async (
   page: number,
   limit: number
-): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/income/paginate?page=${page}&limit=${limit}`,
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  return await axios(config);
-};
+): Promise<AxiosResponse> =>
+  await axiosInstance.get(`/income/paginate?page=${page}&limit=${limit}`);
 
-export const getIncomeDashboardData = async () => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/income/dashboard`,
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  return await axios(config);
-};
+export const getIncomeDashboardData = async () =>
+  await axiosInstance.get('/income/dashboard');

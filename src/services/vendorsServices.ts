@@ -1,29 +1,8 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { IVendorBase } from '../interfaces/IVendor.interface';
+import axiosInstance from './axiosConfig';
 
-const endpoint = process.env.API_ENDPOINT;
+export const getVendors = async () => await axiosInstance.get('/vendors');
 
-export const getVendors = async () => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/vendors`,
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  return await axios(config);
-};
-
-export const addVendor = async (
-  payload: IVendorBase
-): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/vendors`,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: payload,
-  };
-  return await axios(config);
-};
+export const addVendor = async (payload: IVendorBase): Promise<AxiosResponse> =>
+  await axiosInstance.post('/vendors', payload);

@@ -1,14 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
+import axiosInstance from './axiosConfig';
 
-const endpoint = process.env.API_ENDPOINT;
-
-export const getDashboardData = async (): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/dashboard`,
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  return await axios(config);
-};
+export const getDashboardData = async (): Promise<AxiosResponse> =>
+  await axiosInstance.get('/dashboard');

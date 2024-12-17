@@ -1,77 +1,26 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { IShift, IShiftBase } from '../interfaces/IShift.interface';
-
-const endpoint = process.env.API_ENDPOINT;
+import axiosInstance from './axiosConfig';
 
 export const getShiftsByClub = async (
   clubId: IShift['clubId']
-): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/shifts/club/${clubId}`,
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  return await axios(config);
-};
+): Promise<AxiosResponse> => await axiosInstance.get(`/shifts/club/${clubId}`);
 
 export const getShift = async (
   shiftId: IShift['_id']
-): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/shifts/${shiftId}`,
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  return await axios(config);
-};
+): Promise<AxiosResponse> => await axiosInstance.get(`/shifts/${shiftId}`);
 
-export const addShift = async (payload: IShiftBase): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/shifts`,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: payload,
-  };
-  return await axios(config);
-};
+export const addShift = async (payload: IShiftBase): Promise<AxiosResponse> =>
+  await axiosInstance.post('/shifts', payload);
 
-export const updateShift = async (payload: IShift): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/shifts`,
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: payload,
-  };
-  return await axios(config);
-};
+export const updateShift = async (payload: IShift): Promise<AxiosResponse> =>
+  await axiosInstance.put('/shifts', payload);
 
 export const deleteShift = async (payload: {
   shiftId: IShift['_id'];
   clubId: IShift['clubId'];
-}): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/shifts`,
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: payload,
-  };
-  return await axios(config);
-};
+}): Promise<AxiosResponse> =>
+  await axiosInstance.delete('/shifts', { data: payload });
 
-export const getShiftsToComplete = async (): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/shifts/shifts-to-complete`,
-    method: 'GET',
-  };
-  return await axios(config);
-};
+export const getShiftsToComplete = async (): Promise<AxiosResponse> =>
+  await axiosInstance.get('/shifts/shifts-to-complete');

@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import {
   Login,
   PasswordResetEmail,
@@ -6,81 +6,29 @@ import {
   VerifyEmail,
   ResetPassword,
 } from '../types/auth-services-types';
+import axiosInstance from './axiosConfig';
 
-const endpoint = process.env.API_ENDPOINT;
+export const register = async (payload: Register): Promise<AxiosResponse> =>
+  await axiosInstance.post('/auth/register', payload);
 
-export const register = async ({
-  axiosInstance,
-  payload,
-}: Register): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/auth/register`,
-    method: 'POST',
-    data: payload,
-  };
-  console.log('axios authServices config ', config);
-  return await axiosInstance(config);
-};
+export const login = async (payload: Login): Promise<AxiosResponse> =>
+  await axiosInstance.post('/auth/login', payload);
 
-export const login = async ({
-  axiosInstance,
-  payload,
-}: Login): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/auth/login`,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: payload,
-  };
-  return await axiosInstance(config);
-};
+export const verifyEmail = async (token: VerifyEmail): Promise<AxiosResponse> =>
+  await axiosInstance.get(`/auth/verify/${token}`);
 
-export const verifyEmail = async ({
-  axiosInstance,
-  token,
-}: VerifyEmail): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/auth/verify/${token}`,
-    method: 'GET',
-  };
-  return await axiosInstance(config);
-};
+export const passwordResetEmail = async (
+  payload: PasswordResetEmail
+): Promise<AxiosResponse> =>
+  await axiosInstance.post('/auth/password-reset-email', payload);
 
-export const passwordResetEmail = async ({
-  axiosInstance,
-  payload,
-}: PasswordResetEmail): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/auth/password-reset-email`,
-    method: 'POST',
-    data: payload,
-  };
-  return await axiosInstance(config);
-};
+export const resetPassword = async (
+  payload: ResetPassword
+): Promise<AxiosResponse> =>
+  await axiosInstance.post('/auth/reset-password', payload);
 
-export const resetPassword = async ({
-  axiosInstance,
-  payload,
-}: ResetPassword): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/auth/reset-password`,
-    method: 'POST',
-    data: payload,
-  };
-  return await axiosInstance(config);
-};
-
-export const logout = async (
-  axiosInstance: AxiosInstance
-): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/auth/logout`,
-    method: 'GET',
-  };
-  return await axiosInstance(config);
-};
+export const logout = async (): Promise<AxiosResponse> =>
+  await axiosInstance.get('/auth/logout');
 
 export default {
   register,

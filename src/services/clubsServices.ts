@@ -1,50 +1,15 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { IClub, IClubBase } from '../interfaces/IClub.interface';
+import axiosInstance from './axiosConfig';
 
-const endpoint = process.env.API_ENDPOINT;
+export const getClubs = async (): Promise<AxiosResponse> =>
+  await axiosInstance.get('/clubs');
 
-export const getClubs = async (): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/clubs`,
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  return await axios(config);
-};
+export const getClubNames = async (): Promise<AxiosResponse> =>
+  await axiosInstance.get('/clubs/names');
 
-export const getClubNames = async (): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/clubs/names`,
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  return await axios(config);
-};
+export const addClub = async (payload: IClubBase): Promise<AxiosResponse> =>
+  await axiosInstance.post('/clubs', payload);
 
-export const addClub = async (payload: IClubBase): Promise<AxiosResponse> => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/clubs`,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: payload,
-  };
-  return await axios(config);
-};
-
-export const updateClub = async (payload: IClub) => {
-  const config: AxiosRequestConfig = {
-    url: `${endpoint}/clubs`,
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: payload,
-  };
-  return await axios(config);
-};
+export const updateClub = async (payload: IClub) =>
+  await axiosInstance.put('/clubs', payload);
