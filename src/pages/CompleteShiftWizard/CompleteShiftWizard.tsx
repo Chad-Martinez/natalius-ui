@@ -91,10 +91,10 @@ const CompleteShiftWizard: FC = (): JSX.Element => {
     }
   };
 
-  const handleFinish = async (shift?: IShift): Promise<void> => {
+  const handleFinish = async (shift?: ShiftData): Promise<void> => {
     try {
       setIsTransmitting(true);
-      const shiftToUpdate = shift ? shift : shiftData?.shiftInfo;
+      const shiftToUpdate = shift ? shift.shiftInfo : shiftData?.shiftInfo;
       if (!shiftToUpdate) return;
       await updateShift({ ...shiftToUpdate, shiftComplete: true });
 

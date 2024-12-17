@@ -14,7 +14,7 @@ const VerifyEmail: FC = () => {
   const confirmEmail = useCallback(async () => {
     try {
       if (id) {
-        await verifyEmail({ token: id });
+        await verifyEmail(id);
         setTimeout(() => {
           navigate('/login');
         }, 2500);
