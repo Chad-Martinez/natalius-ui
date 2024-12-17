@@ -7,6 +7,7 @@ type DropdownProps = {
   cbIndex?: (index: number) => void;
   textAlign?: 'left' | 'center' | 'right';
   dropdownRef: RefObject<HTMLUListElement>;
+  noItemText?: string;
 };
 
 const Dropdown: FC<PropsWithChildren<DropdownProps>> = ({
@@ -16,6 +17,7 @@ const Dropdown: FC<PropsWithChildren<DropdownProps>> = ({
   dropdownRef,
   textAlign,
   headerText,
+  noItemText,
 }): JSX.Element => {
   const mappedChildren = Children.map(children, (child, index) => {
     const handleIndex = () => {
@@ -43,7 +45,16 @@ const Dropdown: FC<PropsWithChildren<DropdownProps>> = ({
       ) : (
         ''
       )}
-      {mappedChildren}
+      {Children.count(children) > 0 ? (
+        mappedChildren
+      ) : (
+        <li
+          key='no-item'
+          className={`${styles.dropdownItem} ${styles.inactive}`}
+        >
+          {noItemText}
+        </li>
+      )}
     </ul>
   );
 };

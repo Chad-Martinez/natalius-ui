@@ -2,7 +2,7 @@ ul.dropdownMenu {
   position: absolute;
   top: 50px;
   right: 10px;
-  padding: 0;
+  padding: 0px;
   border-radius: 8px;
   background-color: var(--color-light-grey);
   color: var(--color-dark-grey);
@@ -11,12 +11,14 @@ ul.dropdownMenu {
   transition: max-height 0.55s ease;
   letter-spacing: 0.07rem;
 }
+
 .dropdownMenu.visible {
   max-height: 400px;
 }
 
 .dropdownHeader {
-  padding: 12px 0px 8px 0px;
+  padding: 12px 15px 8px 15px;
+  list-style-type: none;
 }
 
 .dropdownItem {
@@ -26,10 +28,16 @@ ul.dropdownMenu {
   color: var(--color-dark-grey);
   background-color: inherit;
   transition: background-color 0.35s ease;
+  list-style-type: none;
+  text-align: center;
 }
 
 .dropdownItem:last-child {
   padding-bottom: 10px;
+}
+
+li:nth-child(1):hover {
+  cursor: default;
 }
 
 li:hover {
@@ -40,4 +48,10 @@ li:hover {
 .dropdownItem:active,
 .active {
   background-color: var(--color-primary);
+}
+
+.inactive:hover,
+.inactive:active {
+  cursor: default;
+  background-color: inherit;
 }

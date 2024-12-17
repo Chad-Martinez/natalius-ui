@@ -1,22 +1,22 @@
-.notifyWrapper {
+.completeShiftMenuWrapper {
   display: flex;
   flex-direction: column;
 }
 
-.notifyContainer {
+.completeShiftMenuContainer {
   display: flex;
 }
 
-.notifyContainer:hover {
+.completeShiftMenuContainer:hover {
   cursor: pointer;
 }
 
-.notifyIcon {
+.completeShiftMenuIcon {
   color: var(--color-primary);
   font-size: 32px;
 }
 
-.notifyBadge {
+.completeShiftMenuBadge {
   transform: translate(-5px, -5px);
   border-radius: 50%;
   width: 14px;

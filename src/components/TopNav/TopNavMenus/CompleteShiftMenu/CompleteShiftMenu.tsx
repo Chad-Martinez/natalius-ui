@@ -47,12 +47,22 @@ const CompleteShiftMenu: FC<DropdownProps> = ({
     <>
       <div
         ref={buttonRef}
-        className={styles.notifyWrapper}
+        className={styles.completeShiftMenuWrapper}
         style={{ textAlign: 'left' }}
       >
-        <div className={styles.notifyContainer} onClick={handleDropdown}>
-          <FontAwesomeIcon icon={faMoneyBill1} className={styles.notifyIcon} />
-          {shifts?.length > 0 ? <div className={styles.notifyBadge}></div> : ''}
+        <div
+          className={styles.completeShiftMenuContainer}
+          onClick={handleDropdown}
+        >
+          <FontAwesomeIcon
+            icon={faMoneyBill1}
+            className={styles.completeShiftMenuIcon}
+          />
+          {shifts?.length > 0 ? (
+            <div className={styles.completeShiftMenuBadge}></div>
+          ) : (
+            ''
+          )}
         </div>
         {openDropdowns === 'notify' && (
           <Dropdown
@@ -61,6 +71,7 @@ const CompleteShiftMenu: FC<DropdownProps> = ({
             dropdownRef={dropdownRef}
             headerText='Shifts to Complete'
             cbIndex={completeShift}
+            noItemText='All shifts complete'
           />
         )}
       </div>
