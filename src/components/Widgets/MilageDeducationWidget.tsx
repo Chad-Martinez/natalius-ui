@@ -23,7 +23,7 @@ const MilageDeductionWidget: FC<{ milage: number }> = ({
         maxWidth: '607.5px',
       }}
     >
-      <CardHeader text={`${currentYear} Milage Deducation`}>
+      <CardHeader text={`${currentYear} Milage Tax Deducation`}>
         <FontAwesomeIcon
           className={widgetStyles.faIcon}
           icon={faGripVertical}
@@ -42,7 +42,7 @@ const MilageDeductionWidget: FC<{ milage: number }> = ({
             />
           </div>
         ) : (
-          <CardContentVacant title='No Scheduled Shifts' />
+          <CardContentVacant title='No Milage Logged' />
         )}
       </CardContent>
     </Card>
