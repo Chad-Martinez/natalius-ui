@@ -40,7 +40,7 @@ const BarGraphWidget: FC<{
     (period: string) => {
       // @ts-expect-error @ts-ignore
       setGraphData(graphLoaderData[period.toLowerCase()]);
-      setPeriod('Month');
+      setPeriod(period);
     },
     [graphLoaderData]
   );

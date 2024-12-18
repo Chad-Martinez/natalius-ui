@@ -21,7 +21,7 @@ const PeriodSelector: FC<{
           name={`period-${graphName}`}
           value='Week'
           label='Week'
-          defaultChecked={defaultChecked === 'Week'}
+          defaultChecked={defaultChecked === 'week'}
           handleChange={loadGraphData}
         />
       ) : (
@@ -32,7 +32,7 @@ const PeriodSelector: FC<{
         name={`period-${graphName}`}
         value='Month'
         label='Month'
-        defaultChecked={defaultChecked === 'Month'}
+        defaultChecked={defaultChecked === 'month'}
         handleChange={loadGraphData}
       />
       <RadioInput
@@ -40,7 +40,7 @@ const PeriodSelector: FC<{
         name={`period-${graphName}`}
         value='Quarter'
         label='Quarter'
-        defaultChecked={defaultChecked === 'Quarter'}
+        defaultChecked={defaultChecked === 'quarter'}
         handleChange={loadGraphData}
       />
       <RadioInput
@@ -48,7 +48,7 @@ const PeriodSelector: FC<{
         name={`period-${graphName}`}
         value='Year'
         label='Year'
-        defaultChecked={defaultChecked === 'Year'}
+        defaultChecked={defaultChecked === 'year'}
         handleChange={loadGraphData}
       />
     </RadioGroup>
