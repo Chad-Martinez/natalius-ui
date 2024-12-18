@@ -1,7 +1,8 @@
 export interface IVendorBase {
   name: string;
   defaultType: string;
-  distance?: number;
+  milage: number;
+  useDefaults: boolean;
   notes?: string;
 }
 
