@@ -27,15 +27,13 @@ const AveragesWidget: FC<{ averages: IncomeAverages }> = ({
       </CardHeader>
       <CardContent>
         <div className={styles.avgsContainer}>
-          <div className={styles.avgItem}>
+          <div className={styles.avgItemsGroup}>
             <Counter
               title='Shift'
               amount={averages?.perShift}
               interval={2}
               skip={5}
             />
-          </div>
-          <div className={styles.avgItem}>
             <Counter
               title='Weekly'
               amount={averages?.perWeek}
@@ -43,15 +41,13 @@ const AveragesWidget: FC<{ averages: IncomeAverages }> = ({
               skip={5}
             />
           </div>
-          <div className={styles.avgItem}>
+          <div className={styles.avgItemsGroup}>
             <Counter
               title='Monthly'
               amount={averages?.perMonth}
               interval={1}
               skip={10}
             />
-          </div>
-          <div className={styles.avgItem}>
             <Counter
               title='Yearly'
               amount={averages?.perYear}

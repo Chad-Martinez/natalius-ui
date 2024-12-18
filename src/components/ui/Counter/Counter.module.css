@@ -39,3 +39,21 @@
   -webkit-animation: slam-animation 0.5s ease-in infinite;
   animation: slam-animation 0.85s;
 }
+
+@media (min-width: 481px) {
+  .title {
+    font-size: 1.25rem;
+  }
+  .amount {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 1275px) {
+  .title {
+    font-size: 1.4rem;
+  }
+  .amount {
+    font-size: 2.4rem;
+  }
+}
