@@ -1,9 +1,11 @@
 export const valueFormatter = (value: number | null) => `$${value}`;
 
-export const moneyFormatter = (value: number | undefined): string => {
-  if (value === undefined || isNaN(value)) return '0';
+export const digitGroupingFormatter = (
+  value: number | string | undefined
+): string => {
+  if (value === undefined || isNaN(+value)) return '0';
   const str = value.toString();
-  const [integerPart, decimalPart] = str.split('.');
+  const [integerPart] = str.split('.');
 
   let result = '';
   let count = 0;
@@ -19,16 +21,10 @@ export const moneyFormatter = (value: number | undefined): string => {
     }
   });
 
-  if (decimalPart) {
-    result += '.' + decimalPart;
-  }
-
   return result;
 };
 
-export const formatToDollarsAutoDecimal = (
-  input: string | undefined
-): string => {
+export const formatToAutoDecimal = (input: string | undefined): string => {
   if (!input) return '0';
 
   const sanitizedInput = input.replace(/[^0-9]/g, '');
@@ -45,5 +41,5 @@ export const formatToDollarsAutoDecimal = (
   return `${formattedInteger}.${decimalPart}`;
 };
 
-export const moneyStrToNumFormatter = (value: string): number =>
-  +value.replace(/[$,]/g, '');
+export const sanitizeStrToNum = (value: string): number =>
+  parseInt(value.replace(/[$,]/g, ''), 10) || 0;

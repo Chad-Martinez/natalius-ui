@@ -11,8 +11,8 @@ import FormGroup from '../forms/FormGroup';
 import Label from '../forms/Label';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
-  moneyFormatter,
-  moneyStrToNumFormatter,
+  digitGroupingFormatter,
+  sanitizeStrToNum,
 } from '../../helpers/format-helpers';
 import { ShiftData } from '../../pages/CompleteShiftWizard/CompleteShiftWizard';
 
@@ -75,7 +75,7 @@ const ShiftIncome: FC<{
   };
 
   const convertAmount = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const value = moneyStrToNumFormatter(event.target.value).toString();
+    const value = sanitizeStrToNum(event.target.value).toString();
     event.target.value = value;
     amountChangeHandler(event);
   };
@@ -107,7 +107,7 @@ const ShiftIncome: FC<{
               id='amount'
               name='amount'
               autoFocus={true}
-              value={`$${moneyFormatter(+amount)}`}
+              value={`$${digitGroupingFormatter(+amount)}`}
               hasError={amountHasError}
               placeholder='Enter earnings'
               type='text'

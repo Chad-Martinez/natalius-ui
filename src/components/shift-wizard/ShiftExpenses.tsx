@@ -11,8 +11,8 @@ import Label from '../forms/Label';
 import { IClub } from '../../interfaces/IClub.interface';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
-  moneyFormatter,
-  moneyStrToNumFormatter,
+  digitGroupingFormatter,
+  sanitizeStrToNum,
 } from '../../helpers/format-helpers';
 import { ShiftData } from '../../pages/CompleteShiftWizard/CompleteShiftWizard';
 
@@ -140,7 +140,7 @@ const ShiftExpenses: FC<{
   ]);
 
   useEffect(() => {
-    setDanceFeeTotal(moneyFormatter(+numOfDances * +pricePerDance));
+    setDanceFeeTotal(digitGroupingFormatter(+numOfDances * +pricePerDance));
   }, [numOfDances, pricePerDance]);
 
   useEffect(() => {
@@ -175,7 +175,7 @@ const ShiftExpenses: FC<{
   const handleNext = (): void => goNext(updatedShift);
 
   const convertAmount = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const value = moneyStrToNumFormatter(event.target.value).toString();
+    const value = sanitizeStrToNum(event.target.value).toString();
     event.target.value = value;
     const inputName = event.target.name;
     switch (inputName) {
@@ -210,7 +210,7 @@ const ShiftExpenses: FC<{
               name='floorFee'
               type='text'
               autoFocus={true}
-              value={`$${moneyFormatter(+floorFee)}`}
+              value={`$${digitGroupingFormatter(floorFee)}`}
               placeholder='Floor Fee'
               hasError={floorFeeHasError}
               errorMessage='Amount must be zero or greater.'
@@ -224,7 +224,7 @@ const ShiftExpenses: FC<{
               <Input
                 name='numOfDances'
                 type='text'
-                value={moneyFormatter(+numOfDances)}
+                value={digitGroupingFormatter(numOfDances)}
                 placeholder='# Pvt Dances'
                 hasError={numOfDancesHasError}
                 errorMessage='Number must be zero or greater.'
@@ -238,7 +238,7 @@ const ShiftExpenses: FC<{
                 name='pricePerDance'
                 type='text'
                 placeholder='$ per Pvt'
-                value={`$${moneyFormatter(+pricePerDance)}`}
+                value={`$${digitGroupingFormatter(pricePerDance)}`}
                 hasError={pricePerDanceHasError}
                 errorMessage='Amount must be $1 or greater.'
                 handleChange={convertAmount}
@@ -262,7 +262,7 @@ const ShiftExpenses: FC<{
                 name='tips'
                 type='text'
                 placeholder='Tips'
-                value={`$${moneyFormatter(+tips)}`}
+                value={`$${digitGroupingFormatter(+tips)}`}
                 hasError={tipsHasError}
                 errorMessage='Amount must be zero or greater.'
                 handleChange={convertAmount}
@@ -273,7 +273,7 @@ const ShiftExpenses: FC<{
               <Label name='other' text='Other Expenses' />
               <Input
                 name='other'
-                value={`$${moneyFormatter(+other)}`}
+                value={`$${digitGroupingFormatter(+other)}`}
                 placeholder='Other Expenses'
                 hasError={otherHasError}
                 type='text'
@@ -284,7 +284,8 @@ const ShiftExpenses: FC<{
             </FormGroup>
           </div>
           <div className={shiftWizardStyles.totalExpenses}>
-            Total Shift Expenses: {`$${moneyFormatter(totalShiftExpenses)}`}
+            Total Shift Expenses:{' '}
+            {`$${digitGroupingFormatter(totalShiftExpenses)}`}
           </div>
         </form>
       </div>
