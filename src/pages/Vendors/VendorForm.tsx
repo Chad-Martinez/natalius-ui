@@ -12,6 +12,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { IVendorBase } from '../../interfaces/IVendor.interface';
 import { addVendor } from '../../services/vendorsServices';
 import TextArea from '../../components/forms/TextArea';
+import Switch from '../../components/ui/Switch/Switch';
+import { digitGroupingFormatter } from '../../helpers/format-helpers';
 
 const VendorForm: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -27,23 +29,28 @@ const VendorForm: FC = (): JSX.Element => {
     inputBlurHandler: nameBlurHandler,
   } = useInput<string>((v) => v !== '', '');
 
+  const { value: useDefaults, valueChangeHandler: useDefaultsChangeHandler } =
+    useInput<boolean>((v) => v !== null, false);
+
   const {
     value: defaultType,
     isValid: defaultTypeIsValid,
     hasError: defaultTypeHasError,
     valueChangeHandler: defaultTypeChangeHandler,
     inputBlurHandler: defaultTypeBlurHandler,
-  } = useInput<string>((v) => v !== '', '');
+  } = useInput<string>((v) => v !== null, '');
 
-  const { value: distance, valueChangeHandler: distanceChangeHandler } =
-    useInput<string>((v) => (+v >= 0 && /^[0-9]+$/.test(v)) || v === '', '');
+  const { value: milage, valueChangeHandler: milageChangeHandler } =
+    useInput<string>((v) => +v >= 0, '');
+
+  // const { value: milage, valueChangeHandler: milageChangeHandler } =
+  //   useInput<string>((v) => +v >= 1 && /^\$?[0-9]+$/.test(v), '');
 
   const { value: notes, valueChangeHandler: notesChangeHandler } =
     useInput<string>((v) => v !== '', '');
 
-  const handleCancel = () => {
-    navigate(-1);
-  };
+  const handleCancel = () => navigate(-1);
+
   const handleSubmit = async () => {
     setIsTransmitting(true);
     try {
@@ -51,15 +58,16 @@ const VendorForm: FC = (): JSX.Element => {
         name,
         defaultType,
         notes,
+        milage: +milage,
+        useDefaults,
       };
-      if (distance) payload.distance = +distance;
 
       const { data } = await addVendor(payload);
       notify('Vendor added', 'success', 'add-club-success');
 
       if (location.state?.from)
         navigate('/expenses/expense-form', {
-          state: { vendor: { vendorId: data._id, defaultType } },
+          state: { vendor: data },
         });
       else navigate(-1);
     } catch (error) {
@@ -69,6 +77,12 @@ const VendorForm: FC = (): JSX.Element => {
     } finally {
       setIsTransmitting(false);
     }
+  };
+
+  const convertAmount = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const value = digitGroupingFormatter(+event.target.value).toString();
+    event.target.value = value;
+    milageChangeHandler(event);
   };
 
   useEffect(() => {
@@ -88,9 +102,23 @@ const VendorForm: FC = (): JSX.Element => {
             handleChange={nameChangeHandler}
             handleBlur={nameBlurHandler}
           />
+          <div
+            style={{
+              display: 'flex',
+              alignContent: 'end',
+              alignItems: 'center',
+              justifyContent: 'right',
+            }}
+          >
+            <span style={{ color: 'white', padding: '6px' }}>Use Defaults</span>
+            <Switch
+              isChecked={useDefaults}
+              handleChange={useDefaultsChangeHandler}
+            />
+          </div>
           <Select
             name='defaultType'
-            defaultOptionName='Expense Type'
+            defaultOptionName='default expense type'
             options={[
               { _id: 'EQUIPMENT', name: 'EQUIPMENT' },
               { _id: 'SERVICE', name: 'SERVICE' },
@@ -103,12 +131,9 @@ const VendorForm: FC = (): JSX.Element => {
             handleBlur={defaultTypeBlurHandler}
           />
           <Input
-            placeholder='Distance - Round Trip Miles'
-            type='number'
-            min={1}
-            step={1}
-            value={distance}
-            handleChange={distanceChangeHandler}
+            placeholder='Set default round trip miles'
+            value={milage}
+            handleChange={convertAmount}
           />
           <TextArea
             value={notes}

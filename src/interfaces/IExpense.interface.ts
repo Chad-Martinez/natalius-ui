@@ -3,6 +3,7 @@ export interface IExpenseBase {
   date: string;
   amount: number;
   type: string;
+  milage: number;
   notes?: string;
 }
 
