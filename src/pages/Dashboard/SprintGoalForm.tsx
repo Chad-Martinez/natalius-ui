@@ -14,8 +14,8 @@ import { notify } from '../../helpers/toast-helpers';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import {
-  moneyFormatter,
-  moneyStrToNumFormatter,
+  digitGroupingFormatter,
+  sanitizeStrToNum,
 } from '../../helpers/format-helpers';
 
 const SprintGoalForm: FC = (): JSX.Element => {
@@ -45,7 +45,7 @@ const SprintGoalForm: FC = (): JSX.Element => {
     valueChangeHandler: goalChangeHandler,
     inputBlurHandler: goalBlurHandler,
   } = useInput<string>(
-    (v) => moneyStrToNumFormatter(v) >= 1,
+    (v) => sanitizeStrToNum(v) >= 1,
     sprint?.goal ? sprint.goal.toString() : '0'
   );
 
@@ -88,8 +88,9 @@ const SprintGoalForm: FC = (): JSX.Element => {
   };
 
   const convertAmount = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const value = moneyStrToNumFormatter(event.target.value).toString();
-    event.target.value = value;
+    const formattedValue = sanitizeStrToNum(event.target.value).toString();
+    event.target.value = formattedValue;
+
     goalChangeHandler(event);
   };
 
@@ -123,7 +124,8 @@ const SprintGoalForm: FC = (): JSX.Element => {
           <Input
             id='goal'
             name='goal'
-            value={`$${moneyFormatter(+goal)}`}
+            value={`$${digitGroupingFormatter(+goal)}`}
+            // value={goal}
             hasError={goalHasError}
             placeholder='Enter a two week earnings goal'
             type='text'
