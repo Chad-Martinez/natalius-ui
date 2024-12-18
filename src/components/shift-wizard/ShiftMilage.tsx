@@ -9,6 +9,10 @@ import FormGroup from '../forms/FormGroup';
 import Label from '../forms/Label';
 import { IClub } from '../../interfaces/IClub.interface';
 import { ShiftData } from '../../pages/CompleteShiftWizard/CompleteShiftWizard';
+import {
+  digitGroupingFormatter,
+  sanitizeStrToNum,
+} from '../../helpers/format-helpers';
 
 const ShiftMilage: FC<{
   goNext: (shiftData: ShiftData | null) => void;
@@ -17,27 +21,21 @@ const ShiftMilage: FC<{
   clubs: IClub[];
 }> = ({ goNext, goBack, shiftData, clubs }): JSX.Element => {
   const [updatedShift, setUpdatedShift] = useState<ShiftData | null>(shiftData);
-  const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
   const selectedClub: IClub | undefined = clubs.find(
     (club) => club._id === shiftData?.shiftInfo.clubId
   );
   const { defaults } = selectedClub as IClub;
 
-  const {
-    value: milage,
-    isValid: milageIsValid,
-    hasError: milageHasError,
-    valueChangeHandler: milageChangeHandler,
-    inputBlurHandler: milageBlurHandler,
-  } = useInput<string>(
-    (v) => /^[0-9]+$/.test(v) || v === '',
-    shiftData?.shiftInfo.shiftComplete && shiftData?.shiftInfo.milage
-      ? shiftData?.shiftInfo.milage.toString()
-      : defaults.useDefaults
-      ? defaults.distance.toString()
-      : '0'
-  );
+  const { value: milage, valueChangeHandler: milageChangeHandler } =
+    useInput<string>(
+      (v) => sanitizeStrToNum(v) >= 0,
+      shiftData?.shiftInfo.shiftComplete && shiftData?.shiftInfo.milage
+        ? shiftData?.shiftInfo.milage.toString()
+        : defaults.useDefaults
+        ? defaults.milage.toString()
+        : '0'
+    );
 
   useEffect(() => {
     setUpdatedShift((prevState) => {
@@ -46,19 +44,21 @@ const ShiftMilage: FC<{
         ...prevState,
         shiftInfo: {
           ...prevState.shiftInfo,
-          milage: +milage || 0,
+          milage: +milage,
         },
       };
     });
   }, [milage]);
 
-  useEffect(() => {
-    setIsFormValid(milageIsValid);
-  }, [milageIsValid]);
-
   const handlePrev = (): void => goBack(updatedShift);
 
   const handleNext = (): void => goNext(updatedShift);
+
+  const convertAmount = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const value = sanitizeStrToNum(event.target.value).toString();
+    event.target.value = value;
+    milageChangeHandler(event);
+  };
 
   return (
     <>
@@ -69,27 +69,17 @@ const ShiftMilage: FC<{
             <Label name='milage' text='Round Trip Miles Driven' />
             <Input
               name='milage'
-              type='number'
               autoFocus={true}
-              min={0}
-              value={milage}
+              value={digitGroupingFormatter(milage)}
               placeholder='0'
-              hasError={milageHasError}
-              errorMessage='Amount must be zero or greater.'
-              handleChange={milageChangeHandler}
-              handleBlur={milageBlurHandler}
+              handleChange={convertAmount}
             />
           </FormGroup>
         </form>
       </div>
       <BottomNav>
         <Button text='Prev' btnStyle='primaryOutlined' onClick={handlePrev} />
-        <Button
-          text='Next'
-          onClick={handleNext}
-          btnStyle='primarySolid'
-          enabled={isFormValid}
-        />
+        <Button text='Next' onClick={handleNext} btnStyle='primarySolid' />
       </BottomNav>
     </>
   );

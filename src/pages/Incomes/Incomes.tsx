@@ -9,7 +9,7 @@ import { IncomeAverages } from '../../types/IncomeAverages';
 import SprintGoalWidget from '../../components/Widgets/SprintGoalWidget';
 import BarGraphWidget from '../../components/Widgets/BarGraphWidget';
 import { GraphData } from '../../types/GraphData';
-import { moneyFormatter } from '../../helpers/format-helpers';
+import { digitGroupingFormatter } from '../../helpers/format-helpers';
 import ShiftPredictionWidget from '../../components/Widgets/ShiftPredictionWidget';
 
 const Incomes: FC = (): JSX.Element => {
@@ -47,7 +47,7 @@ const Incomes: FC = (): JSX.Element => {
             seriesKeys={[
               {
                 dataKey: 'income',
-                moneyFormatter,
+                digitGroupingFormatter,
                 id: 'income_id',
                 type: 'bar',
               },

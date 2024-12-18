@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import styles from './Counter.module.css';
-import { moneyFormatter } from '../../../helpers/format-helpers';
+import { digitGroupingFormatter } from '../../../helpers/format-helpers';
 
 const Counter: FC<{
   title: string;
@@ -69,7 +69,7 @@ const Counter: FC<{
             className={`${styles.amount} ${isFinished ? styles.slam : ''}`}
             style={{ ...amountStyles }}
           >
-            {`$${moneyFormatter(count)}`}
+            {`$${digitGroupingFormatter(count)}`}
           </div>
           <div className={styles.title} style={{ ...titleStyles }}>
             {title}

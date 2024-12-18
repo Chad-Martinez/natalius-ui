@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
 import { IClub } from '../../interfaces/IClub.interface';
-import { moneyFormatter } from '../../helpers/format-helpers';
+import { digitGroupingFormatter } from '../../helpers/format-helpers';
 import { ShiftData } from '../../pages/CompleteShiftWizard/CompleteShiftWizard';
 
 const ShiftSummary: FC<{
@@ -38,23 +38,29 @@ const ShiftSummary: FC<{
     .tz(shiftData?.shiftInfo.timezone)
     .format('llll');
 
-  const shiftIncome = `$${moneyFormatter(shiftData?.shiftInfo.income?.amount)}`;
+  const shiftIncome = `$${digitGroupingFormatter(
+    shiftData?.shiftInfo.income?.amount
+  )}`;
 
   const shiftIncomeType = shiftData?.shiftInfo.income?.type.toLowerCase();
 
-  const floorFee = `$${moneyFormatter(
+  const floorFee = `$${digitGroupingFormatter(
     shiftData?.shiftInfo.expenses?.floorFee
   )}`;
 
-  const pvtFee = `$${moneyFormatter(
+  const pvtFee = `$${digitGroupingFormatter(
     shiftData?.shiftInfo.expenses?.dances.danceFeeTotal
   )}`;
 
-  const tips = `$${moneyFormatter(shiftData?.shiftInfo.expenses?.tips)}`;
+  const tips = `$${digitGroupingFormatter(
+    shiftData?.shiftInfo.expenses?.tips
+  )}`;
 
-  const other = `$${moneyFormatter(shiftData?.shiftInfo.expenses?.other)}`;
+  const other = `$${digitGroupingFormatter(
+    shiftData?.shiftInfo.expenses?.other
+  )}`;
 
-  const total = `$${moneyFormatter(
+  const total = `$${digitGroupingFormatter(
     shiftData?.shiftInfo.expenses?.totalShiftExpenses
   )}`;
 
