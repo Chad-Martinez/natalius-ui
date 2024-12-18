@@ -58,7 +58,9 @@ const Input: FC<Props> = ({
       <div className={formStyles.dateWrapper}>
         <input
           className={`${formStyles.input} ${
-            type === 'date' ? formStyles.dateInput : ''
+            type === 'date' || type === 'datetime-local'
+              ? formStyles.dateInput
+              : ''
           }`}
           id={id}
           name={name}
@@ -76,7 +78,7 @@ const Input: FC<Props> = ({
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        {type === 'date' && !disabled && (
+        {(type === 'date' || type === 'datetime-local') && !disabled && (
           <CalendarButton showPicker={inputRef.current?.showPicker} />
         )}
       </div>

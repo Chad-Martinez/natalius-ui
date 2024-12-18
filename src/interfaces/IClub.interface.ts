@@ -18,7 +18,7 @@ interface IDefaults {
   pricePerDance: number;
   tips: number;
   other: number;
-  distance: number;
+  milage: number;
   timezone: string;
 }
 

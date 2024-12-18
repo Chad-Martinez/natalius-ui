@@ -120,14 +120,14 @@ const ClubForm: FC = (): JSX.Element => {
   );
 
   const {
-    value: distance,
-    isValid: distanceIsValid,
-    hasError: distanceHasError,
-    valueChangeHandler: distanceChangeHandler,
-    inputBlurHandler: distanceBlurHandler,
+    value: milage,
+    isValid: milageIsValid,
+    hasError: milageHasError,
+    valueChangeHandler: milageChangeHandler,
+    inputBlurHandler: milageBlurHandler,
   } = useInput<string>(
     (v) => /^[0-9]+$/.test(v) || v === '',
-    club?.defaults?.distance?.toString() || ''
+    club?.defaults?.milage?.toString() || ''
   );
 
   const {
@@ -162,7 +162,7 @@ const ClubForm: FC = (): JSX.Element => {
         pricePerDance: pricePerDance ? +pricePerDance : 0,
         tips: tips ? +tips : 0,
         other: other ? +other : 0,
-        distance: distance ? +distance : 0,
+        milage: milage ? +milage : 0,
         timezone: timezone ? timezone : getUserTimezone(),
       };
 
@@ -203,7 +203,7 @@ const ClubForm: FC = (): JSX.Element => {
         pricePerDanceIsValid &&
         tipsIsValid &&
         otherIsValid &&
-        distanceIsValid
+        milageIsValid
     );
   }, [
     nameIsValid,
@@ -213,7 +213,7 @@ const ClubForm: FC = (): JSX.Element => {
     pricePerDanceIsValid,
     tipsIsValid,
     otherIsValid,
-    distanceIsValid,
+    milageIsValid,
   ]);
 
   return (
@@ -356,17 +356,17 @@ const ClubForm: FC = (): JSX.Element => {
           </div>
           <div className={formStyles.sideBySideInputs}>
             <FormGroup>
-              <Label name='distance' text='Roundtrip Milage' />
+              <Label name='milage' text='Roundtrip Milage' />
               <Input
                 placeholder='0'
                 type='number'
                 min={0}
                 step={1}
-                value={distance}
-                hasError={distanceHasError}
+                value={milage}
+                hasError={milageHasError}
                 errorMessage='Zero or greater - No decimals'
-                handleChange={distanceChangeHandler}
-                handleBlur={distanceBlurHandler}
+                handleChange={milageChangeHandler}
+                handleBlur={milageBlurHandler}
               />
             </FormGroup>
             <FormGroup>
