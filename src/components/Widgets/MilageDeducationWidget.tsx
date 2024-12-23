@@ -37,8 +37,12 @@ const MilageDeductionWidget: FC<{ milage: number }> = ({
               amount={milage * (milageInfo?.deduction / 100)}
               interval={2}
               skip={2}
-              amountStyles={{ fontSize: '3rem', fontWeight: '500' }}
-              titleStyles={{ textAlign: 'right' }}
+              amountStyles={{
+                fontSize: '3rem',
+                fontWeight: '500',
+                width: '100%',
+              }}
+              titleStyles={{ textAlign: 'right', width: '100%' }}
             />
           </div>
         ) : (

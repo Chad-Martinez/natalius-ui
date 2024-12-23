@@ -30,13 +30,13 @@ const AveragesWidget: FC<{ averages: IncomeAverages }> = ({
           <div className={styles.avgItemsGroup}>
             <Counter
               title='Shift'
-              amount={averages?.perShift}
+              amount={averages?.perShift ? averages.perShift : 0}
               interval={2}
               skip={5}
             />
             <Counter
               title='Weekly'
-              amount={averages?.perWeek}
+              amount={averages?.perWeek ? averages.perWeek : 0}
               interval={2}
               skip={5}
             />
@@ -44,13 +44,13 @@ const AveragesWidget: FC<{ averages: IncomeAverages }> = ({
           <div className={styles.avgItemsGroup}>
             <Counter
               title='Monthly'
-              amount={averages?.perMonth}
+              amount={averages?.perMonth ? averages.perMonth : 0}
               interval={1}
               skip={10}
             />
             <Counter
               title='Yearly'
-              amount={averages?.perYear}
+              amount={averages?.perYear ? averages.perYear : 0}
               interval={1}
               skip={25}
             />
