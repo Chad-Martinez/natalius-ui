@@ -30,7 +30,7 @@ const ShiftMilage: FC<{
   const { value: milage, valueChangeHandler: milageChangeHandler } =
     useInput<string>(
       (v) => sanitizeStrToNum(v) >= 0,
-      shiftData?.shiftInfo.shiftComplete && shiftData?.shiftInfo.milage
+      shiftData?.shiftInfo.milage && +shiftData?.shiftInfo.milage > 0
         ? shiftData?.shiftInfo.milage.toString()
         : defaults.useDefaults
         ? defaults.milage.toString()
