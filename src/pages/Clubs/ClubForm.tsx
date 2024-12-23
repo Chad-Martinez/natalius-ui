@@ -20,6 +20,10 @@ import {
   TIMEZONE_SELECT,
 } from '../../helpers/date-time-helpers';
 import Switch from '../../components/ui/Switch/Switch';
+import {
+  capitalizeFormatter,
+  phoneNumberFormatter,
+} from '../../helpers/format-helpers';
 
 const ClubForm: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -226,18 +230,24 @@ const ClubForm: FC = (): JSX.Element => {
             value={name}
             hasError={nameHasError}
             errorMessage='Club name required'
-            handleChange={nameChangeHandler}
+            handleChange={(event) =>
+              nameChangeHandler(capitalizeFormatter(event))
+            }
             handleBlur={nameBlurHandler}
           />
           <Input
             placeholder='Street'
             value={street}
-            handleChange={streetChangeHandler}
+            handleChange={(event) =>
+              streetChangeHandler(capitalizeFormatter(event))
+            }
           />
           <Input
             placeholder='City'
             value={city}
-            handleChange={cityChangeHandler}
+            handleChange={(event) =>
+              cityChangeHandler(capitalizeFormatter(event))
+            }
           />
           <div className={formStyles.sideBySideInputs}>
             <Select
@@ -268,7 +278,9 @@ const ClubForm: FC = (): JSX.Element => {
             value={contactPhone}
             hasError={contactPhoneHasError}
             errorMessage='Ten digit phone format: XXX-XXX-XXXX'
-            handleChange={contactPhoneChangeHandler}
+            handleChange={(event) =>
+              contactPhoneChangeHandler(phoneNumberFormatter(event))
+            }
             handleBlur={contactPhoneBlurHandler}
           />
         </form>

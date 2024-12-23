@@ -43,9 +43,6 @@ const VendorForm: FC = (): JSX.Element => {
   const { value: milage, valueChangeHandler: milageChangeHandler } =
     useInput<string>((v) => +v >= 0, '');
 
-  // const { value: milage, valueChangeHandler: milageChangeHandler } =
-  //   useInput<string>((v) => +v >= 1 && /^\$?[0-9]+$/.test(v), '');
-
   const { value: notes, valueChangeHandler: notesChangeHandler } =
     useInput<string>((v) => v !== '', '');
 

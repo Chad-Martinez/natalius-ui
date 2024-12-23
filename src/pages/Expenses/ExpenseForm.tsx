@@ -16,7 +16,6 @@ import TextArea from '../../components/forms/TextArea';
 import {
   formatToAutoDecimal,
   digitGroupingFormatter,
-  sanitizeStrToNum,
 } from '../../helpers/format-helpers';
 import { IVendor } from '../../interfaces/IVendor.interface';
 
@@ -63,7 +62,7 @@ const ExpenseForm: FC = (): JSX.Element => {
     valueChangeHandler: amountChangeHandler,
     inputBlurHandler: amountBlurHandler,
   } = useInput<string>(
-    (v) => sanitizeStrToNum(v) > 0,
+    (v) => +v.replace(',', '') > 0,
     expense ? expense.amount.toFixed(2) : '0'
   );
 

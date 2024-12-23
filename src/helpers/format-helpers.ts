@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 export const valueFormatter = (value: number | null) => `$${value}`;
 
 export const digitGroupingFormatter = (
@@ -43,3 +45,35 @@ export const formatToAutoDecimal = (input: string | undefined): string => {
 
 export const sanitizeStrToNum = (value: string): number =>
   parseInt(value.replace(/[$,]/g, ''), 10) || 0;
+
+export const capitalizeFormatter = (
+  userInputEvent: ChangeEvent<HTMLInputElement>
+): ChangeEvent<HTMLInputElement> => {
+  const formattedInput = userInputEvent.target.value
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+  userInputEvent.target.value = formattedInput;
+  return userInputEvent;
+};
+
+export const phoneNumberFormatter = (
+  phoneNumberEvent: ChangeEvent<HTMLInputElement>
+): ChangeEvent<HTMLInputElement> => {
+  let numbers = phoneNumberEvent.target.value.replace(/\D/g, '');
+
+  numbers = numbers.slice(0, 10);
+
+  let formatted = numbers;
+  if (numbers.length > 6) {
+    formatted = `${numbers.slice(0, 3)}-${numbers.slice(3, 6)}-${numbers.slice(
+      6
+    )}`;
+  } else if (numbers.length > 3) {
+    formatted = `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+  }
+
+  phoneNumberEvent.target.value = formatted;
+
+  return phoneNumberEvent;
+};

@@ -125,7 +125,6 @@ const SprintGoalForm: FC = (): JSX.Element => {
             id='goal'
             name='goal'
             value={`$${digitGroupingFormatter(+goal)}`}
-            // value={goal}
             hasError={goalHasError}
             placeholder='Enter a two week earnings goal'
             type='text'
