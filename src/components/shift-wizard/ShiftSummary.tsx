@@ -9,6 +9,10 @@ import dayjs from 'dayjs';
 import { IClub } from '../../interfaces/IClub.interface';
 import { digitGroupingFormatter } from '../../helpers/format-helpers';
 import { ShiftData } from '../../pages/CompleteShiftWizard/CompleteShiftWizard';
+import SummaryHeader from './summary-card/SummaryHeader';
+import SummaryItem from './summary-card/SummaryItem';
+import SummaryItemContainer from './summary-card/SummaryItemContainer';
+import SummaryCard from './summary-card/SummaryCard';
 
 const ShiftSummary: FC<{
   goNext: (shiftData: ShiftData | null) => void;
@@ -42,7 +46,8 @@ const ShiftSummary: FC<{
     shiftData?.shiftInfo.income?.amount
   )}`;
 
-  const shiftIncomeType = shiftData?.shiftInfo.income?.type.toLowerCase();
+  const shiftIncomeType =
+    shiftData?.shiftInfo.income?.type.toLowerCase() || 'N/A';
 
   const floorFee = `$${digitGroupingFormatter(
     shiftData?.shiftInfo.expenses?.floorFee
@@ -64,146 +69,103 @@ const ShiftSummary: FC<{
     shiftData?.shiftInfo.expenses?.totalShiftExpenses
   )}`;
 
-  const netIncome =
+  const netIncome = `$${digitGroupingFormatter(
     shiftData?.shiftInfo.income?.amount &&
-    shiftData?.shiftInfo.expenses?.totalShiftExpenses
+      shiftData?.shiftInfo.expenses?.totalShiftExpenses
       ? shiftData?.shiftInfo.income?.amount -
-        shiftData?.shiftInfo.expenses?.totalShiftExpenses
-      : 0;
+          shiftData?.shiftInfo.expenses?.totalShiftExpenses
+      : 0
+  )}`;
 
   const imageName = shiftData?.image?.name || 'No Image';
 
-  const milage = shiftData?.shiftInfo.milage;
+  const milage = shiftData?.shiftInfo.milage || 0;
 
   return (
     <>
       <div className={pageStyles.mainContent}>
-        <div className={shiftWizardStyles.summaryContainer}>
+        <div className={shiftWizardStyles.summaryContent}>
           <h2>Shift Summary</h2>
-          <div className={shiftWizardStyles.detailsCard}>
-            <div className={shiftWizardStyles.detailsHeader}>
-              <div className={shiftWizardStyles.detailsTitle}>
-                Shift Details
-              </div>
-              <FontAwesomeIcon
-                icon={faPencil}
-                onClick={() => goBack(shiftData, 0)}
-              />
-            </div>
-            <div className={shiftWizardStyles.detailsItemContainer}>
-              <div className={shiftWizardStyles.detailsItem}>
-                <div className={shiftWizardStyles.detailsItemName}>Club: </div>
-                {clubName}
-              </div>
-              <div className={shiftWizardStyles.detailsItem}>
-                <div className={shiftWizardStyles.detailsItemName}>Start:</div>
-                {shiftStart}
-              </div>
-              <div className={shiftWizardStyles.detailsItem}>
-                <div className={shiftWizardStyles.detailsItemName}>End:</div>
-                {shiftEnd}
-              </div>
-            </div>
-          </div>
-          <div className={shiftWizardStyles.detailsCard}>
-            <div className={shiftWizardStyles.detailsHeader}>
-              <div className={shiftWizardStyles.detailsTitle}>Income</div>
-              <FontAwesomeIcon
-                icon={faPencil}
-                onClick={() => goBack(shiftData, 1)}
-              />
-            </div>
-            <div className={shiftWizardStyles.detailsItemContainer}>
-              <div className={shiftWizardStyles.detailsItem}>
-                <div className={shiftWizardStyles.detailsItemName}>
-                  Earnings:
-                </div>
-                {shiftIncome}
-              </div>
-              <div className={shiftWizardStyles.detailsItem}>
-                <div className={shiftWizardStyles.detailsItemName}>Type: </div>
-                {shiftIncomeType}
-              </div>
-            </div>
-          </div>
-          <div className={shiftWizardStyles.detailsCard}>
-            <div className={shiftWizardStyles.detailsHeader}>
-              <div className={shiftWizardStyles.detailsTitle}>Expenses</div>
-              <FontAwesomeIcon
-                icon={faPencil}
-                onClick={() => goBack(shiftData, 2)}
-              />
-            </div>
-            <div className={shiftWizardStyles.detailsItemContainer}>
-              <div className={shiftWizardStyles.detailsItem}>
-                <div className={shiftWizardStyles.detailsItemName}>
-                  Floor Fee:
-                </div>
-                {floorFee}
-              </div>
-              <div className={shiftWizardStyles.detailsItem}>
-                <div className={shiftWizardStyles.detailsItemName}>
-                  Pvt Fee:
-                </div>
-                {pvtFee}
-              </div>
-              <div className={shiftWizardStyles.detailsItem}>
-                <div className={shiftWizardStyles.detailsItemName}>Tips: </div>
-                {tips}
-              </div>
-              <div className={shiftWizardStyles.detailsItem}>
-                <div className={shiftWizardStyles.detailsItemName}>Other:</div>
-                {other}
-              </div>
-              <div className={shiftWizardStyles.detailsItem}>
-                <div className={shiftWizardStyles.detailsItemName}>Total:</div>
-                {total}
-              </div>
-            </div>
-          </div>
-          <div className={shiftWizardStyles.detailsCard}>
-            <div
-              className={`${shiftWizardStyles.detailsHeader} ${shiftWizardStyles.netIncome}`}
-            >
-              <div className={shiftWizardStyles.detailsTitle}>
-                Net Income: ${netIncome}
-              </div>
-            </div>
-          </div>
-          <div className={shiftWizardStyles.detailsCard}>
-            <div className={shiftWizardStyles.detailsHeader}>
-              <div className={shiftWizardStyles.detailsTitle}>
-                Receipt Image
-              </div>
-              <FontAwesomeIcon
-                icon={faPencil}
-                onClick={() => goBack(shiftData, 3)}
-              />
-            </div>
-            <div className={shiftWizardStyles.detailsItemContainer}>
-              <div className={shiftWizardStyles.detailsItem}>
-                <div className={shiftWizardStyles.detailsItemName}>Image:</div>
-                {imageName}
-              </div>
-            </div>
-          </div>
-          <div className={shiftWizardStyles.detailsCard}>
-            <div className={shiftWizardStyles.detailsHeader}>
-              <div className={shiftWizardStyles.detailsTitle}>Milage</div>
-              <FontAwesomeIcon
-                icon={faPencil}
-                onClick={() => goBack(shiftData, 4)}
-              />
-            </div>
-            <div className={shiftWizardStyles.detailsItemContainer}>
-              <div className={shiftWizardStyles.detailsItem}>
-                <div className={shiftWizardStyles.detailsItemName}>
-                  Round Trip:
-                </div>
-                {milage}
-              </div>
-            </div>
-          </div>
+          <SummaryCard>
+            <SummaryHeader
+              title='Shift Details'
+              children={
+                <FontAwesomeIcon
+                  icon={faPencil}
+                  onClick={() => goBack(shiftData, 0)}
+                />
+              }
+            />
+            <SummaryItemContainer>
+              <SummaryItem name='Club' value={clubName} />
+              <SummaryItem name='Start' value={shiftStart} />
+              <SummaryItem name='End' value={shiftEnd} />
+            </SummaryItemContainer>
+          </SummaryCard>
+          <SummaryCard>
+            <SummaryHeader
+              title='Income'
+              children={
+                <FontAwesomeIcon
+                  icon={faPencil}
+                  onClick={() => goBack(shiftData, 1)}
+                />
+              }
+            />
+            <SummaryItemContainer>
+              <SummaryItem name='Earnings' value={shiftIncome} />
+              <SummaryItem name='Type' value={shiftIncomeType} />
+            </SummaryItemContainer>
+          </SummaryCard>
+          <SummaryCard>
+            <SummaryHeader
+              title='Expenses'
+              children={
+                <FontAwesomeIcon
+                  icon={faPencil}
+                  onClick={() => goBack(shiftData, 2)}
+                />
+              }
+            />
+            <SummaryItemContainer>
+              <SummaryItem name='Floor Fee' value={floorFee} />
+              <SummaryItem name='Pvt Fee' value={pvtFee} />
+              <SummaryItem name='Tips' value={tips} />
+              <SummaryItem name='Other' value={other} />
+              <SummaryItem name='Total' value={total} />
+            </SummaryItemContainer>
+          </SummaryCard>
+          <SummaryCard>
+            <SummaryHeader title={`Net Income: ${netIncome}`} />
+          </SummaryCard>
+          <SummaryCard>
+            <SummaryHeader
+              title='Receipt Image'
+              children={
+                <FontAwesomeIcon
+                  icon={faPencil}
+                  onClick={() => goBack(shiftData, 3)}
+                />
+              }
+            />
+            <SummaryItemContainer>
+              <SummaryItem name='Image' value={imageName} />
+            </SummaryItemContainer>
+          </SummaryCard>
+          <SummaryCard>
+            <SummaryHeader
+              title='Milage'
+              children={
+                <FontAwesomeIcon
+                  icon={faPencil}
+                  onClick={() => goBack(shiftData, 4)}
+                />
+              }
+            />
+            <SummaryItemContainer>
+              <SummaryItem name='Round Trip' value={milage} />
+            </SummaryItemContainer>
+          </SummaryCard>
         </div>
       </div>
       <BottomNav>
