@@ -37,7 +37,8 @@ const BarGraphWidget: FC<{
   const [graphData, setGraphData] = useState<DataSet[]>([]);
 
   const handleSwitch = useCallback(
-    (period: string) => {
+    (period: string | null) => {
+      if (!period) return;
       // @ts-expect-error @ts-ignore
       setGraphData(graphLoaderData[period.toLowerCase()]);
       setPeriod(period);
@@ -61,14 +62,14 @@ const BarGraphWidget: FC<{
         maxWidth: '607.5px',
       }}
     >
-      <CardHeader text={`${period} to Date`}>
+      <CardHeader text={!defaultSet ? 'Income Graph' : `${period} to Date}`}>
         <FontAwesomeIcon
           className={widgetStyles.faIcon}
           icon={faGripVertical}
         />
       </CardHeader>
       <CardContent>
-        {graphData ? (
+        {defaultSet ? (
           <>
             <PeriodSelector
               defaultChecked={defaultSet}
