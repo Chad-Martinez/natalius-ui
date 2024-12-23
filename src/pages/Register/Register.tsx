@@ -11,10 +11,13 @@ import {
   validatePassword,
 } from '../../helpers/validator-helpers';
 import { register } from '../../services/authServices';
+import { useNavigate } from 'react-router-dom';
 
 const Register: FC = (): JSX.Element => {
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isTransmitting, setIsTransmitting] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const {
     value: stageName,
@@ -22,7 +25,6 @@ const Register: FC = (): JSX.Element => {
     hasError: stageNameHasError,
     valueChangeHandler: stageNameChangeHandledr,
     inputBlurHandler: stageNameBlurHandler,
-    reset: stageNameReset,
   } = useInput<string>((value) => value.trim() !== '', '');
 
   const {
@@ -31,7 +33,6 @@ const Register: FC = (): JSX.Element => {
     hasError: emailHasError,
     valueChangeHandler: emailChangeHandledr,
     inputBlurHandler: emailBlurHandler,
-    reset: emailReset,
   } = useInput<string>((value) => validateEmail(value), '');
 
   const {
@@ -40,7 +41,6 @@ const Register: FC = (): JSX.Element => {
     hasError: passwordHasError,
     valueChangeHandler: passwordChangeHandledr,
     inputBlurHandler: passwordBlurHandler,
-    reset: passwordReset,
   } = useInput<string>((value) => validatePassword(value), '');
 
   const {
@@ -49,15 +49,7 @@ const Register: FC = (): JSX.Element => {
     hasError: pwConfirmHasError,
     valueChangeHandler: pwConfirmChangeHandledr,
     inputBlurHandler: pwConfirmBlurHandler,
-    reset: pwConfirmReset,
   } = useInput<string>((value) => password === value && value !== '', '');
-
-  const formReset = (): void => {
-    stageNameReset();
-    emailReset();
-    passwordReset();
-    pwConfirmReset();
-  };
 
   const handleSubmit = async () => {
     try {
@@ -69,7 +61,7 @@ const Register: FC = (): JSX.Element => {
       });
 
       notify(data.message, 'success', 'register-success');
-      formReset();
+      navigate('/');
     } catch (error) {
       console.error('Register Error: ', error);
       if (error instanceof AxiosError) {
