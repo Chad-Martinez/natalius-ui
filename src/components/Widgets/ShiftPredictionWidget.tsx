@@ -28,7 +28,7 @@ const ShiftPredictionWidget: FC<{
         />
       </CardHeader>
       <CardContent>
-        {shiftPrediction ? (
+        {shiftPrediction?.prediction ? (
           <span>
             {`${dayjs
               .utc(shiftPrediction.nextShift.start)
