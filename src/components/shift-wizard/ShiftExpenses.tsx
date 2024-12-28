@@ -70,7 +70,7 @@ const ShiftExpenses: FC<{
     inputBlurHandler: pricePerDanceBlurHandler,
   } = useInput<string>(
     (v) => v !== '',
-    shiftData?.shiftInfo.expenses?.dances.pricePerDance
+    shiftData?.shiftInfo.expenses?.dances.pricePerDance !== undefined
       ? shiftData?.shiftInfo.expenses?.dances.pricePerDance.toString()
       : defaults.useDefaults
       ? defaults.pricePerDance.toString()
@@ -85,7 +85,7 @@ const ShiftExpenses: FC<{
     inputBlurHandler: tipsBlurHandler,
   } = useInput<string>(
     (v) => v !== '',
-    shiftData?.shiftInfo.shiftComplete && shiftData?.shiftInfo.expenses?.tips
+    shiftData?.shiftInfo.expenses?.tips !== undefined
       ? shiftData?.shiftInfo.expenses?.tips.toString()
       : defaults.useDefaults
       ? defaults.tips.toString()
@@ -100,7 +100,7 @@ const ShiftExpenses: FC<{
     inputBlurHandler: otherBlurHandler,
   } = useInput<string>(
     (v) => v !== '',
-    shiftData?.shiftInfo.shiftComplete && shiftData?.shiftInfo.expenses?.other
+    shiftData?.shiftInfo.expenses?.other !== undefined
       ? shiftData?.shiftInfo.expenses?.other.toString()
       : defaults.useDefaults
       ? defaults.other.toString()
