@@ -22,7 +22,10 @@ import {
 import Switch from '../../components/ui/Switch/Switch';
 import {
   capitalizeFormatter,
+  digitGroupingFormatter,
   phoneNumberFormatter,
+  sanitizeStrToNum,
+  sanitizeZipCode,
 } from '../../helpers/format-helpers';
 
 const ClubForm: FC = (): JSX.Element => {
@@ -58,7 +61,7 @@ const ClubForm: FC = (): JSX.Element => {
     valueChangeHandler: zipChangeHandler,
     inputBlurHandler: zipBlurHandler,
   } = useInput<string>(
-    (v) => v === '' || /^\d{5}$/.test(v),
+    (v) => v === '' || v.length === 5, // /^\d{5}$/.test(v),
     club?.address?.zip?.toString() || ''
   );
 
@@ -72,76 +75,44 @@ const ClubForm: FC = (): JSX.Element => {
     valueChangeHandler: contactPhoneChangeHandler,
     inputBlurHandler: contactPhoneBlurHandler,
   } = useInput<string>(
-    (value) => value === '' || validatePhone(value),
+    (v) => (v ? validatePhone(v) : v === ''),
     club?.contact?.phone || ''
   );
 
   const { value: useDefaults, valueChangeHandler: useDefaultsChangeHandler } =
     useInput<boolean>((v) => v !== null, club?.defaults?.useDefaults || false);
 
-  const {
-    value: floorFee,
-    isValid: floorFeeIsValid,
-    hasError: floorFeeHasError,
-    valueChangeHandler: floorFeeChangeHandler,
-    inputBlurHandler: floorFeeBlurHandler,
-  } = useInput<string>(
-    (v) => /^[0-9]+$/.test(v) || v === '',
-    club?.defaults?.floorFee?.toString() || ''
-  );
+  const { value: floorFee, valueChangeHandler: floorFeeChangeHandler } =
+    useInput<string>(
+      (v) => v !== '',
+      club?.defaults?.floorFee?.toString() || ''
+    );
 
   const {
     value: pricePerDance,
-    isValid: pricePerDanceIsValid,
-    hasError: pricePerDanceHasError,
     valueChangeHandler: pricePerDanceChangeHandler,
-    inputBlurHandler: pricePerDanceBlurHandler,
   } = useInput<string>(
-    (v) => /^[0-9]+$/.test(v) || v === '',
+    (v) => v !== '',
     club?.defaults?.pricePerDance?.toString() || ''
   );
 
-  const {
-    value: tips,
-    isValid: tipsIsValid,
-    hasError: tipsHasError,
-    valueChangeHandler: tipsChangeHandler,
-    inputBlurHandler: tipsBlurHandler,
-  } = useInput<string>(
-    (v) => /^[0-9]+$/.test(v) || v === '',
-    club?.defaults?.tips?.toString() || ''
-  );
+  const { value: tips, valueChangeHandler: tipsChangeHandler } =
+    useInput<string>((v) => v !== '', club?.defaults?.tips?.toString() || '');
 
-  const {
-    value: other,
-    isValid: otherIsValid,
-    hasError: otherHasError,
-    valueChangeHandler: otherChangeHandler,
-    inputBlurHandler: otherBlurHandler,
-  } = useInput<string>(
-    (v) => /^[0-9]+$/.test(v) || v === '',
-    club?.defaults?.other?.toString() || ''
-  );
+  const { value: other, valueChangeHandler: otherChangeHandler } =
+    useInput<string>((v) => v !== '', club?.defaults?.other?.toString() || '');
 
-  const {
-    value: milage,
-    isValid: milageIsValid,
-    hasError: milageHasError,
-    valueChangeHandler: milageChangeHandler,
-    inputBlurHandler: milageBlurHandler,
-  } = useInput<string>(
-    (v) => /^[0-9]+$/.test(v) || v === '',
-    club?.defaults?.milage?.toString() || ''
-  );
+  const { value: milage, valueChangeHandler: milageChangeHandler } =
+    useInput<string>(
+      (v) => sanitizeStrToNum(v) >= 0,
+      club?.defaults?.milage?.toString() || ''
+    );
 
-  const {
-    value: timezone,
-    valueChangeHandler: timezoneChangeHandler,
-    inputBlurHandler: timezoneBlurHandler,
-  } = useInput<string>(
-    (v) => v === '',
-    club?.defaults?.timezone?.toString() || getUserTimezone()
-  );
+  const { value: timezone, valueChangeHandler: timezoneChangeHandler } =
+    useInput<string>(
+      (v) => v !== '',
+      club?.defaults?.timezone?.toString() || getUserTimezone()
+    );
 
   const handleCancel = (): void => navigate(-1);
 
@@ -199,26 +170,33 @@ const ClubForm: FC = (): JSX.Element => {
   };
 
   useEffect(() => {
-    setIsFormValid(
-      nameIsValid &&
-        zipIsValid &&
-        contactPhoneIsValid &&
-        floorFeeIsValid &&
-        pricePerDanceIsValid &&
-        tipsIsValid &&
-        otherIsValid &&
-        milageIsValid
-    );
-  }, [
-    nameIsValid,
-    zipIsValid,
-    contactPhoneIsValid,
-    floorFeeIsValid,
-    pricePerDanceIsValid,
-    tipsIsValid,
-    otherIsValid,
-    milageIsValid,
-  ]);
+    setIsFormValid(nameIsValid && zipIsValid && contactPhoneIsValid);
+  }, [nameIsValid, zipIsValid, contactPhoneIsValid]);
+
+  const convertAmount = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const value = sanitizeStrToNum(event.target.value).toString();
+    event.target.value = value;
+    const inputName = event.target.name;
+    switch (inputName) {
+      case 'floorFee':
+        floorFeeChangeHandler(event);
+        break;
+      case 'pricePerDance':
+        pricePerDanceChangeHandler(event);
+        break;
+      case 'tips':
+        tipsChangeHandler(event);
+        break;
+      case 'other':
+        otherChangeHandler(event);
+        break;
+      case 'milage':
+        milageChangeHandler(event);
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <>
@@ -264,14 +242,16 @@ const ClubForm: FC = (): JSX.Element => {
               value={zip}
               hasError={zipHasError}
               errorMessage='Must be blank or 5 digit zip code'
-              handleChange={zipChangeHandler}
+              handleChange={(event) => zipChangeHandler(sanitizeZipCode(event))}
               handleBlur={zipBlurHandler}
             />
           </div>
           <Input
             placeholder='Contact Name'
             value={contactName}
-            handleChange={contactNameChangeHandler}
+            handleChange={(event) =>
+              contactNameChangeHandler(capitalizeFormatter(event))
+            }
           />
           <Input
             placeholder='Contact Phone'
@@ -283,8 +263,6 @@ const ClubForm: FC = (): JSX.Element => {
             }
             handleBlur={contactPhoneBlurHandler}
           />
-        </form>
-        <form className={formStyles.form}>
           <h3 className={formStyles.title}>Club Defaults (Optional)</h3>
           <div
             style={{
@@ -305,32 +283,18 @@ const ClubForm: FC = (): JSX.Element => {
               <Label name='floorFee' text='Floor Fee' />
               <Input
                 name='floorFee'
-                type='number'
-                min={0}
-                step={1}
-                autoFocus={true}
-                value={floorFee}
-                placeholder='0'
-                hasError={floorFeeHasError}
-                errorMessage='Zero or greater - No decimals'
-                handleChange={floorFeeChangeHandler}
-                handleBlur={floorFeeBlurHandler}
+                value={`$${digitGroupingFormatter(floorFee)}`}
+                placeholder='Floor Fee'
+                handleChange={convertAmount}
               />
             </FormGroup>
-
             <FormGroup>
               <Label name='pricePerDance' text='Fee Per Private Dance' />
               <Input
                 name='pricePerDance'
-                type='number'
-                min={0}
-                step={1}
-                placeholder='0'
-                value={pricePerDance}
-                hasError={pricePerDanceHasError}
-                errorMessage='Zero or greater - No decimals'
-                handleChange={pricePerDanceChangeHandler}
-                handleBlur={pricePerDanceBlurHandler}
+                placeholder='$ per Pvt'
+                value={`$${digitGroupingFormatter(pricePerDance)}`}
+                handleChange={convertAmount}
               />
             </FormGroup>
           </div>
@@ -339,30 +303,18 @@ const ClubForm: FC = (): JSX.Element => {
               <Label name='tips' text='Tips' />
               <Input
                 name='tips'
-                type='number'
-                min={0}
-                step={1}
-                placeholder='0'
-                value={tips}
-                hasError={tipsHasError}
-                errorMessage='Zero or greater - No decimals'
-                handleChange={tipsChangeHandler}
-                handleBlur={tipsBlurHandler}
+                placeholder='Tips'
+                value={`$${digitGroupingFormatter(tips)}`}
+                handleChange={convertAmount}
               />
             </FormGroup>
             <FormGroup>
               <Label name='other' text='Other Expenses' />
               <Input
                 name='other'
-                value={other}
-                placeholder='0'
-                min={0}
-                step={1}
-                type='number'
-                hasError={otherHasError}
-                errorMessage='Zero or greater - No decimals'
-                handleChange={otherChangeHandler}
-                handleBlur={otherBlurHandler}
+                value={`$${digitGroupingFormatter(other)}`}
+                placeholder='Other Expenses'
+                handleChange={convertAmount}
               />
             </FormGroup>
           </div>
@@ -370,15 +322,10 @@ const ClubForm: FC = (): JSX.Element => {
             <FormGroup>
               <Label name='milage' text='Roundtrip Milage' />
               <Input
+                name='milage'
+                value={digitGroupingFormatter(milage)}
                 placeholder='0'
-                type='number'
-                min={0}
-                step={1}
-                value={milage}
-                hasError={milageHasError}
-                errorMessage='Zero or greater - No decimals'
-                handleChange={milageChangeHandler}
-                handleBlur={milageBlurHandler}
+                handleChange={convertAmount}
               />
             </FormGroup>
             <FormGroup>
@@ -388,7 +335,6 @@ const ClubForm: FC = (): JSX.Element => {
                 defaultOptionName={'Timezone'}
                 options={TIMEZONE_SELECT}
                 value={timezone}
-                handleBlur={timezoneBlurHandler}
                 handleChange={timezoneChangeHandler}
               />
             </FormGroup>
@@ -402,7 +348,7 @@ const ClubForm: FC = (): JSX.Element => {
           onClick={handleCancel}
         />
         <Button
-          text='Submit'
+          text={club ? 'Update' : 'Submit'}
           onClick={handleSubmit}
           btnStyle='primarySolid'
           enabled={isFormValid}
