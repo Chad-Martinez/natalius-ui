@@ -77,3 +77,14 @@ export const phoneNumberFormatter = (
 
   return phoneNumberEvent;
 };
+
+export const sanitizeZipCode = (
+  zipCodeEvent: ChangeEvent<HTMLInputElement>
+): ChangeEvent<HTMLInputElement> => {
+  const input = zipCodeEvent.target.value;
+  const numericOnly = input.replace(/[^0-9]/g, '');
+
+  zipCodeEvent.target.value = numericOnly.slice(0, 5);
+
+  return zipCodeEvent;
+};
