@@ -62,7 +62,7 @@ const BarGraphWidget: FC<{
         maxWidth: '607.5px',
       }}
     >
-      <CardHeader text={!defaultSet ? 'Income Graph' : `${period} to Date}`}>
+      <CardHeader text={!defaultSet ? 'Income Graph' : `${period} to Date`}>
         <FontAwesomeIcon
           className={widgetStyles.faIcon}
           icon={faGripVertical}
